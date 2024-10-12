@@ -1,0 +1,86 @@
+@font-face {
+    font-family: 'UNCAGE';
+    src: url('UNCAGE/UNCAGE-Regular.otf');
+}
+a{
+    text-decoration: none;
+    color: rgb(41, 41, 41);
+}
+body{
+    font-family: 'UNCAGE';
+}
+.header{
+    width: 1440px;
+    height: 136px;
+    padding: 0;
+}
+.header-desktop{
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 30px;
+    padding-bottom: 0px;
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-between;
+    
+}
+.nav_list{
+    margin: 0;
+    padding: 0;
+    margin-top: 30px;
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+    
+}
+.nav-item-1{
+    margin-left: 162px;
+    margin-right: 100px;
+}
+
+.nav-item-1 a{
+    /* личный кабинет */
+    width: 200px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 42px;
+}
+.nav-item-2{
+    margin-left: 75px;
+}
+.nav-item-2 a{
+    /* тренировки */
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 42px;
+    letter-spacing: 0px;
+}
+.nav-item-3{
+    margin-left: 275px;
+    margin-right: 33px;
+}
+.nav-item-3 a{
+    /* вход */
+    color: rgb(0, 0, 0);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 42px;
+    letter-spacing: 0px;
+}
+.nav-item-4{
+    align-self: flex-end;
+}
+.nav-item-4 a{
+    /* регистрация */
+    margin: 0;
+    width: 125px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgb(156, 252, 166);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 42px;
+    letter-spacing: 0px;
+}
