@@ -15,14 +15,15 @@ body{
     padding: 0;
 }
 .header-desktop{
+    width: 1440px;
     padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 30px;
+    padding-left: 130px;
+    padding-right: 130px;
     padding-bottom: 0px;
     display: flex;
     white-space: nowrap;
     justify-content: space-between;
-    
+    box-sizing: border-box;
 }
 .nav_list{
     margin: 0;
@@ -46,9 +47,7 @@ body{
     font-weight: 500;
     line-height: 42px;
 }
-.nav-item-2{
-    margin-left: 75px;
-}
+
 .nav-item-2 a{
     /* тренировки */
     font-size: 18px;
@@ -83,4 +82,100 @@ body{
     font-weight: 500;
     line-height: 42px;
     letter-spacing: 0px;
+}
+.promo-desktop{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-sizing: border-box;
+    grid-template-rows: 35% auto;
+    width: 1440px;
+    height: 590px;
+    font-size: 64px;
+    padding-left: 130px;
+    padding-top: 100px;
+    padding-right: 130px;
+    font-weight: bold;
+}
+.hundred-trainings{
+    width: 485px;
+    height: 140px;
+    margin-bottom: 0;
+}
+.first-level{
+    margin: 0;
+    padding: 0;
+    font-size: 64px;
+    font-weight: bold;
+}
+.second-level{
+    margin: 0;
+    padding: 0;
+    font-size: 36px;
+    font-weight: 700;
+    color: rgb(156, 252, 166);
+}
+.green-text{
+    color: rgb(156, 252, 166);
+}
+.man{
+    justify-self: end;
+}
+.first-column-second-row {
+    grid-column: 1 / span 2;
+    display: flex; /* Use flexbox to align items horizontally */
+}
+
+.fast-training, .show-trainings {
+    font-size: 18px;
+    font-weight: 500;
+    height: 40px;
+    width: 183px;
+    height: 40px;
+    margin-top: 40px;
+    background-color: rgb(156, 252, 166);
+    text-align: center;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.show-trainings {
+    margin-left: 20px;
+}
+.top-trainings-desktop {
+    display: flex;
+    justify-content: center;
+    width: 1180px;
+    height: 52px;
+    box-sizing: border-box;
+    margin-left: 130px;
+    margin-top: 32px;
+    margin-right: 130px;
+    position: relative; /* Allows the pseudo-elements to be positioned */
+}
+
+.top-trainings-wrapper {
+    width: 1180px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.top-trainings-wrapper::before,
+.top-trainings-wrapper::after {
+    content: "";
+    flex-grow: 1;
+    border-bottom: 12px solid rgb(156, 252, 166); /* Green line color */
+    margin: 0 10px; /* Adjust this margin to set space between the lines and text */
+    border-radius: 20px;
+}
+
+.top-trainings-text {
+    width: 420px;
+    height: 52px;
+    box-sizing: border-box;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
 }
