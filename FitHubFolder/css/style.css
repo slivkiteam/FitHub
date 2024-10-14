@@ -145,7 +145,7 @@ body{
     display: flex;
     flex-direction: column;
     width: 1440px;
-    height: 675px;
+    height: 610px;
     box-sizing: border-box;
     padding-left: 130px;
     padding-top: 32px;
@@ -246,4 +246,97 @@ h3{
     width: 260px;
     height: 75px;
     font-size: 10px;
+}
+.information-desktop{
+    width: 1440px;
+    height: 713px;
+    display: flex;
+    flex-direction: column;
+    width: 1440px;
+    height: 675px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
+    position: relative;
+}
+.information-wrapper{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+.information-wrapper::before,
+.information-wrapper::after {
+    content: "";
+    flex-grow: 1;
+    border-bottom: 12px solid rgb(156, 252, 166); /* Green line color */
+    margin: 0 10px; /* Adjust this margin to set space between the lines and text */
+    border-radius: 20px;
+}
+.information-text{
+    margin-left: 155px;
+    margin-right: 155px;
+    width: 190px;
+    height: 26px;
+    box-sizing: border-box;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+.information-block{
+    display: flex;
+    justify-content: center; /*Удалить при обновлении ИНФОРМАЦИЯ*/
+    align-items: center; /*Удалить при обновлении ИНФОРМАЦИЯ*/
+    box-sizing: border-box;
+    margin-top: 58px;
+    padding: 40px 60px;
+    width: 1180px;
+    height: 460px;
+    border-radius: 20px;
+    font-size: 48px;
+    box-shadow: 4px 4px 28px 0px rgba(0, 0, 0, 0.25);
+    background: rgb(255, 255, 255);
+}
+.fithub-footer{
+    width: 1440px;
+    height: 330px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding-top: 50px;
+    padding-left: 130px;
+    padding-right: 130px;
+    padding-bottom: 0px;
+    background-color: rgb(218, 218, 218);
+}
+.footer-svg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 175px;
+    height: 157px;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background: rgb(255, 255, 255);
+}
+.footer-list{
+    padding: 0;
+    margin: 0;
+    width: 339px;
+    height: 150px;
+    display: flex;
+    list-style: none;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+.footer-list li{
+    font-weight: 500;
+    font-size: 14px;
+    width: 129px;
+    height: 30px;
 }
