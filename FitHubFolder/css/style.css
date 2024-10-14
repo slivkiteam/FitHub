@@ -143,13 +143,13 @@ body{
 }
 .top-trainings-desktop {
     display: flex;
-    justify-content: center;
-    width: 1180px;
-    height: 52px;
+    flex-direction: column;
+    width: 1440px;
+    height: 675px;
     box-sizing: border-box;
-    margin-left: 130px;
-    margin-top: 32px;
-    margin-right: 130px;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
     position: relative; /* Allows the pseudo-elements to be positioned */
 }
 
@@ -178,4 +178,72 @@ body{
     font-size: 24px;
     font-weight: 500;
     text-align: center;
+}
+.training-cards{
+    display: flex;
+    gap: 80px;
+    list-style: none;
+    padding: 0;
+}
+.training-cards-container{
+    margin-top: 30px;
+}
+.training-card{
+    width: 340px;
+    height: 370px;
+    background-color: white;
+    display: block;
+    box-sizing: border-box;
+    border-radius: 20px;
+    box-shadow: 4px 4px 28px 0px rgba(0, 0, 0, 0.25);
+    outline: none;
+}
+figure {
+    margin: 0;
+}
+.training-img{
+    border-radius: 20px 20px 0 0;
+    padding: 0;
+    margin: 0;
+    width: 340px;
+    height: 185px;
+    object-fit: cover;
+}
+h3{
+    font-size: 18px;
+    margin-left: 20px;
+}
+.training-type-box{
+    display: flex;
+    gap: 20px;
+    margin-left: 20px;
+    font-size: 10px;
+}
+.cardio-red{
+    padding: 10px 30px;
+    border-radius: 20px;
+    background-color: rgb(255, 148, 148);
+}
+.long{
+    padding: 10px 30px;
+    border-radius: 20px;
+    background-color: rgb(255, 148, 252);
+}
+.fast{
+    padding: 10px 30px;
+    border-radius: 20px;
+    background-color: rgb(148, 255, 255);
+}
+.tag-list{
+    width: 340px;
+    height: auto;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+}
+.card-description{
+    width: 260px;
+    height: 75px;
+    font-size: 10px;
 }
