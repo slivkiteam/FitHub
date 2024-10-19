@@ -360,3 +360,25 @@ h3{
     width: 129px;
     height: 30px;
 }
+.sign-in-container {
+    display: flex;
+    width: 1440px;
+    height: 1222px
+    
+}
+.right-column {
+    background-color: #78E58F;
+
+}
+.left-column {
+
+}
+.mail-input {
+}
+.password-input {
+}
+.sign-in-button {
+}
+.white-h1{
+    color: white;
+}
