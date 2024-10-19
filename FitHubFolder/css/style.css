@@ -394,6 +394,14 @@ h3{
     padding: 0;
     padding-bottom: 120px;
 }
+.name-input {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 396px;
+    height: 63px;
+    border-radius: 20px;
+}
 .mail-input {
     text-align: center;
     padding: 0;
@@ -417,7 +425,7 @@ h3{
     border-radius: 20px;
     display: inline-block; 
     text-align: center;
-    width: 396px;
+    width: 400px;
     color: white;
     height: 63px;
     line-height: 63px;
@@ -438,4 +446,13 @@ input{
     text-align: center;
     font-size: 64px;
     padding-bottom: 0;
+}
+.left-column-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.left-column-container input{
+    margin-bottom: 10px;
 }
