@@ -10,7 +10,6 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
 }
 body {
     font-family: 'UNCAGE';
@@ -132,9 +131,10 @@ body {
 .first-column-second-row {
     grid-column: 1 / span 2;
     display: flex; /* Use flexbox to align items horizontally */
+    gap: 40px;
 }
 
-.fast-training, .show-trainings {
+.training-button {
     font-size: 18px;
     font-weight: 500;
     height: 40px;
