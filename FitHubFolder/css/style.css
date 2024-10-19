@@ -138,6 +138,7 @@ body {
 }
 
 .training-button {
+    
     font-size: 18px;
     font-weight: 500;
     height: 40px;
@@ -365,12 +366,249 @@ h3{
 }
 .sign-in-container {
     display: flex;
-    width: 1440px;
-    height: 1222px
-    
 }
 .right-column {
     background-color: #78E58F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    padding-top: 40px;
+    position: relative;
+}
+.right-column img {
+    padding-top: 20px;
+}
+.left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    margin: 0;
+    padding: 0;
+    padding-top: 40px;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.logo{
+    margin: 0;
+    padding: 0;
+    padding-bottom: 120px;
+}
+.name-input {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 396px;
+    height: 63px;
+    border-radius: 20px;
+}
+.mail-input {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 396px;
+    height: 63px;
+    border-radius: 20px;
+}
+.password-input {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 396px;
+    height: 63px;
+    border-radius: 20px;
+}
+.sign-in-button {
+    margin: 0;
+    padding: 0;
+    background-color: #78E58F;
+    border-radius: 20px;
+    display: inline-block; 
+    text-align: center;
+    width: 400px;
+    color: white;
+    height: 63px;
+    line-height: 63px;
+}
+.white-h1{
+    padding: 0;
+    margin: 0;
+    color: white;
+    text-align: center;
+    font-size: 64px;
+}
+input{
+    font-family: 'UNCAGE';
+}
+.left-column-container h1{
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-size: 64px;
+    padding-bottom: 0;
+}
+.left-column-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.left-column-container input{
+    margin-bottom: 10px;
+}
+.history-trainings-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 1440px;
+    height: 610px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
+    position: relative; /* Allows the pseudo-elements to be positioned */
+}
+.wrapper {
+    width: 1180px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-bottom: 50px;
+}
+.wrapper::before,
+.wrapper::after {
+    content: "";
+    flex-grow: 1;
+    border-bottom: 12px solid rgb(156, 252, 166); 
+    margin: 0 10px; 
+    border-radius: 20px;
+}
+
+.wrapper-text {
+    width: 420px;
+    box-sizing: border-box;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+.personal-account {
+    box-sizing: border-box;
+    width: 1440px;
+    padding-top: 100px;
+    padding-bottom: 80px;
+}
+.first-row{
+    display: flex;
+    margin-bottom: 60px;
+    justify-content: center;
+}
+.personal-avatar {
+    display: block;
+    width: 155px;
+    height: 155px;
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.25);
+    margin-right: 100px;
+}
+.personal-account-parameters {
+    display: grid;
+    gap: 15px;
+}
+.personal-account-buttons {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    gap: 80px;
+}
+.personal-account-buttons .training-button{
+    margin: 0;
+    width: 150px;
+}
+.personal-account-parameters input{
+    border-radius: 20px;
+    background-color: rgb(218, 218, 218);
+    padding-left: 20px;
+}
+.second-name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+.name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+.third-name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+.featured-workout{
+    width: 1440px;
+    height: 710px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-right: 130px;
+}
+.featured-workout-container{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 80px;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+.featured-workout-container .training-card{
+    position: relative; 
+    z-index: 1;
+    left: 100px;
+}
+.featured-workout-container .background{
+    position: absolute;
+    z-index: 0;   
+}
+.featured-workout-tag{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.featured-workout-tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    width: 320px;
+    height: 50px;
+    margin-top: 40px;
+    padding: 10px;
+    border-radius: 20px;
+}
+.tag-count{
+    background-color: #FF9494;
+    left: -80px;
+    position: relative; 
+}
+.tag-time{
+    background-color: #94FFFF;
+    left: -40px;
+    position: relative; 
+}
+.tag-kkal{
+    background-color: #FF94FC;
+    left: 0px;
+    position: relative; 
+}
+.statistics {
+    width: 1440px;
+    height: 710px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
 }
 .profile-header {
     width: 1440px;
@@ -560,3 +798,4 @@ textarea {
   overflow: hidden; /* Скрыть прокрутку */
   resize: none; /* СДЕЛАТЬ СКРИПТ ЧТОБЫ УВЕЛИЧИВАЛСЯ РАЗМЕР*/
 }
+
