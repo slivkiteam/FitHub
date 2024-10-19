@@ -125,6 +125,9 @@ body {
 .green-text{
     color: rgb(156, 252, 166);
 }
+.dark-green-text{
+    color: rgb(120, 229, 143);
+}
 .man{
     justify-self: end;
 }
@@ -368,17 +371,105 @@ h3{
 }
 .right-column {
     background-color: #78E58F;
-
 }
-.left-column {
-
+.profile-header {
+    width: 1440px;
+    height: 136px;
+    padding-top: 50px;
+    padding-left: 130px;
+    padding-right: 130px;
+    padding-bottom: 0px;
+    box-sizing: border-box;
+    display: flex;
 }
-.mail-input {
+.profile-header-desktop {
+    width: 1440px;
+    height: 96px;
+    border-bottom: 2px solid gray;
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
-.password-input {
+.path {
+    width: 1440px;
+    height: 11px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 21px;
+    padding-right: auto;
+    font-size: 10px;
+    font-weight: 500;
 }
-.sign-in-button {
+.filter-training-desktop {
+    width: 1440px;
+    display: grid;
+    gap: 80px;
+    grid-template-columns: 1fr 2fr; /* Две колонки: одна для фильтров, другая для поиска */
+    grid-template-rows: auto; /* Автоматическая высота строк */
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 48px;
+    padding-right: 130px;       
 }
-.white-h1{
-    color: white;
+.filter-trainings-list {
+    list-style: none;
+    padding: 0;
+    display: contents;
+}
+.filter {
+    display: flex;
+    width: 330px;
+    height: 670px;
+    border-radius: 20px;
+    background: rgb(218, 218, 218);
+    grid-column: 1; /* Размещаем в первой колонке */
+}
+.filter-text{
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    height: 94px;
+}
+.filter h2{
+    display: flex;
+    margin-top: 40px;
+    justify-content: center;
+}
+.search {
+    width: 760px;
+    height: 70px;
+    border-radius: 20px;
+    background: rgb(218, 218, 218);
+    grid-column: 2; /* Размещаем во второй колонке */
+    grid-row: 1; /* Размещаем в первой строке */
+    align-self: start; /* Выравниваем по началу строки */
+}
+.search-input{
+    padding-left: 30px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 20px;
+    background: rgb(218, 218, 218);
+    width: 760px;
+    height: 70px;
+    font-size: 24px;
+    font-family: 'UNCAGE';
+}
+.search-input::placeholder {
+    font-size: 24px; /* Размер шрифта */
+    font-family: 'UNCAGE'; /* Шрифт */
+    color: black; /* Цвет текста */
+    font-weight: bold;
+}
+.filter-container{
+    display: flex;
+}
+.search-and-cards {
+    display: flex;
+    flex-direction: row; /* Изменяем направление на строку */
+    flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
+    width: 900px;
+    gap: 50px;
+    padding-bottom: 100px;
 }
