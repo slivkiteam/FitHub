@@ -135,6 +135,7 @@ body {
 }
 
 .training-button {
+    
     font-size: 18px;
     font-weight: 500;
     height: 40px;
@@ -455,4 +456,153 @@ input{
 }
 .left-column-container input{
     margin-bottom: 10px;
+}
+.history-trainings-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 1440px;
+    height: 610px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
+    position: relative; /* Allows the pseudo-elements to be positioned */
+}
+.wrapper {
+    width: 1180px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-bottom: 50px;
+}
+.wrapper::before,
+.wrapper::after {
+    content: "";
+    flex-grow: 1;
+    border-bottom: 12px solid rgb(156, 252, 166); 
+    margin: 0 10px; 
+    border-radius: 20px;
+}
+
+.wrapper-text {
+    width: 420px;
+    height: 52px;
+    box-sizing: border-box;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+.personal-account {
+    box-sizing: border-box;
+    width: 1440px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+.first-row{
+    display: flex;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+.personal-avatar {
+    display: block;
+    width: 155px;
+    height: 155px;
+    border-radius: 20px;
+    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.25);
+    margin-right: 100px;
+}
+.personal-account-parameters {
+    display: grid;
+    gap: 15px;
+}
+.personal-account-buttons {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    gap: 10px;
+}
+.personal-account-buttons .training-button{
+    margin: 0;
+}
+.personal-account-parameters input{
+    border-radius: 20px;
+    background-color: rgb(218, 218, 218);
+    padding-left: 20px;
+}
+.second-name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+.name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+.third-name {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+.featured-workout{
+    width: 1440px;
+    height: 710px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
+}
+.featured-workout-container{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 80px;
+    padding-right: 100px;
+    padding-left: 100px;
+}
+.featured-workout-container .training-card{
+    position: relative; 
+    z-index: 1;
+    left: 100px;
+}
+.featured-workout-container .background{
+    position: absolute;
+    z-index: 0;   
+}
+.featured-workout-tag{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.featured-workout-tag {
+    font-size: 18px;
+    font-weight: 500;
+    height: 40px;
+    margin-top: 40px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 20px;
+}
+.tag-count{
+    background-color: #FF9494;
+    left: -150px;
+    position: relative; 
+}
+.tag-time{
+    background-color: #94FFFF;
+    left: -70px;
+    position: relative; 
+}
+.tag-kkal{
+    background-color: #FF94FC;
+    left: 10px;
+    position: relative; 
+}
+.statistics {
+    width: 1440px;
+    height: 710px;
+    box-sizing: border-box;
+    padding-left: 130px;
+    padding-top: 32px;
+    padding-right: 130px;
 }
