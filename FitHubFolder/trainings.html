@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -6,8 +6,8 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <div class="header-desktop">
+    <header class="profile-header">
+        <div class="profile-header-desktop">
             <a href="#">
                 <svg width="115.506104" height="97.597656" viewBox="0 0 115.506 97.5977" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <desc>
@@ -20,46 +20,29 @@
             </a>
             <nav>
                 <ul class="nav_list">
-                    <li class="nav-item-1"><a href="#">личный кабинет</a></li>
-                    <li class="nav-item-2"><a href="trainings.html">тренировки</a></li>
+                    <li class="nav-item-1"><a class ='green-text' href="#">тренировки</a></li>
+                    <li class="nav-item-2"><a href="#">создать тренировку</a></li>
                     <li class="nav-item-3"><a href="#">вход</a></li>
                     <li class="nav-item-4"><a href="#">регистрация</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    <main>
-        <section class="promo-desktop">
-            <div class="block1">
-                <p class="first-level">БОЛЕЕ <span class="dark-green-text">100</span> ТРЕНИРОВОК</p>
-                <p class="second-level">ДЛЯ ДУШИ И ТЕЛА</p>
-            </div>
-            <div class="man">
-                <img src="img/man.png" alt="Man">
-            </div>
-            <div class="first-column-second-row">
-                <div class="training-button"><a href="#">быстрая тренировка</a></div>
-                <div class="training-button"><a href="#">показать тренировки</a></div>
-            </div>            
-        </section>
-        <section class="top-trainings-desktop">
-            <div class="top-trainings-wrapper">
-                <p class="top-trainings-text">попробуйте наши лучшие <span class="green-text">тренировки</span></p>
-            </div>
-            <div class="training-cards-container">
-                <ul class="training-cards">
-                    <li class="training-card">
-                            <figure>
-                                <img class="training-img"></img>
-                            </figure>
-                            <div class="training-type-box">
-                                <ul class="tag-list">
-                                    <li class="cardio-red"><a href="#">кардио</a></li>
-                                    <li class="long"><a href="#">долго</a></li>
-                                </ul>
-                            </div>
-                            <h3>тренировка №1</h3>
-                            <p class="card-description">Описание тренировки</p>
+        <div class="path">
+            <p>тренировки > ...</p>
+        </div>
+        <div class="filter-training-desktop">
+            <ul class="filter-trainings-list">
+                <div class="filter-container">
+                    <li class="filter" >
+                        <div class="filter-text">
+                            <h2>фильтры</h2>
+                        </div>
+                    </li>
+                </div>
+                <div class="search-and-cards">
+                    <li class="search">
+                        <input type="text" class="search-input" placeholder="поиск"></input>
                     </li>
                     <li class="training-card">
                         <figure>
@@ -80,23 +63,91 @@
                         </figure>
                         <div class="training-type-box">
                             <ul class="tag-list">
-                                <li class="cardio-red"><a href="#">йога</a></li>
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
                             </ul>
                         </div>
-                        <h3>тренировка №3</h3>
+                        <h3>тренировка №2</h3>
                         <p class="card-description">Описание тренировки</p>
                     </li>
-                </ul>
-            </div>
-        </section>
-        <section class="information-desktop">
-            <div class="information-wrapper">
-                <p class="information-text">информация</p>
-            </div>
-            <div class="information-block">
-                <p>информация</p>
-            </div>
-        </section>       
+                    <li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li><li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li>
+                    <li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li><li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li>
+                    <li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li><li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li>
+                </div>
+            </ul>
+        </div>
     </main>
     <footer class="fithub-footer">
         <div class="fithub-footer-content">
@@ -123,4 +174,3 @@
         <div>
     </footer>
 </body>
-</html>
