@@ -488,7 +488,6 @@ input{
 
 .wrapper-text {
     width: 420px;
-    height: 52px;
     box-sizing: border-box;
     font-size: 24px;
     font-weight: 500;
@@ -498,11 +497,11 @@ input{
     box-sizing: border-box;
     width: 1440px;
     padding-top: 100px;
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 .first-row{
     display: flex;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     justify-content: center;
 }
 .personal-avatar {
@@ -521,10 +520,11 @@ input{
     display: flex;
     box-sizing: border-box;
     justify-content: center;
-    gap: 10px;
+    gap: 80px;
 }
 .personal-account-buttons .training-button{
     margin: 0;
+    width: 150px;
 }
 .personal-account-parameters input{
     border-radius: 20px;
@@ -548,7 +548,6 @@ input{
     height: 710px;
     box-sizing: border-box;
     padding-left: 130px;
-    padding-top: 32px;
     padding-right: 130px;
 }
 .featured-workout-container{
@@ -557,8 +556,8 @@ input{
     justify-content: space-between;
     align-items: center;
     padding-top: 80px;
-    padding-right: 100px;
-    padding-left: 100px;
+    padding-right: 50px;
+    padding-left: 50px;
 }
 .featured-workout-container .training-card{
     position: relative; 
@@ -575,27 +574,29 @@ input{
     margin: 0;
 }
 .featured-workout-tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 18px;
-    font-weight: 500;
-    height: 40px;
+    width: 320px;
+    height: 50px;
     margin-top: 40px;
-    text-align: center;
     padding: 10px;
     border-radius: 20px;
 }
 .tag-count{
     background-color: #FF9494;
-    left: -150px;
+    left: -80px;
     position: relative; 
 }
 .tag-time{
     background-color: #94FFFF;
-    left: -70px;
+    left: -40px;
     position: relative; 
 }
 .tag-kkal{
     background-color: #FF94FC;
-    left: 10px;
+    left: 0px;
     position: relative; 
 }
 .statistics {
