@@ -19,21 +19,17 @@ import java.util.Set;
 @ToString(exclude = "trains")
 @EqualsAndHashCode(of = "category")
 public class ActivityCategories {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
     @Column(name="category_name")
     private String category;
 
     @JsonIgnore
     @Builder.Default
-    @ManyToMany(mappedBy = "categories")
-//    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category")
     private Set<Train> trains = new HashSet<>();
-
-    public void addTrain(Train train) {
-        trains.add(train);
-        train.getCategories().add(this);
-    }
 }

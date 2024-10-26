@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,22 +26,27 @@ public class ActivityCategoriesService {
         return activityCategoriesRepository.findById(id).orElseThrow(ActivityCategoryNotFoundException::new);
     }
     @Transactional
-    public ActivityCategories save(ActivityCategories activityCategories) {
-        var isSavedAlready = activityCategoriesRepository.findAll().stream().filter(a -> a.getCategory().equals(activityCategories.getCategory())).toList().isEmpty();
-        if (isSavedAlready) {
-            activityCategoriesRepository.save(activityCategories);
-            return activityCategories;
-        }
-        return null;
+    public void save(ActivityCategories activityCategories) {
+        activityCategoriesRepository.save(activityCategories);
     }
+
+    public ActivityCategories needToSave(ActivityCategories activityCategories) {
+        var isContain = activityCategoriesRepository.findAll().stream().map(ActivityCategories::getCategory).toList().contains(activityCategories.getCategory());
+        if (!isContain) {
+            activityCategoriesRepository.save(activityCategories);
+        }
+        activityCategories.setId(activityCategoriesRepository.findByCategory(activityCategories.getCategory()).getId());
+        return activityCategories;
+    }
+
     @Transactional
     public void update(int id, ActivityCategories activityCategories) {
         var category = activityCategoriesRepository.findById(id).orElseThrow(ActivityCategoryNotFoundException::new);
         activityCategories.setId(category.getId());
+        activityCategoriesRepository.save(activityCategories);
     }
     @Transactional
     public void delete(int id) {
         activityCategoriesRepository.deleteById(id);
     }
-
 }

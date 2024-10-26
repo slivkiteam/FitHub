@@ -41,25 +41,29 @@ public class TrainController {
         return converteToTrainDTO(trainService.findById(id));
     }
 
-
     @PostMapping
     public ResponseEntity<HttpStatus> createTrain(@RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
         trainService.save(createFromDTO(trainDTO));
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PostMapping("/id")
-    public ResponseEntity<HttpStatus> updateTrain(@PathVariable("id") Long id,@RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<HttpStatus> updateTrain(@PathVariable("id") Long id, @RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
         trainService.update(id, createFromDTO(trainDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteTrain(@PathVariable("id") Long id) {
+//        checkErrors(bindingResult);
+        trainService.delete(id);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     private Train createFromDTO(TrainDTO trainDTO) {
-        var train = modelMapper.map(trainDTO, Train.class);
-        train.setAuthor("ADMIN");
-        return train;
+        return modelMapper.map(trainDTO, Train.class);
     }
 
     private TrainDTO converteToTrainDTO(Train train) {
@@ -75,6 +79,7 @@ public class TrainController {
             throw new TrainNotCreatedException(errors.toString());
         }
     }
+
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(TrainNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse("Train with this id not found", System.currentTimeMillis());

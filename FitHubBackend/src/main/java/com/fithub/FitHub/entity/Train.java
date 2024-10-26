@@ -19,7 +19,7 @@ import java.util.Set;
 @Entity
 @Table(name="trains")
 @EqualsAndHashCode(of = "title")
-@ToString(exclude = "categories")
+@ToString(exclude = "category")
 public class Train {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,18 +33,13 @@ public class Train {
     private Integer score;
     @Column
     private Integer used;
+    @Column(name="duration_in_mitutes")
+    private Integer durationInMinutes;
     @Column
     private String author;
-    @Builder.Default
-    @ManyToMany
-    @JoinTable(name = "trains_activity_categories",
-                joinColumns = @JoinColumn(name = "train_id"),
-                inverseJoinColumns = @JoinColumn(name = "category_id"))
-//    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
-    private Set<ActivityCategories> categories = new HashSet<>();
-
-    public void addCategories(ActivityCategories category) {
-        categories.add(category);
-        category.getTrains().add(this);
-    }
+    @Column
+    private String place;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private ActivityCategories category;
 }
