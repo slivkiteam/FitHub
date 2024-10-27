@@ -41,7 +41,7 @@ public class ActivityCategoriesService {
 
     @Transactional
     public void update(int id, ActivityCategories activityCategories) {
-        var category = activityCategoriesRepository.findById(id).orElseThrow(ActivityCategoryNotFoundException::new);
+        var category = findById(id);
         activityCategories.setId(category.getId());
         activityCategoriesRepository.save(activityCategories);
     }

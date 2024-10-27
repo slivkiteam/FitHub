@@ -45,8 +45,8 @@ public class TrainService {
 
     @Transactional
     public void update(Long id, Train train) {
-        Train t = trainingsRepository.findById(id).orElseThrow(TrainNotFoundException::new);
-        train.setId(id);
+        Train t = findById(id);
+        train.setId(t.getId());
         train.setCategory(t.getCategory());
         //связь с другим объектом тоже переназначить потом (пользователь, упражнение и т.п)
         trainingsRepository.save(train);
