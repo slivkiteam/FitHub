@@ -1,14 +1,13 @@
 package com.fithub.FitHub.dto;
 
 import com.fithub.FitHub.entity.Gender;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
 public class UsersDTO {
     private Long id;
 
@@ -16,7 +15,7 @@ public class UsersDTO {
 
     private String surname;
 
-    private String patronymic;
+    private String login;
 
     private Date birthday;
 
@@ -33,4 +32,6 @@ public class UsersDTO {
     private Integer weight;
 
     private Integer height;
+
+    private String role;
 }

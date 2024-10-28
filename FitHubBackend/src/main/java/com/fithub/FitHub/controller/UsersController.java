@@ -1,11 +1,11 @@
 package com.fithub.FitHub.controller;
 
-import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.dto.UsersDTO;
-import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.entity.Users;
 import com.fithub.FitHub.service.UsersService;
-import com.fithub.FitHub.util.*;
+import com.fithub.FitHub.util.ErrorResponse;
+import com.fithub.FitHub.util.UserNotCreatedException;
+import com.fithub.FitHub.util.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,10 @@ public class UsersController {
         this.usersService = usersService;
         this.modelMapper = modelMapper;
     }
-
+    @GetMapping("/lk")
+    public Users getUserItem() {
+        return usersService.getCurrentUser();
+    }
     @GetMapping
     public List<UsersDTO> getAllUsers() {
         return usersService.findAll().stream().map(this::convertToUsersDTO).toList();

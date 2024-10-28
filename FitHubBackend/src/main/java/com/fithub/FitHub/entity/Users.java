@@ -2,7 +2,6 @@ package com.fithub.FitHub.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.util.Date;
@@ -28,7 +27,7 @@ public class Users {
     private String surname;
 
     @Column
-    private String patronymic;
+    private String login;
 
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -55,4 +54,8 @@ public class Users {
 
     @Column
     private Integer height;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

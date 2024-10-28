@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form name="f" th:method="POST" th:action="@{/auth/registration}" th:object="${user}">
+        <label for="name">Ведите Имя</label>
+        <input type="text" th:field="*{name}" name="username" id="name"/>
+        </br>
+        <label for="username">Ведите Логин</label>
+        <input type="text" th:field="*{login}" name="username" id="username"/>
+        </br>
+        <label for="password">Ведите Пароль</label>
+        <input type="password"th:field="*{password}"  name="password" id="password"/>
+        </br>
+        <input type="submit" value="Sing up!"/>
+        <div th:if="${param.error}" style="color: red">
+            Error
+        </div>
+</form>
+</body>
+</html>
