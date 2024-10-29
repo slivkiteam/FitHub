@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/FitHub.iml" filepath="$PROJECT_DIR$/.idea/FitHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FitHubBackend.FitHub.main.iml" filepath="$PROJECT_DIR$/.idea/modules/FitHubBackend.FitHub.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.fithub.FitHub.iml" filepath="$PROJECT_DIR$/.idea/modules/com.fithub.FitHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.fithub.FitHub.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.fithub.FitHub.test.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,6 +1,7 @@
 package com.fithub.FitHub.dto;
 
 import com.fithub.FitHub.entity.Gender;
+import com.fithub.FitHub.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,5 +34,5 @@ public class UsersDTO {
 
     private Integer height;
 
-    private String role;
+    private Role role;
 }

@@ -6,9 +6,9 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-    <header class="profile-header">
-        <div class="profile-header-desktop">
-            <a href="index.html">
+    <header class="header">
+        <div class="header-desktop">
+            <a href="#">
                 <svg width="115.506104" height="97.597656" viewBox="0 0 115.506 97.5977" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <desc>
                     </desc>
@@ -20,67 +20,83 @@
             </a>
             <nav>
                 <ul class="nav_list">
-                    <li class="nav-item-1"><a class ='green-text' href="#">тренировки</a></li>
-                    <li class="nav-item-2"><a href="#">создать тренировку</a></li>
+                    <li class="nav-item-1"><a href="#">личный кабинет</a></li>
+                    <li class="nav-item-2"><a href="trainings.html">тренировки</a></li>
                     <li class="nav-item-3"><a href="#">вход</a></li>
                     <li class="nav-item-4"><a href="#">регистрация</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-        <div class="path">
-            <p>тренировки > ...</p>
-        </div>
-        <div class="filter-training-desktop">
-            <ul class="filter-trainings-list">
-                <div class="filter-container">
-                    <li class="filter" >
-                        <div class="filter-text">
-                            <h2>фильтры</h2>
-                        </div>
+    <main>
+        <section class="promo-desktop">
+            <div class="block1">
+                <p class="first-level">БОЛЕЕ <span class="dark-green-text">100</span> ТРЕНИРОВОК</p>
+                <p class="second-level">ДЛЯ ДУШИ И ТЕЛА</p>
+            </div>
+            <div class="man">
+                <img src="img/man.png" alt="Man">
+            </div>
+            <div class="first-column-second-row">
+                <div class="training-button"><a href="#">быстрая тренировка</a></div>
+                <div class="training-button"><a href="#">показать тренировки</a></div>
+            </div>            
+        </section>
+        <section class="top-trainings-desktop">
+            <div class="top-trainings-wrapper">
+                <p class="top-trainings-text">попробуйте наши лучшие <span class="green-text">тренировки</span></p>
+            </div>
+            <div class="training-cards-container">
+                <ul class="training-cards">
+                    <li class="training-card">
+                            <figure>
+                                <img class="training-img"></img>
+                            </figure>
+                            <div class="training-type-box">
+                                <ul class="tag-list">
+                                    <li class="cardio-red"><a href="#">кардио</a></li>
+                                    <li class="long"><a href="#">долго</a></li>
+                                </ul>
+                            </div>
+                            <h3>тренировка №1</h3>
+                            <p class="card-description">Описание тренировки</p>
                     </li>
-                </div>
-            </ul>
-                <div class="search-container">
-                    <div class="search">
-                        <input type="text" class="search-input" placeholder="поиск"></input>
-                    </div>
-                    <ul class="exercises-list">
-                        <li class="exercise">
-                            <p>упражнение 1</p>
-                            <div class="exercise-buttons">
-                                <button class="open-exercise">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M15.87 9L11.99 12.88L8.11 9C7.72 8.6 7.09 8.6 6.7 9C6.51 9.18 6.41 9.44 6.41 9.7C6.41 9.96 6.51 10.22 6.7 10.41L11.29 15C11.68 15.39 12.31 15.39 12.7 15L17.29 10.41C17.68 10.02 17.68 9.39 17.29 9C16.9 8.62 16.26 8.6 15.87 9Z" fill="#000000" fill-opacity="0.540000" fill-rule="evenodd"/>
-                                    </svg>  
-                                </button>  
-                                <button class="add-exercise">            
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M16.58 7.57L10 14.17L6.41 10.59L5 12L10 17L18 9L16.58 7.57ZM12 2C6.47 2 2 6.47 2 12C2 17.52 6.47 22 12 22C17.52 22 22 17.52 22 12C22 6.47 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.57 7.58 4 12 4C16.41 4 20 7.57 20 12C20 16.42 16.41 20 12 20Z" fill="#444444" fill-opacity="1.000000" fill-rule="evenodd"/>
-                                    </svg>
-                                </button>   
-                            </div>
-                            <p class="exercise-description" style="display:none;">описаниеописаниеопис аниеописаниеописаниеоп исаниеописаниеописание описание</p>
-                        </li>
-                        <li class="exercise">
-                            <p>упражнение 2</p>
-                            <div class="exercise-buttons">
-                                <button class="open-exercise">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M15.87 9L11.99 12.88L8.11 9C7.72 8.6 7.09 8.6 6.7 9C6.51 9.18 6.41 9.44 6.41 9.7C6.41 9.96 6.51 10.22 6.7 10.41L11.29 15C11.68 15.39 12.31 15.39 12.7 15L17.29 10.41C17.68 10.02 17.68 9.39 17.29 9C16.9 8.62 16.26 8.6 15.87 9Z" fill="#000000" fill-opacity="0.540000" fill-rule="evenodd"/>
-                                    </svg>  
-                                </button>  
-                                <button class="add-exercise">            
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M16.58 7.57L10 14.17L6.41 10.59L5 12L10 17L18 9L16.58 7.57ZM12 2C6.47 2 2 6.47 2 12C2 17.52 6.47 22 12 22C17.52 22 22 17.52 22 12C22 6.47 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.57 7.58 4 12 4C16.41 4 20 7.57 20 12C20 16.42 16.41 20 12 20Z" fill="#444444" fill-opacity="1.000000" fill-rule="evenodd"/>
-                                    </svg>
-                                </button>   
-                            </div>
-                            <p class="exercise-description" style="display:none;">описаниеописаниеопис аниеописаниеописаниеоп исаниеописаниеописание описание</p>
-                        </li>
-                    </ul>     
-                </div>     
-        </div>
+                    <li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">силовая</a></li>
+                                <li class="fast"><a href="#">быстро</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №2</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li>
+                    <li class="training-card">
+                        <figure>
+                            <img class="training-img"></img>
+                        </figure>
+                        <div class="training-type-box">
+                            <ul class="tag-list">
+                                <li class="cardio-red"><a href="#">йога</a></li>
+                            </ul>
+                        </div>
+                        <h3>тренировка №3</h3>
+                        <p class="card-description">Описание тренировки</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="information-desktop">
+            <div class="information-wrapper">
+                <p class="information-text">информация</p>
+            </div>
+            <div class="information-block">
+                <p>информация</p>
+            </div>
+        </section>       
     </main>
     <footer class="fithub-footer">
         <div class="fithub-footer-content">
@@ -95,17 +111,16 @@
                 </svg>  
             </a>
             <ul class="footer-list">
-                <li><a href="user_page.html">личный кабинет</a></li>
-                <li><a href="trainings.html">список тренировок</a></li>
+                <li><a href="#">личный кабинет</a></li>
+                <li><a href="#">список тренировок</a></li>
                 <li><a href="#">мои тренировки</a></li>
-                <li><a href="exsercise.html">упражнения</a></li>
+                <li><a href="#">упражнения</a></li>
                 <li><a href="#">моя статистика</a></li>
                 <li><a href="#">топ упражнений</a></li>
                 <li><a href="#">анализ тренировок</a></li>
                 <li><a href="#">топ пользователей</a></li>
             </ul>
-        </div>
+        <div>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>

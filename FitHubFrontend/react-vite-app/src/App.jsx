@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import { getContacts } from './api/TrainService';
 import './App.css';
+import Home from './Home';
+import Training from './Training';
+import Trainings from './Trainings';
+
 
 function App() {
   const [data, setData] = useState({});
@@ -20,6 +24,7 @@ function App() {
   }, []);
   return (
     <>
+    <Trainings />
     {/* <main>
       <div>
       <Routes>
@@ -27,8 +32,8 @@ function App() {
       <Route path="/trains" element={<Trainings data={data}/>}/>
       </Routes>
       </div>
-    </main> */}
-    <h1>Пупа + Лупа = <img src={reactLogo} alt=""/></h1>
+    </main> */
+    }
     </>
   )
 }

@@ -1,48 +1,81 @@
 package com.fithub.FitHub.controller;
 
+import com.fithub.FitHub.dto.AuthenticationDTO;
+import com.fithub.FitHub.dto.UsersDTO;
 import com.fithub.FitHub.entity.Users;
+import com.fithub.FitHub.security.JWTUtil;
 import com.fithub.FitHub.service.RegisterService;
+import com.fithub.FitHub.util.ErrorResponse;
+import com.fithub.FitHub.util.UserNotFoundException;
 import com.fithub.FitHub.validator.UsersValidator;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Map;
+
+@RestController
 @RequestMapping("/auth")
 public class AuthController {
     private final UsersValidator usersValidator;
     private final RegisterService registerService;
+    private final JWTUtil jwtUtil;
+    private final ModelMapper modelMapper;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthController(UsersValidator usersValidator, RegisterService registerService) {
+    public AuthController(UsersValidator usersValidator, RegisterService registerService, JWTUtil jwtUtil, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
         this.usersValidator = usersValidator;
         this.registerService = registerService;
+        this.jwtUtil = jwtUtil;
+        this.modelMapper = modelMapper;
+        this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/login")
-    @PreAuthorize("")
-    public String  loginPage() {
-
-        return "/auth/login";
-    }
-    @GetMapping("/registration")
-    public String registerPage(@ModelAttribute("user") @Valid Users user) {
-        return "/auth/registration";
-    }
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("user") @Valid Users user, BindingResult bindingResult) {
-
+    public Map<String ,String> registration(@RequestBody @Valid UsersDTO users, BindingResult bindingResult) {
+        var user = createFromDTO(users);
         usersValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/auth/registration";
+            return Map.of("message", "exception!!!");
         }
         registerService.register(user);
-        return "redirect:/auth/login";
+        String token = jwtUtil.generateToken(user.getLogin());
+        return Map.of("jwt-token", token);
+    }
+
+    @PostMapping("/login")
+    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
+        UsernamePasswordAuthenticationToken authInputToken =
+                new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(),
+                        authenticationDTO.getPassword());
+        try {
+            authenticationManager.authenticate(authInputToken);
+        } catch (BadCredentialsException e) {
+            return Map.of("message", "Incorrect credentials!");
+        }
+
+        String token = jwtUtil.generateToken(authenticationDTO.getLogin());
+        return Map.of("jwt-token", token);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(UserNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse("User with this id not found", System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+    private Users createFromDTO(UsersDTO userDTO) {
+        return modelMapper.map(userDTO, Users.class);
+    }
+
+    private UsersDTO convertToUsersDTO(Users user) {
+        return modelMapper.map(user, UsersDTO.class);
     }
 }
