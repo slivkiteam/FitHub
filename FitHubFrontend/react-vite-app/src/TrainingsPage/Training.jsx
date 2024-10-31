@@ -1,5 +1,5 @@
 ﻿function Training(props){
-    const { title } = props
+    const { title, id, description, types } = props
     return(
     <>
     <li className="training-card">

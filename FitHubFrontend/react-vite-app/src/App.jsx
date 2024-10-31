@@ -3,8 +3,8 @@ import reactLogo from './assets/react.svg';
 import { getContacts } from './api/TrainService';
 import './App.css';
 import Home from './Home';
-import Training from './Training';
-import Trainings from './Trainings';
+import Training from './TrainingsPage/Training';
+import Trainings from './TrainingsPage/Trainings';
 
 
 function App() {
