@@ -2,9 +2,11 @@ package com.fithub.FitHub.dto;
 
 import com.fithub.FitHub.entity.ActivityCategories;
 import com.fithub.FitHub.entity.Status;
+import com.fithub.FitHub.entity.Users;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,4 +22,5 @@ public class TrainDTO {
     private String place;
     private Integer durationInMinutes;
     private ActivityCategories category;
+    private List<Users> users;
 }

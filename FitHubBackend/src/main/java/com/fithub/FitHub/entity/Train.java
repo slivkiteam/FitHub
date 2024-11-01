@@ -42,4 +42,9 @@ public class Train {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private ActivityCategories category;
+
+    @Builder.Default
+    @JsonIgnore
+    @ManyToMany(mappedBy = "trains")
+    private List<Users> users = new ArrayList<>();
 }

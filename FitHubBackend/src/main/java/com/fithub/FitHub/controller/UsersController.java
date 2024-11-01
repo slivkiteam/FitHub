@@ -1,8 +1,11 @@
 package com.fithub.FitHub.controller;
 
+import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.dto.UsersDTO;
+import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.entity.Users;
 import com.fithub.FitHub.security.UsersDetails;
+import com.fithub.FitHub.service.TrainService;
 import com.fithub.FitHub.service.UsersService;
 import com.fithub.FitHub.util.ErrorResponse;
 import com.fithub.FitHub.util.UserNotCreatedException;
@@ -17,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController()
@@ -24,12 +28,13 @@ import java.util.List;
 public class UsersController {
 
     private final UsersService usersService;
-    private final ModelMapper modelMapper;
+
+    private final TrainService trainService;
 
     @Autowired
-    public UsersController(UsersService usersService, ModelMapper modelMapper) {
+    public UsersController(UsersService usersService, TrainService trainService) {
         this.usersService = usersService;
-        this.modelMapper = modelMapper;
+        this.trainService = trainService;
     }
     @GetMapping("/lk")
     public Users getUserItem() {
@@ -39,25 +44,34 @@ public class UsersController {
     }
     @GetMapping
     public List<UsersDTO> getAllUsers() {
-        return usersService.findAll().stream().map(this::convertToUsersDTO).toList();
+        return usersService.findAll().stream().map(usersService::convertToUsersDTO).toList();
     }
 
     @GetMapping("/{id}")
     public UsersDTO getUserById(@PathVariable("id") Long id) {
-        return convertToUsersDTO(usersService.findById(id));
+        return usersService.convertToUsersDTO(usersService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<HttpStatus> createUser(@RequestBody UsersDTO userDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
-        usersService.save(createFromDTO(userDTO));
+        usersService.save(usersService.createFromDTO(userDTO));
         return ResponseEntity.ok(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}/addTrain")
+    public ResponseEntity<HttpStatus> addTrainUser(@PathVariable("id") Long id, @RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
+        checkErrors(bindingResult);
+        Train train = trainService.createFromDTO(trainDTO);
+        trainService.save(train);
+        usersService.addTrains(id, train);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<HttpStatus> updateUser(@PathVariable("id") Long id, @RequestBody UsersDTO userDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
-        usersService.update(id, createFromDTO(userDTO));
+        usersService.update(id, usersService.createFromDTO(userDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -65,14 +79,6 @@ public class UsersController {
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         usersService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    private Users createFromDTO(UsersDTO userDTO) {
-        return modelMapper.map(userDTO, Users.class);
-    }
-
-    private UsersDTO convertToUsersDTO(Users user) {
-        return modelMapper.map(user, UsersDTO.class);
     }
 
     private static void checkErrors(BindingResult bindingResult) {

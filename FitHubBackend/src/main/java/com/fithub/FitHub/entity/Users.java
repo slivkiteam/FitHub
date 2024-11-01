@@ -1,10 +1,13 @@
 package com.fithub.FitHub.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Builder
@@ -58,4 +61,16 @@ public class Users {
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Builder.Default
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "users_trains",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "trains_id")
+    )
+    private List<Train> trains = new ArrayList<>();
+
+
 }
