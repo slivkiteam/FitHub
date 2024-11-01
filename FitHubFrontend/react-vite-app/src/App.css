@@ -456,6 +456,7 @@ input{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 120px;
 }
 .left-column-container input{
   margin-bottom: 10px;
@@ -657,6 +658,7 @@ input{
 }
 .filter {
   display: flex;
+  flex-direction: column;
   width: 330px;
   height: 670px;
   border-radius: 20px;
@@ -674,6 +676,45 @@ input{
   margin-top: 40px;
   justify-content: center;
 }
+.filter-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-settings p {
+  margin: 0;
+  width: 284px;
+  height: 25px;
+  padding-right: 10px;
+  background-color: white;
+  box-sizing: border-box;
+  border-radius: 20px;
+  line-height: 25px;
+  font-size: 12px;
+  margin-left: 13px;
+  padding-left: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.open-filter-button {
+  padding: 0;
+  border-radius: 20px;
+  height: 25px;
+  background-color: inherit;
+  border: none; /* Убираем обводку */
+  color: black; /* Цвет текста */
+  border-radius: 5px; /* Закругляем углы */
+  cursor: pointer; /* Указатель при наведении */
+}
+
+.open-filter-button:hover {
+  color: white; /* Белый текст при наведении */
+}
+
 .search {
   width: 760px;
   height: 70px;
@@ -700,6 +741,22 @@ input{
   color: black; /* Цвет текста */
   font-weight: bold;
 }
+
+.sort-menu{
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #DADADA;
+  margin: 0;
+  font-size: 12px;
+  width: 280px;
+  height: 46px;
+}
+
 .filter-container{
   display: flex;
 }
@@ -710,6 +767,7 @@ input{
   width: 900px;
   gap: 50px;
   padding-bottom: 100px;
+  gap: 80px;
 }
 .gallery-container {
   display: flex;
@@ -867,3 +925,4 @@ resize: none; /* СДЕЛАТЬ СКРИПТ ЧТОБЫ УВЕЛИЧИВАЛСЯ
 .read-more-button:hover {
   background-color: #0056b3;
 }
+

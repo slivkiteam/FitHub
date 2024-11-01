@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
 import { getContacts } from './api/TrainService';
 import './App.css';
-import Home from './Home';
-import Training from './TrainingsPage/Training';
-import Trainings from './TrainingsPage/Trainings';
+import Trainings from './Trainings_Page/Trainings';
+import SignIn from './Sign_In_Page/SignIn';
 
 
 function App() {
@@ -24,7 +22,7 @@ function App() {
   }, []);
   return (
     <>
-    <Trainings />
+    <SignIn />
     {/* <main>
       <div>
       <Routes>

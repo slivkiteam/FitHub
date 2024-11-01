@@ -2,6 +2,7 @@
 import Training from './Training';
 import Filter from './Filter';
 import Search from './Search';
+import SortMenu from './SortMenu';
 
 
 const FilterTrainingDesktop = () => {
@@ -16,15 +17,22 @@ const FilterTrainingDesktop = () => {
         { id: 7, title: "megatren" },
     ]);
 
+    const [sorterObj] = useState([
+        {sortItem: 'сначала долгие'},
+    ]);
+
     return (
         <div className="filter-training-desktop">
             <ul className="filter-trainings-list">
                 <Filter />
                 <div className="search-and-cards">
-                    <Search />
+                    <div className='search-and-sort'>
+                        <Search />
+                        <SortMenu sortItem={sorterObj[0].sortItem}/>
+                    </div>
                     {trainings.map(training => (
-                        <Training title={training.title}/>
-                    ))}
+                            <Training title={training.title}/>
+                        ))}
                 </div>
             </ul>
         </div>
