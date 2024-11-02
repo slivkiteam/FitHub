@@ -4,12 +4,9 @@ package com.fithub.FitHub.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -27,6 +24,8 @@ public class Train {
     @Column
     private String title;
     @Column
+    private String description;
+    @Column
     @Enumerated(EnumType.STRING)
     private Status status;
     @Column
@@ -35,6 +34,8 @@ public class Train {
     private Integer used;
     @Column(name="duration_in_mitutes")
     private Integer durationInMinutes;
+    @Column
+    private Integer countOfIteration;
     @Column
     private String author;
     @Column

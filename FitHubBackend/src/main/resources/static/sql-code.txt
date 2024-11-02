@@ -11,17 +11,32 @@ CREATE TABLE users (
     count_of_trains INT,
     weight INT NOT NULL,
     height INT NOT NULL,
-    ROLE VARCHAR(128)
+    ROLE VARCHAR(128) NOT NULL
+);
+CREATE TABLE users (
+   id BIGSERIAL PRIMARY KEY,
+   name VARCHAR(128),
+   surname VARCHAR(128),
+   login VARCHAR(128),
+   birthday DATE,
+   email VARCHAR(256) ,
+   password VARCHAR(128),
+   gender VARCHAR(128),
+   skill VARCHAR(128) ,
+   count_of_trains INT,
+   weight INT ,
+   height INT ,
+   ROLE VARCHAR(128) NOT NULL
 );
 DROP TABLE users;
 INSERT INTO users VALUES (
-                          1,'miha','mishki','mishkin','2004-12-02','dfsdfs@mail.ru', '123123','МУЖСКОЙ','noob',0,80,183
+                          1,'miha','mishki','l','2004-12-02','dfsdfs@mail.ru', 'l','МУЖСКОЙ','noob',0,80,183, 'ROLE_USER'
                          );
 
 CREATE TABLE activity_categories ( -- Категория упражнения
     id SERIAL PRIMARY KEY, -- Уникальный идентификатор категории
     category_name VARCHAR(50) NOT NULL UNIQUE );
-
+DROP TABLE trains;
 CREATE TABLE trains (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(128) UNIQUE NOT NULL,
@@ -33,13 +48,12 @@ CREATE TABLE trains (
     count_of_iteration INT,
     place VARCHAR(128) NOT NULL,
     author VARCHAR(128) NOT NULL,
-    category_id INT REFERENCES activity_categories(id) );
+    category_id INT REFERENCES activity_categories(id));
 
 --рассчитывать количество повторений по формуле, есть конкретное число * коэф. Определить жирный или нет и уровень сложности тренировки
 CREATE TABLE users_trains (
     user_id BIGINT REFERENCES users (id),
     trains_id BIGSERIAL REFERENCES trains (id)
-
 );
 
 CREATE TABLE exercises ( -- Упражнение

@@ -247,6 +247,7 @@ h3{
   border-radius: 20px;
   background-color: rgb(148, 255, 255);
 }
+
 .tag-list{
   width: 340px;
   height: auto;
@@ -254,13 +255,16 @@ h3{
   display: flex;
   gap: 20px;
   padding: 0;
+  margin-top: 10px;
 }
+
 .card-description{
   width: 260px;
   height: 75px;
   font-size: 10px;
   padding-left: 20px;
 }
+
 .information-desktop{
   width: 1440px;
   height: 713px;
@@ -274,18 +278,20 @@ h3{
   padding-right: 130px;
   position: relative;
 }
+
 .information-wrapper{
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
 }
+
 .information-wrapper::before,
 .information-wrapper::after {
   content: "";
   flex-grow: 1;
-  border-bottom: 12px solid rgb(156, 252, 166); /* Green line color */
-  margin: 0 10px; /* Adjust this margin to set space between the lines and text */
+  border-bottom: 12px solid rgb(156, 252, 166);
+  margin: 0 10px; 
   border-radius: 20px;
 }
 .information-text{
@@ -300,8 +306,8 @@ h3{
 }
 .information-block{
   display: flex;
-  justify-content: center; /*Удалить при обновлении ИНФОРМАЦИЯ*/
-  align-items: center; /*Удалить при обновлении ИНФОРМАЦИЯ*/
+  justify-content: center;
+  align-items: center; 
   box-sizing: border-box;
   margin-top: 58px;
   padding: 40px 60px;
@@ -314,24 +320,23 @@ h3{
 }
 .fithub-footer {
   width: 100%;
-  height: 330px;
   display: flex;
-  justify-content: center; /* Центрируем содержимое по горизонтали */
+  justify-content: center; 
   box-sizing: border-box;
-  padding-top: 50px;
+  padding-top: 40px;
   padding-bottom: 0px;
   background-color: rgb(218, 218, 218);
 }
 
 .fithub-footer-content {
   width: 100%;
-  max-width: 1440px; /* Максимальная ширина для содержимого */
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  padding-left: 130px;
-  padding-right: 130px;
+  padding: 0 40px;
+  margin-bottom: 133px;
 }
+
 .footer-svg{
   display: flex;
   justify-content: center;
@@ -469,7 +474,7 @@ input{
   padding-left: 130px;
   padding-top: 32px;
   padding-right: 130px;
-  position: relative; /* Allows the pseudo-elements to be positioned */
+  position: relative;
 }
 .wrapper {
   width: 1180px;
@@ -648,8 +653,10 @@ input{
   box-sizing: border-box;
   padding-left: 130px;
   padding-top: 48px;
-  padding-right: 130px;       
+  padding-right: 130px;      
+  margin-bottom: 100px; 
 }
+
 .filter-trainings-list {
   list-style: none;
   padding: 0;
@@ -682,6 +689,7 @@ input{
   grid-column: 2; /* Размещаем во второй колонке */
   grid-row: 1; /* Размещаем в первой строке */
   align-self: start; /* Выравниваем по началу строки */
+  margin-bottom: 50px;
 }
 .search-input{
   padding-left: 30px;
@@ -704,12 +712,14 @@ input{
   display: flex;
 }
 .search-and-cards {
+}
+.search-and-cards ul {
   display: flex;
-  flex-direction: row; /* Изменяем направление на строку */
-  flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
+  padding-left: 0;
+  flex-direction: row;
+  flex-wrap: wrap; 
   width: 900px;
   gap: 50px;
-  padding-bottom: 100px;
 }
 .gallery-container {
   display: flex;

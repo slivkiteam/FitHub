@@ -36,12 +36,14 @@ public class UsersController {
         this.usersService = usersService;
         this.trainService = trainService;
     }
+
     @GetMapping("/lk")
     public Users getUserItem() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails usersDetails = (UsersDetails) authentication.getPrincipal();
         return usersDetails.getUser();
     }
+
     @GetMapping
     public List<UsersDTO> getAllUsers() {
         return usersService.findAll().stream().map(usersService::convertToUsersDTO).toList();

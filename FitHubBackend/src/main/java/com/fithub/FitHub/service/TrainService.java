@@ -7,8 +7,12 @@ import com.fithub.FitHub.repository.TrainingsRepository;
 import com.fithub.FitHub.util.TrainNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -17,16 +21,33 @@ public class TrainService {
     private final TrainingsRepository trainingsRepository;
     private final ActivityCategoriesService activityCategoriesService;
     private final ModelMapper modelMapper;
-
+    private final int NUMBER_OF_PAGINATION = 2;
     @Autowired
     public TrainService(TrainingsRepository trainingsRepository, ActivityCategoriesService activityCategoriesService, List<Users> users, UsersService usersService, ModelMapper modelMapper) {
         this.trainingsRepository = trainingsRepository;
         this.activityCategoriesService = activityCategoriesService;
         this.modelMapper = modelMapper;
     }
+//    public List<Train> findAll() {
+//        return trainingsRepository.findAll();
+//    }
+//    public Page<Train> findAll(String typeOfFilter) {
+//        if (typeOfFilter.equals("time")) {
+//            return trainingsRepository.findAll(Sort.by("durationInMinutes"));
+//        }
+//        return trainingsRepository.findAll();
+//    }
+    public Page<TrainDTO> findAll(Integer page, String typeOfFilter) {
+        //проверить на null page
+        if (typeOfFilter.equals("time")) {
+            return trainingsRepository.findAll(PageRequest.of(page,NUMBER_OF_PAGINATION, Sort.by("durationInMinutes")));
+        } else {
+            return trainingsRepository.findAll(PageRequest.of(page,NUMBER_OF_PAGINATION));
+        }
+    }
 
-    public List<Train> findAll() {
-        return trainingsRepository.findAll();
+    public List<Train> findTrainByTitleStartingWith(String start) {
+        return trainingsRepository.findBookByTitleStartingWith(start);
     }
 
     public Train findById(Long id) {
@@ -35,8 +56,8 @@ public class TrainService {
 
     @Transactional
     public void save(Train train) {
-        //var activityCategory = activityCategoriesService.needToSave(train.getCategory()); // cоздается треня без поля категория и туда null передался и все сломалось
-        //train.setCategory(activityCategory);
+        var activityCategory = activityCategoriesService.needToSave(train.getCategory()); // cоздается треня без поля категория и туда null передался и все сломалось
+        train.setCategory(activityCategory);
         trainingsRepository.save(train);
     }
     //    private void enrichTrain(Train train) {

@@ -51,7 +51,6 @@ public class Users {
 
     @Column(name = "count_of_trains")
     private Integer countOfTrains;
-
     @Column
     private Integer weight;
 

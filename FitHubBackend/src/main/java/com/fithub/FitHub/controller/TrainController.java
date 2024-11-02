@@ -2,21 +2,18 @@ package com.fithub.FitHub.controller;
 
 import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.entity.Train;
-import com.fithub.FitHub.entity.Users;
 import com.fithub.FitHub.service.TrainService;
-import com.fithub.FitHub.service.UsersService;
 import com.fithub.FitHub.util.ErrorResponse;
 import com.fithub.FitHub.util.TrainNotCreatedException;
 import com.fithub.FitHub.util.TrainNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController()
@@ -29,8 +26,9 @@ public class TrainController {
     }
 
     @GetMapping
-    public List<TrainDTO> getAllTrains() {
-        return trainService.findAll().stream().map(trainService::converteToTrainDTO).toList();
+    public Page<TrainDTO> getAllTrains(@RequestParam(value = "page", required = false) Integer page,
+                                       @RequestParam(value = "sort", required = false) String typeOfFilter) {
+        return trainService.findAll(page, typeOfFilter);
     }
 
     @GetMapping("/{id}")
@@ -54,9 +52,14 @@ public class TrainController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTrain(@PathVariable("id") Long id) {
-//        checkErrors(bindingResult);
+    //        checkErrors(bindingResult);
         trainService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{startWith}")
+    public List<Train> searchPage(@PathVariable("startWith") String startWith) {
+        return trainService.findTrainByTitleStartingWith(startWith);
     }
 
 
@@ -70,7 +73,6 @@ public class TrainController {
             throw new TrainNotCreatedException(errors.toString());
         }
     }
-
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(TrainNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse("Train with this id not found", System.currentTimeMillis());
