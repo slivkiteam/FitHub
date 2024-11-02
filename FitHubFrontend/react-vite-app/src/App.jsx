@@ -19,7 +19,7 @@ function App() {
     getAllContacts();
   }, []);
   return (
-    <main>
+    <main className='main__container'>
       <div>
       <Routes>
         <Route path="/" element={<Navigate to={'/trains'}/>}/>

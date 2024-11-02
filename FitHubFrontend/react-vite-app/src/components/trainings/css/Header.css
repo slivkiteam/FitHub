@@ -1,0 +1,84 @@
+﻿body {
+    font-family: 'UNCAGE';
+    background-color: #fff;
+    color: rgb(41, 41, 41);
+  }
+  
+  a {
+    color: rgb(41, 41, 41);
+    text-decoration: none;
+  }
+  
+  
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header__desktop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 130px;
+    max-width: 1440px;
+    border-bottom: rgb(200, 192, 192) 2px solid;
+    margin: 0 auto;
+  }
+  
+  
+  .header__logo {
+  
+  }
+  
+  .header__nav {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+  }
+  
+  .header__nav li {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .header__nav a.active{
+    color: rgb(120, 229, 143);
+  }
+  
+  .header__registration{
+    display: flex;
+    height: 30px;
+    width: 130px;
+    border-radius: 20px;
+    background-color: rgb(120, 229, 143);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .header_nav a:hover{
+    opacity: 0.8;
+    transition: 0.2s;
+  }
+  
+  .header__registration:hover{
+    opacity: 0.8;
+    transition: 0.2s;
+  }
+  
+  .header__list {
+    display: flex;
+    gap: 66px;
+    padding: 20px 40px;
+  }
+  
+  .header__registration {
+  
+  }
+  .header__list__registration {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+  }
