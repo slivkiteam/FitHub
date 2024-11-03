@@ -1,7 +1,9 @@
 package com.fithub.FitHub.controller;
 
+import com.fithub.FitHub.dto.ExercisesDTO;
 import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.entity.Train;
+import com.fithub.FitHub.service.ExercisesService;
 import com.fithub.FitHub.service.TrainService;
 import com.fithub.FitHub.util.ErrorResponse;
 import com.fithub.FitHub.util.TrainNotCreatedException;
@@ -20,9 +22,12 @@ import java.util.List;
 @RequestMapping("/trains")
 public class TrainController {
     private final TrainService trainService;
+    private final ExercisesService exercisesService;
+
     @Autowired
-    public TrainController(TrainService trainService) {
+    public TrainController(TrainService trainService, ExercisesService exercisesService) {
         this.trainService = trainService;
+        this.exercisesService = exercisesService;
     }
 
     @GetMapping
@@ -43,6 +48,14 @@ public class TrainController {
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{id}/addExercises")
+    public ResponseEntity<HttpStatus> addExerciseTrain(@PathVariable("id") Long id, @RequestBody ExercisesDTO exercisesDTO, BindingResult bindingResult) {
+        checkErrors(bindingResult);
+        var exercise = exercisesService.needToSave(exercisesService.converteFromDTO(exercisesDTO));
+        trainService.addExercises(id, exercise);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<HttpStatus> updateTrain(@PathVariable("id") Long id, @RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
@@ -52,7 +65,7 @@ public class TrainController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTrain(@PathVariable("id") Long id) {
-    //        checkErrors(bindingResult);
+        //        checkErrors(bindingResult);
         trainService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

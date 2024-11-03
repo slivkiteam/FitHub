@@ -29,7 +29,7 @@ public class Train {
     @Enumerated(EnumType.STRING)
     private Status status;
     @Column
-    private Integer score;
+    private Double score;
     @Column
     private Integer used;
     @Column(name="duration_in_mitutes")
@@ -48,4 +48,13 @@ public class Train {
     @JsonIgnore
     @ManyToMany(mappedBy = "trains")
     private List<Users> users = new ArrayList<>();
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(
+            name = "trains_exercises",
+            joinColumns = @JoinColumn(name = "train_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercises_id")
+    )
+    private List<Exercises> exercises = new ArrayList<>();
 }

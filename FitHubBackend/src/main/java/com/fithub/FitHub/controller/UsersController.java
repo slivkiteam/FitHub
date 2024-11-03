@@ -26,9 +26,7 @@ import java.util.List;
 @RestController()
 @RequestMapping("/users")
 public class UsersController {
-
     private final UsersService usersService;
-
     private final TrainService trainService;
 
     @Autowired
@@ -64,8 +62,7 @@ public class UsersController {
     @PatchMapping("/{id}/addTrain")
     public ResponseEntity<HttpStatus> addTrainUser(@PathVariable("id") Long id, @RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
-        Train train = trainService.createFromDTO(trainDTO);
-        trainService.save(train);
+        var train = trainService.needToSave(trainService.createFromDTO(trainDTO));
         usersService.addTrains(id, train);
         return ResponseEntity.ok(HttpStatus.OK);
     }

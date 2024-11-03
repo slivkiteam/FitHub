@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,12 +17,15 @@ public class ActivityCategoriesService {
     public ActivityCategoriesService(ActivityCategoriesRepository activityCategoriesRepository) {
         this.activityCategoriesRepository = activityCategoriesRepository;
     }
+
     public List<ActivityCategories> findAll() {
         return activityCategoriesRepository.findAll();
     }
+
     public ActivityCategories findById(int id) {
         return activityCategoriesRepository.findById(id).orElseThrow(ActivityCategoryNotFoundException::new);
     }
+
     @Transactional
     public void save(ActivityCategories activityCategories) {
         activityCategoriesRepository.save(activityCategories);

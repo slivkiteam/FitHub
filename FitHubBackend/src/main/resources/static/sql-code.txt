@@ -29,14 +29,13 @@ CREATE TABLE users (
    ROLE VARCHAR(128) NOT NULL
 );
 DROP TABLE users;
-INSERT INTO users VALUES (
-                          1,'miha','mishki','l','2004-12-02','dfsdfs@mail.ru', 'l','МУЖСКОЙ','noob',0,80,183, 'ROLE_USER'
-                         );
 
 CREATE TABLE activity_categories ( -- Категория упражнения
     id SERIAL PRIMARY KEY, -- Уникальный идентификатор категории
     category_name VARCHAR(50) NOT NULL UNIQUE );
+
 DROP TABLE trains;
+
 CREATE TABLE trains (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(128) UNIQUE NOT NULL,
@@ -52,23 +51,30 @@ CREATE TABLE trains (
 
 --рассчитывать количество повторений по формуле, есть конкретное число * коэф. Определить жирный или нет и уровень сложности тренировки
 CREATE TABLE users_trains (
-    user_id BIGINT REFERENCES users (id),
-    trains_id BIGSERIAL REFERENCES trains (id)
+    user_id BIGSERIAL REFERENCES users (id),
+    trains_id BIGSERIAL REFERENCES trains (id),
+    PRIMARY KEY (user_id, trains_id)
 );
 
 CREATE TABLE exercises ( -- Упражнение
-    id SERIAL PRIMARY KEY, -- Уникальный идентификатор упражнения
-    title VARCHAR(100) NOT NULL, -- Название упражнения   description VARCHAR(256), -- Описание упражнения
+    id BIGSERIAL PRIMARY KEY, -- Уникальный идентификатор упражнения
+    title VARCHAR(100) UNIQUE NOT NULL, -- Название упражнения
+    description VARCHAR(256), -- Описание упражнения
     duration_in_seconds INT, -- Длительность упражнения (в минутах)--    calories_burned_per_minute INT,  -- Сожженные калории за минуту
     count_of_iteration INT,
-    category_id INT REFERENCES activity_categories(id),
-    trains_id INT REFERENCES trains(id) ON DELETE SET NULL
+    place VARCHAR(128) NOT NULL,
+    goal VARCHAR(128), --группа мышц или характеритика - выностилось - сила, скорость
+    inventory VARCHAR(256),
+    weight DECIMAL(10, 2),
+    category_id INT REFERENCES activity_categories(id)
 );
+
 --добавить теги в упражнения--повторения, подходы
 --Сделать перемычку тренировки - упражнения--В ней будет два ключа много книг
 --Создать таблицу по сложности в которой будет уровень сложности - количество подходов и-- повторений в подходе, это подгргужается к конкретному упражнению, в зависимости от уровня сложности, который выбрал пользователь
 -- DROP TABLE trains, activity_categories, users, users_trains, exercises, Trains_Activity_categories;
----- CREATE TABLE Trains_Activity_categories (
---      train_id BIGINT REFERENCES trains (id),--      category_id INT REFERENCES activity_categories(id),
---      PRIMARY KEY (train_id, category_id)-- );
-DROP TABLE activity_categories, trains
+CREATE TABLE trains_exercises (
+     train_id BIGINT REFERENCES trains (id),
+     exercises_id BIGINT REFERENCES exercises(id),
+     PRIMARY KEY (train_id, exercises_id));
+DROP TABLE trains_exercises, exercises;

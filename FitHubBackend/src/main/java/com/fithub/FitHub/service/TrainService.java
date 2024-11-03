@@ -1,8 +1,8 @@
 package com.fithub.FitHub.service;
 
 import com.fithub.FitHub.dto.TrainDTO;
+import com.fithub.FitHub.entity.Exercises;
 import com.fithub.FitHub.entity.Train;
-import com.fithub.FitHub.entity.Users;
 import com.fithub.FitHub.repository.TrainingsRepository;
 import com.fithub.FitHub.util.TrainNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -22,27 +22,23 @@ public class TrainService {
     private final ActivityCategoriesService activityCategoriesService;
     private final ModelMapper modelMapper;
     private final int NUMBER_OF_PAGINATION = 2;
+
     @Autowired
-    public TrainService(TrainingsRepository trainingsRepository, ActivityCategoriesService activityCategoriesService, List<Users> users, UsersService usersService, ModelMapper modelMapper) {
+    public TrainService(TrainingsRepository trainingsRepository, ActivityCategoriesService activityCategoriesService, ModelMapper modelMapper, ExercisesService exercisesService) {
         this.trainingsRepository = trainingsRepository;
         this.activityCategoriesService = activityCategoriesService;
         this.modelMapper = modelMapper;
     }
-//    public List<Train> findAll() {
-//        return trainingsRepository.findAll();
-//    }
-//    public Page<Train> findAll(String typeOfFilter) {
-//        if (typeOfFilter.equals("time")) {
-//            return trainingsRepository.findAll(Sort.by("durationInMinutes"));
-//        }
-//        return trainingsRepository.findAll();
-//    }
+//    //локально искать все тренировки, не для вывода к фронту!!! чтобы выводить не Page, а лист
+    public List<Train> findAll() {
+        return trainingsRepository.findAll();
+    }
     public Page<TrainDTO> findAll(Integer page, String typeOfFilter) {
-        //проверить на null page
-        if (typeOfFilter.equals("time")) {
-            return trainingsRepository.findAll(PageRequest.of(page,NUMBER_OF_PAGINATION, Sort.by("durationInMinutes")));
+        if (page == null) return trainingsRepository.findAll(PageRequest.of(0,NUMBER_OF_PAGINATION)).map(c -> modelMapper.map(c, TrainDTO.class));
+        if (typeOfFilter != null && typeOfFilter.equals("time")) {
+            return trainingsRepository.findAll(PageRequest.of(page,NUMBER_OF_PAGINATION, Sort.by("durationInMinutes"))).map(c -> modelMapper.map(c, TrainDTO.class));
         } else {
-            return trainingsRepository.findAll(PageRequest.of(page,NUMBER_OF_PAGINATION));
+            return trainingsRepository.findAll(PageRequest.of(page,NUMBER_OF_PAGINATION)).map(c -> modelMapper.map(c, TrainDTO.class));
         }
     }
 
@@ -55,10 +51,10 @@ public class TrainService {
     }
 
     @Transactional
-    public void save(Train train) {
+    public Train save(Train train) {
         var activityCategory = activityCategoriesService.needToSave(train.getCategory()); // cоздается треня без поля категория и туда null передался и все сломалось
         train.setCategory(activityCategory);
-        trainingsRepository.save(train);
+        return trainingsRepository.save(train);
     }
     //    private void enrichTrain(Train train) {
 //        train.setCategories(); просто знай, что так можно и это нужно до сохранения
@@ -66,7 +62,6 @@ public class TrainService {
 
     @Transactional
     public void delete(Long id) {
-        var train = trainingsRepository.findById(id).orElse(null);
         trainingsRepository.deleteById(id);
     }
 
@@ -74,8 +69,6 @@ public class TrainService {
     public void update(Long id, Train train) {
         Train t = findById(id);
         train.setId(t.getId());
-        train.setCategory(t.getCategory());
-        //связь с другим объектом тоже переназначить потом (пользователь, упражнение и т.п)
         trainingsRepository.save(train);
     }
 
@@ -87,11 +80,27 @@ public class TrainService {
         return modelMapper.map(train, TrainDTO.class);
     }
 
+//    @Transactional
+//    public void addUsers(Long id, List<Users> users) {
+//        Train train = findById(id);
+//        List<Users> trainUsers = train.getUsers();
+//        trainUsers.addAll(users);
+//        save(train);
+//    }
+
     @Transactional
-    public void addUsers(Long id, List<Users> users) {
+    public void addExercises(Long id, Exercises exercises) {
         Train train = findById(id);
-        List<Users> trainUsers = train.getUsers();
-        trainUsers.addAll(users);
+        train.getExercises().add(exercises);
         save(train);
+    }
+    @Transactional
+    public Train needToSave(Train train) {
+        var isContain = findAll().stream().map(Train::getTitle).toList().contains(train.getTitle());
+        if (!isContain) {
+            return save(train);
+        }
+        train.setId(trainingsRepository.findByTitle(train.getTitle()).getId());
+        return train;
     }
 }
