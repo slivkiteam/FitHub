@@ -3,6 +3,11 @@
   src: url('UNCAGE/UNCAGE-Regular.otf');
 }
 
+html {
+  margin: 0;
+  padding: 0;
+}
+
 .container{
   max-width: 1440px;
   margin: 0 auto;
@@ -144,6 +149,7 @@
   border-radius: 20px;
   box-shadow: 4px 4px 28px 0px rgba(0, 0, 0, 0.25);
   outline: none;
+  margin-bottom: 40px;
 }
 figure {
   margin: 0;
@@ -627,9 +633,10 @@ input{
 }
 
 .main__cards__list{
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-
 .search-input{
   padding-left: 30px;
   box-sizing: border-box;

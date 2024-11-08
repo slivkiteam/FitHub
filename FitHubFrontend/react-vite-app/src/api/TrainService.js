@@ -5,8 +5,8 @@ const API_URL = 'http://localhost:8081/trains'
 export async function saveContact(train) {
     return await axios.post(API_URL, train)
 }
-export async function getContacts() {
-    return await axios.get(API_URL);
+export async function getContacts(page) {
+    return await axios.get(`${API_URL}?page=${page}`);
 }
 export async function getContact(id) {
     return await axios.get(`${API_URL}/${id}`)

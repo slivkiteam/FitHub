@@ -62,14 +62,12 @@ public class Users {
     private Role role;
 
     @Builder.Default
-    @JsonIgnore
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "users_trains",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "trains_id")
     )
     private List<Train> trains = new ArrayList<>();
-
-
 }

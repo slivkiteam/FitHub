@@ -5,11 +5,12 @@ import './App.css';
 import Trainings from './components/trainings/Trainings';
 function App() {
   const [data, setData] = useState({});
-  const getAllContacts = async () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const getAllContacts = async (page = 0) => {
     try {
-      const { data } = await getContacts();
+      setCurrentPage(page);
+      const { data } = await getContacts(page);
       setData(data);
-      // console.log(data);
     } catch {
       console.log("error");
     }
@@ -19,11 +20,11 @@ function App() {
     getAllContacts();
   }, []);
   return (
-    <main className='main__container'>
+    <main>
       <div>
       <Routes>
         <Route path="/" element={<Navigate to={'/trains'}/>}/>
-        <Route path="/trains" element={<Trainings data={data}/>}/>
+        <Route path="/trains" element={<Trainings data={data} currentPage={currentPage} getAllContacts={getAllContacts}/>}/>
       </Routes>
       </div>
     </main>
