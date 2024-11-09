@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>FitHub панель администратора</title>
+    <link href="css/admin-panel.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <header>
+        <p>Панель администратора</p>
+        <a href="#">Выйти</a>
+    </header>
+
+    <main>
+        <section class="left-panel">
+            <div class="left-panel__line"><img src="img/main.svg"><a href="http://127.0.0.1:5501/FitHubFrontend/makeup/admin_panel.html" class="left-panel__line__panel-button ">Главная</a></div>
+            <div class="left-panel__line"><img src="img/trainings.svg"><a href="http://127.0.0.1:5501/FitHubFrontend/makeup/admin_panel_trainings.html" class="left-panel__line__panel-button">Тренировки</a></div>
+            <div class="left-panel__line"><img src="img/users.svg"><a href="http://127.0.0.1:5501/FitHubFrontend/makeup/admin_panel_users.html" class="left-panel__line__panel-button">Пользователи</a></div>
+            <div class="left-panel__line"><img src="img/exsercises.svg"><a href="http://127.0.0.1:5501/FitHubFrontend/makeup/admin_panel_exercices.html" class="left-panel__line__panel-button">Упражнения</a></div>
+            <div class="left-panel__line active-line" ><img src="img/insights.svg"><a href="http://127.0.0.1:5501/FitHubFrontend/makeup/admin_panel_insigts.html" class="left-panel__line__panel-button">Аналитика и отчеты</a></div>
+            <div class="left-panel__line"><img src="img/comments.svg"><a href="http://127.0.0.1:5501/FitHubFrontend/makeup/admin_panel_comments.html" class="left-panel__line__panel-button">Комментарии и публикации</a></div>
+        </section>
+
+        <section class="right-panel">
+            <div class="right-panel__box-wrapper">
+                <div class="right-panel__box-wrapper__box-header">
+                    <p class="right-panel__box-wrapper__box-header__header-text">Активность</p>
+                </div>
+                <div class="right-panel__box-wrapper__box-main">
+                    <span>Недавно опубликованы</span>
+                    <ul class="right-panel__box-wrapper__box-main__publication-list">
+                        <li class="right-panel__box-wrapper__box-main__publication-list__list-item">
+                            <span class="right-panel__box-wrapper__box-main__publication-list__list-item__date"><b>09.11.2024</b></span>
+                            <span><a href="#">post</a></span>
+                        </li>
+                        <li class="right-panel__box-wrapper__box-main__publication-list__list-item">
+                            <span class="right-panel__box-wrapper__box-main__publication-list__list-item__date"><b>09.11.2024</b></span>
+                            <span><a href="#">post</a></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-panel__box-wrapper search-box">
+                <div class="right-panel__box-wrapper__box-header">
+                    <p class="right-panel__box-wrapper__box-header__header-text">Поиск по пользователям</p>
+                </div>
+                <div class="right-panel__box-wrapper__box-main">
+                    <p><input class="right-panel__box-wrapper__box-main__text-input" placeholder="id" id="id"></p>
+                    <p><input class="right-panel__box-wrapper__box-main__text-input" placeholder="name" id="name"></p>
+                    <p><input class="right-panel__box-wrapper__box-main__text-input" placeholder="surname" id="surname"></p>
+                    <button class="right-panel__box-wrapper__box-main__create-button" id="search">search</button>
+                    <ul class="right-panel__box-wrapper__box-main__user-list">
+                        <li class="right-panel__box-wrapper__box-main__user-list__user">
+                            <a href="#">user</a>
+                        </li>
+                        <li class="right-panel__box-wrapper__box-main__user-list__user">
+                            <a href="#">user</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-panel__box-wrapper long-box">
+                <div class="right-panel__box-wrapper__box-header">
+                    <p class="right-panel__box-wrapper__box-header__header-text">Информация</p>
+                </div>
+                <div class="right-panel__box-wrapper__box-main">
+                    <ul class="right-panel__box-wrapper__box-main__publication-list">
+                        <li class="right-panel__box-wrapper__box-main__publication-list__list-item">
+                            <span class="right-panel__box-wrapper__box-main__publication-list__list-item__date"><b>1000</b></span>
+                            <span><a href="#">Пользователей</a></span>
+                        </li>
+                        <li class="right-panel__box-wrapper__box-main__publication-list__list-item">
+                            <span class="right-panel__box-wrapper__box-main__publication-list__list-item__date"><b>12</b></span>
+                            <span><a href="#">Тренировок</a></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

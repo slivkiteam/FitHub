@@ -1,0 +1,97 @@
+body{
+    font-family: 'UNCAGE';
+    margin: 0;
+    padding: 0;
+}
+main{
+    display: grid;
+    grid-template-columns: 277px auto;
+    grid-template-rows: auto;
+}
+a{
+    text-decoration: none;
+    color: #292929;
+}
+span{
+    font-size: 10px;
+    opacity: 0.8;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    background-color: #C4C4C4;
+    padding: 20px 25px;
+    p{
+        margin: 0;
+    }
+}
+.left-panel {
+    width: 277px;
+    height: 100%;
+    background-color: #C4C4C4;
+    flex-direction: column;
+    .active-line{
+        background-color: #78E58F;
+    }
+    .left-panel__line{
+        font-family: 'UNCAGE';
+        text-align: start;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        img{
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        .left-panel__line__panel-button{
+            
+        }
+    }
+}
+.right-panel{
+    display: grid;
+    padding: 15px;
+    gap: 15px;
+    grid-template-columns: auto auto auto;
+    .add-box{
+        grid-column: 1/3;
+        input{
+            margin-right: 10px;
+            width: 100%;
+        }
+    }
+    .long-box{
+        grid-area: 3/4/1/3;
+    }
+    .search-box{
+        ul{
+            list-style: none;
+            padding: 0;
+        }
+        grid-column: 1/3;
+        a{
+            color: blue;
+            text-decoration: underline;
+        }
+    }
+    .right-panel__box-wrapper{
+        border: 1px solid rgba(41, 41, 41, 0.5);
+        .right-panel__box-wrapper__box-header{
+            border: 1px solid rgba(41, 41, 41, 0.5);
+            padding: 10px;
+        }
+        .right-panel__box-wrapper__box-main{
+            padding: 10px;
+            .right-panel__box-wrapper__box-main__publication-list{
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                a{
+                    color: blue;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
