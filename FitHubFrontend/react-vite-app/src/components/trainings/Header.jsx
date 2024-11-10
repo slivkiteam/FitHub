@@ -12,7 +12,7 @@ export default function Header({ mainType, onTypeChange }) {
     return (
         <header className="header">
             <div className="header__desktop">
-                <img src="..\..\src\img\logo.svg" alt="" className="header__logo" />
+                <a href="#!" onClick={() => onTypeChange('startPage')}><img src="..\..\src\img\logo.svg" alt="" className="header__logo" /></a>
                 <nav className="header__nav">
                     <ul className="header__list">
                         <li>

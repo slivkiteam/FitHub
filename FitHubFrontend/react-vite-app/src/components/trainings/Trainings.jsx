@@ -3,9 +3,10 @@ import Header from "./Header";
 import Main from "./Main";
 import MainCreateTraining from "../create-training/Main";
 import MainFooter from '../blocks/MainFooter';
+import StartPage from '../startPage/StartPage';
 
 function Trainings({ data, currentPage, getAllContacts }) {
-    const [mainType, setMainType] = useState('trainings'); // Состояние для mainType
+    const [mainType, setMainType] = useState('startPage'); // Состояние для mainType
 
 
 
@@ -21,9 +22,9 @@ function Trainings({ data, currentPage, getAllContacts }) {
             
             {mainType === 'trainings' ? (
                 <Main data={data} currentPage={currentPage} getAllContacts={getAllContacts} />
-            ) : (
-                <MainCreateTraining />
-            )}
+            ) : mainType === 'startPage' ? (
+                <StartPage />
+            ):<MainCreateTraining />}
             
             <MainFooter />
         </>
