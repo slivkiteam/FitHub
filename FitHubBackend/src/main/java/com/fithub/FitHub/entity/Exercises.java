@@ -19,7 +19,7 @@ public class Exercises {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(unique = true)
     private String title;
     @Column
     private String description;

@@ -1,0 +1,35 @@
+version: "v2.29.7-desktop.1"
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: fit_hub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - practice-net
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - practice-net
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fit_hub
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+    networks:
+      - practice-net
+networks:
+  practice-net:

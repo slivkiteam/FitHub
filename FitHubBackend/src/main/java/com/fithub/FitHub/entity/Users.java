@@ -29,14 +29,14 @@ public class Users {
     @Column
     private String surname;
 
-    @Column
+    @Column(unique = true)
     private String login;
 
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column
