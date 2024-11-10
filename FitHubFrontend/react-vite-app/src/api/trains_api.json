@@ -1,0 +1,123 @@
+﻿{
+    "content": [
+        {
+            "id": 2,
+            "title": "Тренировка Джордана",
+            "description": "Баскетбольное кольцо, ноги и руки, все, что нужно , чтобы выбрать эту тренировку",
+            "status": "СЛОЖНО",
+            "score": 0.0,
+            "used": 10,
+            "durationInMinutes": 1234,
+            "countOfIteration": 15,
+            "author": "ADMIN",
+            "place": "УЛИЦА",
+            "category": {
+                "category": "Силовая"
+            },
+            "users": [],
+            "exercises": []
+        },
+        {
+            "id": 15,
+            "title": "Тренировка Митрандира",
+            "description": "Берешь хоббита, ебашишь к саурону в Ородруин. Пиздишься с голумом с помощью хоббита",
+            "status": "СЛОЖНО",
+            "score": 0.0,
+            "used": 0,
+            "durationInMinutes": 0,
+            "countOfIteration": 0,
+            "author": "ADMIN",
+            "place": "УЛИЦА",
+            "category": {
+                "category": "Беговая"
+            },
+            "users": [
+                {
+                    "id": 1,
+                    "name": null,
+                    "surname": null,
+                    "login": "dmitro",
+                    "birthday": null,
+                    "email": null,
+                    "password": "$2a$10$CokCsC4mjD6Oeyuq4NIgAez4rTlRYpcA1OlSZQ.BJHXLDe8baAI2y",
+                    "gender": null,
+                    "skill": null,
+                    "countOfTrains": null,
+                    "weight": null,
+                    "height": null,
+                    "role": "ROLE_USER"
+                },
+                {
+                    "id": 5,
+                    "name": "Спидвагон",
+                    "surname": "Джостар",
+                    "login": "JO",
+                    "birthday": "1881-12-01",
+                    "email": null,
+                    "password": "$2a$10$CokCsC4mjD6Oeyuq4NIgAez4rTlRYpcA1OlSZQ.BJHXLDe8baAI2y",
+                    "gender": "МУЖСКОЙ",
+                    "skill": null,
+                    "countOfTrains": null,
+                    "weight": 80,
+                    "height": 185,
+                    "role": "ROLE_USER"
+                }
+            ],
+            "exercises": [
+                {
+                    "id": 1,
+                    "title": "1",
+                    "description": "Броски мяча",
+                    "durationInSeconds": 120,
+                    "countOfIteration": 4,
+                    "place": "УЛИЦА",
+                    "goal": "Меткость",
+                    "inventory": "Хуй",
+                    "weight": 100.99,
+                    "category": {
+                        "category": "Беговая"
+                    }
+                },
+                {
+                    "id": 2,
+                    "title": "2",
+                    "description": "Броски мяча",
+                    "durationInSeconds": 120,
+                    "countOfIteration": 4,
+                    "place": "УЛИЦА",
+                    "goal": "Меткость",
+                    "inventory": "Хуй",
+                    "weight": 100.99,
+                    "category": {
+                        "category": "Беговая"
+                    }
+                }
+            ]
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 2,
+        "sort": {
+            "sorted": false,
+            "empty": true,
+            "unsorted": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": false,
+    "totalElements": 9,
+    "totalPages": 5,
+    "first": true,
+    "numberOfElements": 2,
+    "size": 2,
+    "number": 0,
+    "sort": {
+        "sorted": false,
+        "empty": true,
+        "unsorted": true
+    },
+    "empty": false
+}

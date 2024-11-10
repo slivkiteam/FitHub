@@ -17,3 +17,7 @@ export async function updateContact(id,train) {
 export async function deleteContact(id) {
     return await axios.delete(`${API_URL}/${id}`)
 }
+
+export async function getMockContact() {
+    return await axios.get("./trains_api.json")
+}

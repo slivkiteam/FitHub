@@ -1,10 +1,15 @@
 ﻿import FilterVariation from "./FilterVariation";
 import './css/Main.css'
 import Training from "./Training";
+import { useState } from "react";
+import SortTrainings from "./Sort";
 
 export default function Main({data, currentPage, getAllContacts}){
+
+    const [searchText, setSearchText] = useState('Поиск')
+
     return (
-        <main class='main'>
+        <main className='main'>
             <div className="container">
                 <div className="path__container">
                     <p className="path">тренировки  ...</p>
@@ -13,19 +18,17 @@ export default function Main({data, currentPage, getAllContacts}){
                     <div className="main__filter__container">
                         <p className="filter__text">фильтры</p>
                         <div className="filter__variations">
-                            <FilterVariation title='тип тренировки' />
-                            <FilterVariation title='уровень сложности' />
-                            <FilterVariation title='формат' />
-                            <FilterVariation title='время' />
+                            <FilterVariation title='тип тренировки' tags={['кардио', 'йога', 'силовая', 'круговая']} />
+                            <FilterVariation title='уровень сложности' tags={['легко', 'средне', 'сложно']}/>
+                            <FilterVariation title='формат' tags={['дом', 'улица', 'зал']}/>
+                            <FilterVariation title='время' tags={['10-15 мин', '30-60 мин', '1 час +']}/>
                         </div>
                     </div>
                     <div className="main__search__and__cards">
                         <div className="main__search__container">
-                            <input type="text" className="search__input" placeholder="поиск" />
+                            <input type="text" className="search__input" placeholder={searchText}/>
                         </div>
-                        <div className="main__sort">
-                            сортировка: 
-                        </div>
+                        <SortTrainings />
                         <div className="main__cards__container">
                             <ul className="main__cards__list">
                                 {data?.content?.length > 0 && data.content.map((training) => <Training training={training} key={training.id} />)}

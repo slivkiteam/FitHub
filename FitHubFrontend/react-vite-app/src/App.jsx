@@ -3,9 +3,12 @@ import { getContacts } from './api/TrainService';
 import {Routes, Route, Navigate} from 'react-router-dom'
 import './App.css';
 import Trainings from './components/trainings/Trainings';
+
+
 function App() {
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
+  
   const getAllContacts = async (page = 0) => {
     try {
       setCurrentPage(page);
@@ -19,6 +22,7 @@ function App() {
   useEffect(() => {
     getAllContacts();
   }, []);
+  
   return (
     <main>
       <div>
