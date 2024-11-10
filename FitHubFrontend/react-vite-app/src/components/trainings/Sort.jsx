@@ -28,12 +28,6 @@ export default function SortTrainings() {
             </div>
             </>
         )}
-            
-                
-                    
-                
-            
-
         </>
     );
 }

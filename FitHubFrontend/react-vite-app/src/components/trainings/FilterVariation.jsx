@@ -1,21 +1,27 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 import './css/Main.css';
 
 export default function FilterVariation(props) {
-    const { title, tags } = props;
+    const { title, tags, updateSelectedTags } = props;
 
     const [expType, setExpType] = useState('no_exp');
     const [backgroundColor, setBackgroundColor] = useState('white');
-    const [selectedTags, setSelectedTags] = useState(Array(tags.length).fill(false)); // массив для отслеживания состояния иконок
+    const [selectedTags, setSelectedTags] = useState([]);
 
-    // Функция для переключения иконки
-    const toggleTagIcon = (index) => {
+    const toggleTagIcon = (tag) => {
         setSelectedTags((prevSelectedTags) => {
-            const newSelectedTags = [...prevSelectedTags];
-            newSelectedTags[index] = !newSelectedTags[index]; // инвертируем значение
-            return newSelectedTags;
+            if (prevSelectedTags.includes(tag)) {
+                return prevSelectedTags.filter((selectedTag) => selectedTag !== tag);
+            } else {
+                return [...prevSelectedTags, tag];
+            }
         });
     };
+
+    // useEffect для передачи выбранных тегов в родительский компонент при их изменении
+    useEffect(() => {
+        updateSelectedTags(title, selectedTags);
+    }, [selectedTags, title, updateSelectedTags]);
 
     return (
         <>
@@ -36,9 +42,9 @@ export default function FilterVariation(props) {
                     </p>
                     <div className={`expand-settings ${expType === 'exp' ? 'expand-settings--visible' : ''}`} style={{ backgroundColor: backgroundColor, borderRadius: '20px' }}>
                         {tags.slice(0, 4).map((tag, index) => (
-                            <div className="setting-container" key={index} onClick={() => toggleTagIcon(index)}>
+                            <div className="setting-container" key={index} onClick={() => toggleTagIcon(tag)}>
                                 <img
-                                    src={selectedTags[index] ? "src/img/check_circle.svg" : "src/img/check_circle_outline.svg"}
+                                    src={selectedTags.includes(tag) ? "src/img/check_circle.svg" : "src/img/check_circle_outline.svg"}
                                     alt=""
                                     className="choose"
                                 />
