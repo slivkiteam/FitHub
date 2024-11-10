@@ -1,35 +1,11 @@
 ﻿import './css/Main.css'
+import MainDesktopHeader from './MainDesktopHeader'
 
 export default function MainCreateTraining(){
     return(
         <>
             <main className="main">
-            <div className="main-desktop">
-                <div className="gallery-desktop">
-                    <div className="main-desktop__gallery">
-                        <ul className="gallery__list">
-                            <li><a href="#!"><img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__item"></img></a></li>
-                            <li><a href="#!"><img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__item"></img></a></li>
-                            <li><a href="#!"><img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__item"></img></a></li>
-                            <li><a href="#!"><img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__item"></img></a></li>
-                            <li><a href="#!"><img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__item"></img></a></li>
-                        </ul>
-                        <a href="#!"><img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__main-photo"></img></a>
-                    </div>
-                    <div className="options">
-                        <div className="options__inputs">
-                            <input type="text" placeholder='Введите название тренировки' className="options__name-input"></input>
-                            <input type="text" placeholder='Введите описание тренировки' className="options__description-input"></input>
-                        </div>
-
-                        <div className="options__tags">
-                            <a className="tag_red">тег 1</a>
-                            <a className="tag_purple">тег 2</a>
-                            <a className="tag_blue">тег 3</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <MainDesktopHeader />
             <div className="settings-desktop">
                 <div className="training-settings-container">
                     <div className="settings-desktop__structure">
