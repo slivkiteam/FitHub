@@ -1,4 +1,7 @@
 ﻿import { useState } from 'react';
+import { json } from 'react-router-dom';
+import { saveContact } from '../../api/TrainService';
+
 
 export default function MainDesktopHeader() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -12,27 +15,29 @@ export default function MainDesktopHeader() {
 
     // Функция для загрузки на сервер
     const handleUpload = async () => {
-        if (!selectedFile || !workoutName || !workoutDescription) {
+        if (!workoutName || !workoutDescription) {
             alert('Пожалуйста, заполните все поля и выберите файл!');
             return;
         }
+        const training = {
+            "title": workoutName,
+            "description": workoutDescription,
+            "status": "СЛОЖНО",
+            "score": 0.0,
+            "used": 10,
+            "durationInMinutes": 1234,
+            "countOfIteration": 15,
+            "author": "ADMIN",
+            "place": "УЛИЦА",
+            "category": {
+                "category": "Кардио"
+            }
+        }
 
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('name', workoutName);
-        formData.append('description', workoutDescription);
 
         try {
-            const response = await fetch('http://ваш_сервер_здесь/upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                console.log('Данные и файл успешно загружены');
-            } else {
-                console.error('Ошибка загрузки данных');
-            }
+            saveContact(training);
+            alert('Тренировка успешно создана')
         } catch (error) {
             console.error('Ошибка:', error);
         }
@@ -69,8 +74,10 @@ export default function MainDesktopHeader() {
                         <a className="tag_blue">тег 3</a>
                     </div>
                     <div className="options__upload">
-                        <input type="file" onChange={handleFileChange} />
-                        <button onClick={handleUpload}>Загрузить данные и картинку</button>
+                        <input type="file" 
+                                onChange={handleFileChange} 
+                                className="tag_blue" />
+                        <button className="data-button" onClick={handleUpload}>Загрузить данные</button>
                     </div>
                 </div>
             </div>

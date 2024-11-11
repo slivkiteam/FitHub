@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getContacts } from './api/TrainService';
-import {Routes, Route, Navigate} from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Trainings from './components/trainings/Trainings';
-
+import TrainingDetail from './components/trainings/TrainingDetail';
 
 function App() {
   const [data, setData] = useState({});
@@ -15,7 +15,7 @@ function App() {
       const { data } = await getContacts(page);
       setData(data);
     } catch {
-      console.log("error");
+      console.log("Error loading contacts");
     }
   }
 
@@ -25,14 +25,13 @@ function App() {
   
   return (
     <main>
-      <div>
       <Routes>
-        <Route path="/" element={<Navigate to={'/trains'}/>}/>
-        <Route path="/trains" element={<Trainings data={data} currentPage={currentPage} getAllContacts={getAllContacts}/>}/>
+        <Route path="/" element={<Navigate to="/trains" />} />
+        <Route path="/trains/:id" element={<TrainingDetail />} />
+        <Route path="/trains" element={<Trainings data={data} currentPage={currentPage} getAllContacts={getAllContacts} />} />
       </Routes>
-      </div>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

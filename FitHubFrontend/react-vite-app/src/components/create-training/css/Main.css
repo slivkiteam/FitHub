@@ -155,7 +155,10 @@ body {
     display: flex;
     gap: 30px;
 }
-
+.options__upload{
+    display: flex;
+    gap: 20px;
+}
 .tag_red {
     padding: 10px 20px;
     background-color: rgb(255, 148, 148);
@@ -253,4 +256,19 @@ body {
 
 .end-button{
     display: flex;
+}
+
+.data-button{
+    background-color: rgb(255, 148, 252);
+    border-color: white; 
+    border-radius: 15px;
+    border-style: none;
+    font-family: 'UNCAGE';
+    padding: 10px;
+    cursor: pointer;
+}
+.active-tag {
+    background-color: #4caf50; /* Например, зелёный фон для активного тега */
+    color: white;
+    border-radius: 10px;
 }
