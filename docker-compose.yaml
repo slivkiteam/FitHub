@@ -8,8 +8,11 @@ services:
       POSTGRES_DB: fit_hub
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
     networks:
       - practice-net
+
 #  adminer:
 #    image: adminer
 #    restart: always
@@ -31,5 +34,9 @@ services:
       - postgres
     networks:
       - practice-net
+
+volumes:
+  pgdbdata: null
+
 networks:
   practice-net:

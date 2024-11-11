@@ -11,13 +11,25 @@ export default function Main({ data, currentPage, getAllContacts }) {
 
     // Обработчик для выбора тегов
     const handleTagSelection = useCallback((title, tags) => {
+        let searchParam = "?search=";
         setSelectedTags((prevSelectedTags) => {
             const updatedTags = { ...prevSelectedTags, [title]: tags };
             console.log("Текущие выбранные теги:", updatedTags);
             console.log(data.content); // Проверьте, сколько тренировок в данных
-
+            //Подвел под фильтры, осталось только закинуть их в URL, сделал колхозно пока
+            let arrayOfFilterType = ["category", "status", "place", "durationInMinutes"];
+            Object.entries(updatedTags).forEach(([key, value], index) => {
+                if (value.length > 0) {
+                    if (arrayOfFilterType[index] != "durationInMinutes")
+                        searchParam += arrayOfFilterType[index] + ":" + value.map(a=>a.toUpperCase()).join("," + arrayOfFilterType[index]+":");
+                    else {
+                        //нужно подшаманить время еще
+                        searchParam += arrayOfFilterType[index] + ">" + value.map(a=>a.toUpperCase()).join("," + arrayOfFilterType[index]+">");
+                    }
+                }
+            });
+            console.log(searchParam);
             return updatedTags;
-            
         });
     }, []);
 
