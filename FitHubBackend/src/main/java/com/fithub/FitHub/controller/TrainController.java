@@ -2,9 +2,11 @@ package com.fithub.FitHub.controller;
 
 import com.fithub.FitHub.dto.ExercisesDTO;
 import com.fithub.FitHub.dto.TrainDTO;
+import com.fithub.FitHub.entity.AverageRating;
 import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.filter.TrainsSpecificationsBuilder;
 import com.fithub.FitHub.service.ExercisesService;
+import com.fithub.FitHub.service.RatingService;
 import com.fithub.FitHub.service.TrainService;
 import com.fithub.FitHub.util.ErrorResponse;
 import com.fithub.FitHub.util.TrainNotCreatedException;
@@ -26,11 +28,13 @@ import java.util.regex.Pattern;
 public class TrainController {
     private final TrainService trainService;
     private final ExercisesService exercisesService;
+    private final RatingService ratingService;
 
     @Autowired
-    public TrainController(TrainService trainService, ExercisesService exercisesService) {
+    public TrainController(TrainService trainService, ExercisesService exercisesService, RatingService ratingService) {
         this.trainService = trainService;
         this.exercisesService = exercisesService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping()
@@ -81,6 +85,22 @@ public class TrainController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+<<<<<<< HEAD
+=======
+    @GetMapping("/search/{startWith}")
+    public List<Train> searchPage(@PathVariable("startWith") String startWith) {
+        return trainService.findTrainByTitleStartingWith(startWith);
+    }
+
+    @GetMapping("/{id}/averageRating")
+    public ResponseEntity<AverageRating> getAverageRating(@PathVariable Long id) {
+        AverageRating averageRating = ratingService.calculateAverageRating(id);
+        return ResponseEntity.ok(averageRating);
+    }
+
+
+
+>>>>>>> 0d6cebbf01878c05fb6e0bde347dd86401f9f510
     private static void checkErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errors = new StringBuilder();

@@ -80,6 +80,7 @@ public class UsersController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+
     private static void checkErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errors = new StringBuilder();
