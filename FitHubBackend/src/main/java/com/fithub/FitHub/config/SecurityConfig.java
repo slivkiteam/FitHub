@@ -40,7 +40,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/hello", "/users/lk").authenticated()
-                        .requestMatchers("/auth/login", "/trains","/trains/**","/users", "/users/**", "/auth/registration", "/showUserInfo").permitAll()
+                        .requestMatchers("/auth/login", "/trains","/trains/**","/users", "/users/**", "/auth/registration", "/showUserInfo", "/ratings", "/ratings/**").permitAll()
+
                 ).formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/process_login")

@@ -28,11 +28,11 @@ public class Train {
     @Column
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Column
-    private Double score;
+//    @Column
+//    private Double score;
     @Column
     private Integer used;
-    @Column(name="duration_in_mitutes")
+    @Column(name="duration_in_minutes")
     private Integer durationInMinutes;
     @Column
     private Integer countOfIteration;
