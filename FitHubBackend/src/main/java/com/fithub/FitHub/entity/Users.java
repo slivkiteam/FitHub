@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,6 @@ import java.util.List;
 @Table(name="users")
 @EqualsAndHashCode(of = {"name", "surname"})
 public class Users {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +36,9 @@ public class Users {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
+    @Transient
+    private Integer age;
+
     @Column(unique = true)
     private String email;
 
@@ -46,16 +49,9 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column
-    private String skill;
-
-    @Column(name = "count_of_trains")
-    private Integer countOfTrains;
-    @Column
-    private Integer weight;
-
-    @Column
-    private Integer height;
+    @OneToOne(mappedBy = "user")
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    private UserStatistics userStatistics;
 
     @Column
     @Enumerated(EnumType.STRING)

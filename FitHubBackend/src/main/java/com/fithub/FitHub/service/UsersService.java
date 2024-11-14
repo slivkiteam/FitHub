@@ -33,7 +33,6 @@ public class UsersService {
     public Users findById(Long id) {
         return usersRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
-
     public Optional<Users> findByLogin(String login) {
         return usersRepository.findByLogin(login);
     }
@@ -54,17 +53,6 @@ public class UsersService {
         updatedUser.setId(user.getId());
         save(updatedUser);
     }
-
-//    public Users getCurrentUser() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            Object principal = authentication.getPrincipal();
-//            if (principal instanceof UsersDetails userDetails) {
-//                return userDetails.getUser();
-//            }
-//        }
-//        return null;
-//    }
 
     @Transactional
     public void addTrains(Long id, Train train) {

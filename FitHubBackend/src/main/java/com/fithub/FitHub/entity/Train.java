@@ -32,8 +32,10 @@ public class Train {
     private Double score;
     @Column
     private Integer used;
-    @Column(name="duration_in_mitutes")
+    @Column(name="duration_in_minutes")
     private Integer durationInMinutes;
+    @Column(name = "count_of_rating")
+    private String countOfRating;
     @Column
     private Integer countOfIteration;
     @Column

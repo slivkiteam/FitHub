@@ -50,4 +50,8 @@ public class ActivityCategoriesService {
     public void delete(int id) {
         activityCategoriesRepository.deleteById(id);
     }
+
+    public ActivityCategories findByCategory(String category) {
+        return activityCategoriesRepository.findByCategory(category);
+    }
 }

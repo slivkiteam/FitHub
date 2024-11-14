@@ -1,8 +1,6 @@
 package com.fithub.FitHub.dto;
 
-import com.fithub.FitHub.entity.Gender;
-import com.fithub.FitHub.entity.Role;
-import com.fithub.FitHub.entity.Train;
+import com.fithub.FitHub.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,10 +18,8 @@ public class UsersDTO {
     private String email;
     private String password;
     private Gender gender;
-    private String skill;
-    private Integer countOfTrains;
-    private Integer weight;
-    private Integer height;
+    private Integer age;
     private Role role;
     private List<Train> trains;
+    private UserStatistics userStatistics;
 }

@@ -1,8 +1,7 @@
 package com.fithub.FitHub.service;
 
 import com.fithub.FitHub.dto.TrainDTO;
-import com.fithub.FitHub.entity.Exercises;
-import com.fithub.FitHub.entity.Train;
+import com.fithub.FitHub.entity.*;
 import com.fithub.FitHub.repository.TrainingsRepository;
 import com.fithub.FitHub.util.TrainNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -47,9 +46,9 @@ public class TrainService {
         }
     }
 
-    public List<Train> findTrainByTitleStartingWith(String start) {
-        return trainingsRepository.findBookByTitleStartingWith(start);
-    }
+//    public List<Train> findTrainByTitleStartingWith(String start) {
+//        return trainingsRepository.findBookByTitleStartingWith(start);
+//    }
 
     public Train findById(Long id) {
         return trainingsRepository.findById(id).orElseThrow(TrainNotFoundException::new);
@@ -84,14 +83,6 @@ public class TrainService {
     public TrainDTO converteToTrainDTO(Train train) {
         return modelMapper.map(train, TrainDTO.class);
     }
-
-//    @Transactional
-//    public void addUsers(Long id, List<Users> users) {
-//        Train train = findById(id);
-//        List<Users> trainUsers = train.getUsers();
-//        trainUsers.addAll(users);
-//        save(train);
-//    }
 
     @Transactional
     public void addExercises(Long id, Exercises exercises) {

@@ -27,6 +27,9 @@ public class ActivityCategories {
     @Column(name="category_name", unique = true)
     private String category;
 
+    @Column
+    private Double difficulty;
+
     @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "category")

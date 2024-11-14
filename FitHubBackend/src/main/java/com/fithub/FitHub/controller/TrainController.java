@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +41,7 @@ public class TrainController {
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)([^,]+),?", Pattern.UNICODE_CHARACTER_CLASS);
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3),null, null);
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3), null, null);
         }
         Specification<Train> spec = builder.build();
         return trainService.findAll(spec, page, typeOfSort);
@@ -82,13 +81,6 @@ public class TrainController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/search/{startWith}")
-    public List<Train> searchPage(@PathVariable("startWith") String startWith) {
-        return trainService.findTrainByTitleStartingWith(startWith);
-    }
-
-
-
     private static void checkErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errors = new StringBuilder();
@@ -98,6 +90,7 @@ public class TrainController {
             throw new TrainNotCreatedException(errors.toString());
         }
     }
+
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(TrainNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse("Train with this id not found", System.currentTimeMillis());
