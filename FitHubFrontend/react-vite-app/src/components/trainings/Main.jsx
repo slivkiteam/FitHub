@@ -9,6 +9,32 @@ export default function Main({ data, currentPage, getAllContacts }) {
     const [selectedTags, setSelectedTags] = useState({});
     const [paginationFlag, setPaginationFlag] = useState(true);
 
+    const handleUpload = async () => {
+
+        const training = {
+            "title": workoutName,
+            "description": workoutDescription,
+            "status": "СЛОЖНО",
+            "score": 0.0,
+            "used": 10,
+            "durationInMinutes": 1234,
+            "countOfIteration": 15,
+            "author": "ADMIN",
+            "place": "УЛИЦА",
+            "category": {
+                "category": "СИЛОВАЯ"
+            }
+        }
+
+
+        try {
+            saveContact(training);
+            alert('Тренировка успешно создана')
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    };
+
     // Обработчик для выбора тегов
     const handleTagSelection = useCallback((title, tags) => {
         let searchParam = "?search=";

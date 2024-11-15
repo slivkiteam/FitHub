@@ -5,6 +5,7 @@ import MainCreateTraining from "../create-training/Main";
 import MainFooter from '../blocks/MainFooter';
 import StartPage from '../startPage/StartPage';
 import { useLocation } from 'react-router-dom';
+import UserPage from '../user-page/UserPage';
 
 function Trainings({ data, currentPage, getAllContacts }) {
   const [mainType, setMainType] = useState('startPage'); // Состояние для mainType
@@ -29,7 +30,9 @@ function Trainings({ data, currentPage, getAllContacts }) {
         <Main data={data} currentPage={currentPage} getAllContacts={getAllContacts} />
       ) : mainType === 'startPage' ? (
         <StartPage />
-      ) : (
+      ) : mainType === 'user-page' ? (
+        <UserPage />
+      ): (
         <MainCreateTraining />
       )}
       <MainFooter />

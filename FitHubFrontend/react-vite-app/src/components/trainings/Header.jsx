@@ -1,25 +1,46 @@
-﻿import React from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import './css/Header.css';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header({ mainType, onTypeChange }) {
 
     const activeColor = 'rgb(120, 229, 143)';
     const defaultColor = 'rgb(41, 41, 41)';
 
-    const [accountType, setAccountType] = useState('no_auth');
+    // Используем localStorage для сохранения состояния авторизации
+    const [accountType, setAccountType] = useState(localStorage.getItem('accountType') || 'no_auth');
+    const navigate = useNavigate();
+
+    const handleLogin = () => {
+        setAccountType('auth');
+        localStorage.setItem('accountType', 'auth'); // Сохраняем состояние авторизации
+        navigate('/login');
+    };
+
+    // Логика для выхода из аккаунта
+    const handleLogout = () => {
+        setAccountType('no_auth');
+        localStorage.removeItem('accountType');
+        navigate('/');
+    };
+
+    const handleToUserPage = () => {
+        navigate('/user-page');
+    };
 
     return (
         <header className="header">
             <div className="header__desktop">
-                <a href="#!" onClick={() => onTypeChange('startPage')}><img src="..\..\src\img\logo.svg" alt="" className="header__logo" /></a>
+                <a href="#!" onClick={() => onTypeChange('startPage')}>
+                    <img src="..\..\src\img\logo.svg" alt="Logo" className="header__logo" />
+                </a>
                 <nav className="header__nav">
                     <ul className="header__list">
                         <li>
                             <a
                                 href="#!"
                                 style={{ color: mainType === 'trainings' ? activeColor : defaultColor }}
-                                onClick={() => onTypeChange('trainings')} // Изменяем тип на 'trainings'
+                                onClick={() => onTypeChange('trainings')} 
                             >
                                 тренировки
                             </a>
@@ -28,7 +49,7 @@ export default function Header({ mainType, onTypeChange }) {
                             <a
                                 href="#!"
                                 style={{ color: mainType === 'create' ? activeColor : defaultColor }}
-                                onClick={() => onTypeChange('create')} // Изменяем тип на 'create'
+                                onClick={() => onTypeChange('create')} 
                             >
                                 создать тренировку
                             </a>
@@ -36,26 +57,27 @@ export default function Header({ mainType, onTypeChange }) {
                     </ul>
                     {accountType === 'no_auth' ? (
                         <ul className="header__list__registration">
-                        <li>
-                            <a 
-                                href="#!"
-                                onClick={() => setAccountType('auth')}
-                            >
-                            вход
-                            </a>
-                        </li>
-                        <li><a href="#!" className="header__registration">регистрация</a></li>
-                    </ul>
-                    ) : 
-                    (<ul className="header__list__registration">
-                        <li>
-                            <a 
-                                href="#!"
-                            >
-                            <img src='..\..\src\img\user_icon.svg' className='user_icon'></img>
-                            </a>
-                        </li>
-                    </ul>)}
+                            <li>
+                                <a href="#!" onClick={handleLogin}>
+                                    вход
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!" className="header__registration">
+                                    регистрация
+                                </a>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul className="header__list__registration">
+                            <li>
+                                <a href="#!" onClick={() => onTypeChange('user-page')}>
+                                    <img src="..\..\src\img\user_icon.svg" className="user_icon" alt="User Icon" />
+                                </a>
+                            </li>
+                            <li><a on onClick={handleLogout}>Выйти</a></li>
+                        </ul>
+                    )}
                 </nav>
             </div>
         </header>
