@@ -5,6 +5,7 @@ import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.entity.AverageRating;
 import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.filter.TrainsSpecificationsBuilder;
+import com.fithub.FitHub.security.UsersDetails;
 import com.fithub.FitHub.service.ExercisesService;
 import com.fithub.FitHub.service.RatingService;
 import com.fithub.FitHub.service.TrainService;
@@ -16,9 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import com.fithub.FitHub.dto.RatingDTO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,6 +65,16 @@ public class TrainController {
         checkErrors(bindingResult);
         trainService.save(trainService.createFromDTO(trainDTO));
         return ResponseEntity.ok(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}/addRating")
+    public ResponseEntity<HttpStatus> addRating(@PathVariable("id") Long id, @RequestBody RatingDTO ratingDTO, BindingResult bindingResult) {
+        checkErrors(bindingResult);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UsersDetails usersDetails = (UsersDetails) authentication.getPrincipal();
+        ratingService.addRating(usersDetails.getUser().getId(), id, ratingDTO.getScore(), ratingDTO.getFeedback());
+        return ResponseEntity.ok(HttpStatus.CREATED);
+//        Rating rating = ratingService.addRating(ratingDTO.getUsersId(), ratingDTO.getTrainsId(), ratingDTO.getScore(), ratingDTO.getFeedback());//        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}/addExercises")
