@@ -30,7 +30,7 @@ export default function MainDesktopHeader() {
             "author": "ADMIN",
             "place": "УЛИЦА",
             "category": {
-                "category": "Кардио"
+                "category": "СИЛОВАЯ"
             }
         }
 
