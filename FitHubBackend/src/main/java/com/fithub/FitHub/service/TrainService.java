@@ -90,6 +90,7 @@ public class TrainService {
         train.getExercises().add(exercises);
         save(train);
     }
+
     @Transactional
     public Train needToSave(Train train) {
         var isContain = findAll().stream().map(Train::getTitle).toList().contains(train.getTitle());

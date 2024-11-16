@@ -4,6 +4,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Trainings from './components/trainings/Trainings';
 import TrainingDetail from './components/trainings/TrainingDetail';
+import Login from './components/login/LoginPage';
+import UserPage from './components/user-page/UserPage';
+
+
 
 function App() {
   const [data, setData] = useState({});
@@ -29,6 +33,8 @@ function App() {
         <Route path="/" element={<Navigate to="/trains" />} />
         <Route path="/trains/:id" element={<TrainingDetail />} />
         <Route path="/trains" element={<Trainings data={data} currentPage={currentPage} getAllContacts={getAllContacts} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/user-page" element={<UserPage />} />
       </Routes>
     </main>
   );

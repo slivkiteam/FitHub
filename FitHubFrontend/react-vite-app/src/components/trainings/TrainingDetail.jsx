@@ -1,5 +1,8 @@
 ﻿import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import './css/TrainingDetail.css'
+import Header from './Header';
+
 
 export default function TrainingDetail() {
   const { id } = useParams();
@@ -25,17 +28,41 @@ export default function TrainingDetail() {
   }
 
   return (
+    <>
     <div className="training-detail">
-      <h1>{training.title}</h1>
-      <p>Тип тренировки: {training.category.category}</p>
-      <p>Уровень сложности: {training.status}</p>
-      <p>Формат: {training.place}</p>
-      <p>Время: {training.durationInMinutes}</p>
-      <p>Описание: {training.description}</p>
-      {/* Навигация с изменением mainType */}
-      <button onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
-        Вернуться на страницу тренировок
-      </button>
+      <div className="training-detail-main">
+        <div className="training-image-container">
+          <img src="../src/img/man.png" alt="" className="training-image" />
+        </div>
+        <div className="training-info-container">
+          <h1>{training.title}</h1>
+          <p className='training-description'>Описание: {training.description}</p>
+          <p>Формат: {training.place}</p>
+          <p>Время: {training.durationInMinutes} минут</p>
+          <div className="training-tags">
+            <p className='green-tag'>{training.category.category}</p>
+            <p className='yellow-tag'>{training.status}</p>
+          </div>
+        </div>
+      </div>
+      <div className="training-detail-structure">
+        <p>Состав тренировки:</p>
+        <div className='training-block'>
+          <ul className="training-exercises">
+            <li className="training-exercise">приседания 10 раз</li>
+            <li className="training-exercise">отжимания 10 раз</li>
+            <li className="training-exercise">подтягивания 10 раз</li>
+            <li className="training-exercise">жим лежа 5 раз</li>
+          </ul>
+        </div>
+      </div>
+      <div className="training-buttons-container">
+        <button className='training-detail-button' onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
+            Вернуться на страницу тренировок
+        </button>
+        <button className='training-detail-button'>редактировать</button>
+      </div>
     </div>
+    </>
   );
 }

@@ -1,0 +1,114 @@
+﻿p {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.training-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+
+.training-detail::before,
+.training-detail::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: black;
+    width: 100%;
+    margin: 20px 0;
+}
+
+
+.training-detail-main{
+    display: flex;
+    justify-content: space-between;
+    padding: 100px 130px;
+    max-width: 1440px;
+    gap: 100px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.training-image{
+    width: 550px;
+    height: 380px;
+    border-radius: 20px;
+}
+
+.training-info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    border-width: 1px;
+}
+
+.training-description {
+    display: flex;
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+
+.training-tags{
+    display: flex;
+    gap: 50px;
+}
+
+.green-tag{
+    padding: 10px;
+    background-color: rgb(255, 148, 148);
+    border-radius: 20px;
+}
+
+.yellow-tag{
+    padding: 10px;
+    background-color: rgb(242, 246, 30);
+    border-radius: 20px;
+}
+
+.training-detail-button{
+    margin-top: 30px;
+    padding: 15px;
+    background-color: rgb(120, 229, 143);
+    border: none;
+    border-radius: 20px;
+    font-family: 'UNCAGE';
+}
+
+.training-buttons-container{
+    display: flex;
+    justify-content: end;
+    gap: 30px;
+}
+
+.training-detail-structure{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.training-block{
+    display: flex;
+
+}
+
+.training-exercises{
+    display: flex;
+    gap: 30px;
+}
+
+.training-exercise{
+    padding: 15px;
+    background-color: rgb(218, 218, 218);
+    border-radius: 20px;
+}
