@@ -39,14 +39,11 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/admin").hasRole("ADMIN")
-<<<<<<< HEAD
                         .requestMatchers("/hello", "/users/lk", "/assistant/generate").authenticated()
                         .requestMatchers("/auth/login", "/trains","/trains/**","/assistant", "/assistant/**","/users", "/users/**", "/auth/registration", "/showUserInfo").permitAll()
-=======
                         .requestMatchers("/hello", "/users/lk").authenticated()
                         .requestMatchers("/auth/login", "/trains","/trains/**","/users", "/users/**", "/auth/registration", "/showUserInfo", "/ratings", "/ratings/**").permitAll()
 
->>>>>>> 0d6cebbf01878c05fb6e0bde347dd86401f9f510
                 ).formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/process_login")

@@ -46,9 +46,9 @@ public class TrainService {
         }
     }
 
-//    public List<Train> findTrainByTitleStartingWith(String start) {
-//        return trainingsRepository.findBookByTitleStartingWith(start);
-//    }
+    public List<Train> findTrainByTitleStartingWith(String start) {
+        return trainingsRepository.findBookByTitleStartingWith(start);
+    }
 
     public Train findById(Long id) {
         return trainingsRepository.findById(id).orElseThrow(TrainNotFoundException::new);

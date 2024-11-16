@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface ExercisesRepository extends JpaRepository<Exercises, Long> {
     Exercises findByTitle(String title);
-    List<Exercises> findAllByCategoryAndPlaceAndStatus(ActivityCategories category, String place, Status status);
+//    List<Exercises> findAllByCategoryAndPlaceAndStatus(ActivityCategories category, String place, Status status);
 }

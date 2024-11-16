@@ -33,10 +33,10 @@ public class ExercisesService {
         return exercisesRepository.findById(id).orElseThrow(ExerciseNotFoundException::new);
     }
 
-    public List<Exercises> findAllByCategoryAndPlaceAndStatus(String category, String place, String status) {
-        var activityCategory = activityCategoriesService.findByCategory(category);
-        return exercisesRepository.findAllByCategoryAndPlaceAndStatus(activityCategory, place, Status.valueOf(status));
-    }
+//    public List<Exercises> findAllByCategoryAndPlaceAndStatus(String category, String place, String status) {
+//        var activityCategory = activityCategoriesService.findByCategory(category);
+//        return exercisesRepository.findAllByCategoryAndPlaceAndStatus(activityCategory, place, Status.valueOf(status));
+//    }
 
     @Transactional
     public Exercises save(Exercises exercises) {

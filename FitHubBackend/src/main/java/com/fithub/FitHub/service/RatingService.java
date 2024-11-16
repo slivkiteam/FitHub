@@ -51,8 +51,7 @@ public class RatingService {
         return averageRating;
     }
 
-    public Rating addRating(Long userId, Long trainId, int score, String feedback) {
-        System.out.println("я был в методе addRating в сервисе");
+    public void addRating(Long userId, Long trainId, int score, String feedback) {
         Users user = usersService.findById(userId);
         Train train = trainService.findById(trainId);
 
@@ -61,6 +60,6 @@ public class RatingService {
         rating.setUser(user);
         rating.setScore(score);
         rating.setFeedback(feedback);
-        return ratingRepository.save(rating);
+        ratingRepository.save(rating);
     }
 }

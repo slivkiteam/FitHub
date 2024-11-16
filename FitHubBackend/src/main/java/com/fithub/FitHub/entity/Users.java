@@ -6,9 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Builder
@@ -66,4 +64,9 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "trains_id")
     )
     private List<Train> trains = new ArrayList<>();
+
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private Set<Rating> ratings = new HashSet<>();
 }
