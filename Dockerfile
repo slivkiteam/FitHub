@@ -2,7 +2,7 @@ FROM alpine:latest AS build
 
 RUN apk add git openjdk21
 
-RUN git clone https://github.com/slivkiteam/FitHub.git
+RUN git clone https://github.com/slivkiteam/FitHub.git && (cd FitHub && git pull)
 WORKDIR /FitHub/FitHubBackend
 RUN chmod +x gradlew && ./gradlew bootJar
 
