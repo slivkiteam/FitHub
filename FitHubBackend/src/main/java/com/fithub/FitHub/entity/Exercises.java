@@ -30,6 +30,9 @@ public class Exercises {
     @Column
     private String place;
     @Column
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    @Column
     private String goal;
     @Column
     private String inventory;

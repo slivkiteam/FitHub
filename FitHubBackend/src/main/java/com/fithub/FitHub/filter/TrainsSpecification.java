@@ -1,10 +1,8 @@
 package com.fithub.FitHub.filter;
 
+import com.fithub.FitHub.entity.ActivityCategories;
 import com.fithub.FitHub.entity.Train;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 public class TrainsSpecification implements Specification<Train> {
@@ -17,6 +15,10 @@ public class TrainsSpecification implements Specification<Train> {
     @Override
     public Predicate toPredicate
             (Root<Train> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+        if (criteria.getKey().equals("category")) {
+            Join<Train, ActivityCategories> categories = root.join("category");
+            return builder.equal(categories.get("category"), criteria.getValue());
+        }
         if (criteria.getOperation().getOperator().equalsIgnoreCase(">")) {
             return builder.greaterThanOrEqualTo(
                     root.get(criteria.getKey()), criteria.getValue().toString());

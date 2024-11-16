@@ -1,6 +1,7 @@
 package com.fithub.FitHub.dto;
 
 import com.fithub.FitHub.entity.ActivityCategories;
+import com.fithub.FitHub.entity.Status;
 import com.fithub.FitHub.entity.Train;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class ExercisesDTO {
     private Integer countOfIteration;
     private String place;
     private String goal;
+    private Status status;
     private String inventory;
     private Double weight;
     private ActivityCategories category;

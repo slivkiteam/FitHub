@@ -32,10 +32,9 @@ public class ExercisesService {
         return exercisesRepository.findById(id).orElseThrow(ExerciseNotFoundException::new);
     }
 
-    public List<Exercises> findAllByCategoryAndPlaceAndStatus(String category, String place, String status) {
+    public List<Exercises> findAllByCategoryAndPlace(String category, String place) {
         var activityCategory = activityCategoriesService.findByCategory(category);
-//        return exercisesRepository.findAllByCategoryAndPlaceAndStatus(activityCategory, place, Status.valueOf(status));
-        return null;
+        return exercisesRepository.findAllByCategoryAndPlace(activityCategory, place);
     }
 
 

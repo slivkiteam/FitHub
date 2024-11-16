@@ -35,13 +35,7 @@ public class TrainsSpecificationsBuilder {
             }
         }
         var b = params.stream().filter(a -> a.getKey().equals(key)).findAny();
-        if (b.isPresent())
-        {
-//            var regex = "^(0|[1-9]\\d{0,9}|1[0-9]{0,9}|2[0-1]{0,1}[0-4]{0,1}[0-7]{0,1}[0-7]{0,1}[0-9]{0,1})$";
-//            if (b.get().getValue().toString().matches(regex))
-//                params.add(new SpecSearchCriteria(false, key, op, value));
-            params.add(new SpecSearchCriteria(true, key, op, value));
-        }
+        if (b.isPresent()) params.add(new SpecSearchCriteria(true, key, op, value));
         else params.add(new SpecSearchCriteria(orPredicate, key, op, value));
         return this;
     }

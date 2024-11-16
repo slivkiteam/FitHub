@@ -100,4 +100,11 @@ public class TrainService {
         train.setId(trainingsRepository.findByTitle(train.getTitle()).getId());
         return train;
     }
+
+    public Train addCategory(Train currentTrain, String activityCategories) {
+        var category = activityCategoriesService.findByCategory(activityCategories);
+        currentTrain.setCategory(category);
+        return currentTrain;
+        //возможно нужно и сохранять, но это при условии, что тренировку после генерации мы сохраняем сразу, но это ведь не так???
+    }
 }
