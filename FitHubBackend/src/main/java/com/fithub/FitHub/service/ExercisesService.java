@@ -2,7 +2,6 @@ package com.fithub.FitHub.service;
 
 import com.fithub.FitHub.dto.ExercisesDTO;
 import com.fithub.FitHub.entity.Exercises;
-import com.fithub.FitHub.entity.Status;
 import com.fithub.FitHub.repository.ExercisesRepository;
 import com.fithub.FitHub.util.ExerciseNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -35,8 +34,10 @@ public class ExercisesService {
 
     public List<Exercises> findAllByCategoryAndPlaceAndStatus(String category, String place, String status) {
         var activityCategory = activityCategoriesService.findByCategory(category);
-        return exercisesRepository.findAllByCategoryAndPlaceAndStatus(activityCategory, place, Status.valueOf(status));
+//        return exercisesRepository.findAllByCategoryAndPlaceAndStatus(activityCategory, place, Status.valueOf(status));
+        return null;
     }
+
 
     @Transactional
     public Exercises save(Exercises exercises) {

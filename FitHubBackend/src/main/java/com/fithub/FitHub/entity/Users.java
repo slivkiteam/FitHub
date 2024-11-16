@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +18,7 @@ import java.util.List;
 @Table(name="users")
 @EqualsAndHashCode(of = {"name", "surname"})
 public class Users {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,8 +49,7 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(mappedBy = "user")
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private UserStatistics userStatistics;
 
     @Column

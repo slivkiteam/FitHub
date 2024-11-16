@@ -46,9 +46,9 @@ public class TrainService {
         }
     }
 
-//    public List<Train> findTrainByTitleStartingWith(String start) {
-//        return trainingsRepository.findBookByTitleStartingWith(start);
-//    }
+    public List<Train> findTrainByTitleStartingWith(String start) {
+        return trainingsRepository.findBookByTitleStartingWith(start);
+    }
 
     public Train findById(Long id) {
         return trainingsRepository.findById(id).orElseThrow(TrainNotFoundException::new);
@@ -90,6 +90,7 @@ public class TrainService {
         train.getExercises().add(exercises);
         save(train);
     }
+
     @Transactional
     public Train needToSave(Train train) {
         var isContain = findAll().stream().map(Train::getTitle).toList().contains(train.getTitle());

@@ -85,22 +85,12 @@ public class TrainController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-<<<<<<< HEAD
-=======
-    @GetMapping("/search/{startWith}")
-    public List<Train> searchPage(@PathVariable("startWith") String startWith) {
-        return trainService.findTrainByTitleStartingWith(startWith);
-    }
-
     @GetMapping("/{id}/averageRating")
     public ResponseEntity<AverageRating> getAverageRating(@PathVariable Long id) {
         AverageRating averageRating = ratingService.calculateAverageRating(id);
         return ResponseEntity.ok(averageRating);
     }
 
-
-
->>>>>>> 0d6cebbf01878c05fb6e0bde347dd86401f9f510
     private static void checkErrors(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errors = new StringBuilder();
