@@ -1,5 +1,4 @@
 version: "v2.29.7-desktop.1"
-
 services:
   postgres:
     image: postgres:latest
@@ -12,14 +11,6 @@ services:
       - pgdbdata:/var/lib/postgresql/data/
     networks:
       - practice-net
-
-#  adminer:
-#    image: adminer
-#    restart: always
-#    ports:
-#      - "8082:8082"
-#    networks:
-#      - practice-net
   app:
     build:
       context: .

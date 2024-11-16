@@ -2,6 +2,7 @@ package com.fithub.FitHub.controller;
 
 import com.fithub.FitHub.dto.ExercisesDTO;
 import com.fithub.FitHub.dto.TrainDTO;
+import com.fithub.FitHub.entity.ActivityCategories;
 import com.fithub.FitHub.entity.AverageRating;
 import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.filter.TrainsSpecificationsBuilder;
