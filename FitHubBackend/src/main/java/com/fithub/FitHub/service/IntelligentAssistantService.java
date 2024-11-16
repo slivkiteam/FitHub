@@ -87,8 +87,8 @@ public class IntelligentAssistantService {
         var category = trainsFilterDTO.getActivityCategories().toUpperCase();
         var format = trainsFilterDTO.getFormats().toUpperCase();
         var status = trainsFilterDTO.getStatus().toUpperCase();
-        var exercisesByCategory = exercisesService.findAllByCategoryAndPlaceAndStatus(category, format, status);
-        currentTrain.setExercises(fillTrainExercises(exercisesByCategory, times));
+//        var exercisesByCategory = exercisesService.findAllByCategoryAndPlaceAndStatus(category, format, status);
+//        currentTrain.setExercises(fillTrainExercises(exercisesByCategory, times));
         return trainService.converteToTrainDTO(currentTrain);
     }
 }

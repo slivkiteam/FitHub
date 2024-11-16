@@ -28,7 +28,7 @@ export default function MainDesktopHeader() {
             "durationInMinutes": 1234,
             "countOfIteration": 15,
             "author": "ADMIN",
-            "place": "УЛИЦА",
+            "place": "ДОМ",
             "category": {
                 "category": "СИЛОВАЯ"
             }

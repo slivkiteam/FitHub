@@ -3,87 +3,80 @@ import './css/Main.css';
 import Training from "./Training";
 import { useState, useCallback, useEffect } from "react";
 import SortTrainings from "./Sort";
+import axios from "axios";
 
 export default function Main({ data, currentPage, getAllContacts }) {
     const [searchText, setSearchText] = useState('Поиск');
-    const [selectedTags, setSelectedTags] = useState({});
-    const [paginationFlag, setPaginationFlag] = useState(true);
+    const [selectedTags, setSelectedTags] = useState({}); // Состояние для выбранных тегов
+    const [filteredData, setFilteredData] = useState(data.content); // Состояние для отфильтрованных данных
+    const [totalPages, setTotalPages] = useState(0); // Общее количество страниц
+    const [currentPageState, setCurrentPageState] = useState(currentPage); // Текущая страница
 
-    const handleUpload = async () => {
-
-        const training = {
-            "title": workoutName,
-            "description": workoutDescription,
-            "status": "СЛОЖНО",
-            "score": 0.0,
-            "used": 10,
-            "durationInMinutes": 1234,
-            "countOfIteration": 15,
-            "author": "ADMIN",
-            "place": "УЛИЦА",
-            "category": {
-                "category": "СИЛОВАЯ"
+    // Формирование строки запроса с фильтрами
+    const buildSearchParam = () => {
+        let searchParam = "?search=";
+        let arrayOfFilterType = ["category", "status", "place", "durationInMinutes"];
+    
+        Object.entries(selectedTags).forEach(([key, value], index) => {
+            if (value.length > 0) {
+                const filterKey = arrayOfFilterType[index];
+                const filterValue = value.map(a => a.toUpperCase()).join(","); // Преобразуем теги в строку через запятую
+    
+                if (filterKey !== "durationInMinutes") {
+                    searchParam += `${filterKey}:${filterValue},`; // Добавляем в запрос с разделителем запятая
+                } else {
+                    searchParam += `${filterKey}>${filterValue},`; // Для durationInMinutes добавляем в другой формат
+                }
             }
+        });
+    
+        // Убираем последнюю запятую из строки запроса, если она есть
+        if (searchParam.endsWith(',')) {
+            searchParam = searchParam.slice(0, -1);
         }
+    
+        console.log("Формированный запрос:", searchParam); // Логирование запроса
+        return searchParam;
+    };
 
-
+    // Запрос с фильтрами
+    const handleSetFilter = async (page = 0) => {
+        const searchParam = buildSearchParam(); // Получаем строку запроса с фильтрами
         try {
-            saveContact(training);
-            alert('Тренировка успешно создана')
+            const response = await axios.get(`http://localhost:8081/trains${searchParam}&page=${page}&size=10`);
+            console.log("Данные с сервера:", response.data);
+            setFilteredData(response.data.content); // Обновляем отфильтрованные данные
+            setTotalPages(response.data.totalPages); // Сохраняем количество страниц
         } catch (error) {
-            console.error('Ошибка:', error);
+            console.error("Ошибка при запросе:", error);
         }
     };
 
     // Обработчик для выбора тегов
     const handleTagSelection = useCallback((title, tags) => {
-        let searchParam = "?search=";
         setSelectedTags((prevSelectedTags) => {
             const updatedTags = { ...prevSelectedTags, [title]: tags };
             console.log("Текущие выбранные теги:", updatedTags);
-            console.log(data.content); // Проверьте, сколько тренировок в данных
-            //Подвел под фильтры, осталось только закинуть их в URL, сделал колхозно пока
-            let arrayOfFilterType = ["category", "status", "place", "durationInMinutes"];
-            Object.entries(updatedTags).forEach(([key, value], index) => {
-                if (value.length > 0) {
-                    if (arrayOfFilterType[index] != "durationInMinutes")
-                        searchParam += arrayOfFilterType[index] + ":" + value.map(a=>a.toUpperCase()).join("," + arrayOfFilterType[index]+":");
-                    else {
-                        //нужно подшаманить время еще
-                        searchParam += arrayOfFilterType[index] + ">" + value.map(a=>a.toUpperCase()).join("," + arrayOfFilterType[index]+">");
-                    }
-                }
-            });
-            console.log(searchParam);
             return updatedTags;
         });
     }, []);
 
-    // Функция для фильтрации данных по выбранным тегам
-    const filterDataByTags = (data, selectedTags) => {
-        return data?.content?.filter((training) => {
-            let match = true;
+    // Эффект для обновления данных при изменении выбранных тегов или страницы
+    useEffect(() => {
+        // Сброс текущей страницы на 0 при изменении тегов
+        setCurrentPageState(0);
+    }, [selectedTags]);
 
-            // Проверка на "Кардио" в категории "тип тренировки"
-            if (selectedTags['тип тренировки']?.includes('кардио') && !training.category.category.toLowerCase().includes('кардио')) {
-                match = false;
-            }
+    useEffect(() => {
+        handleSetFilter(currentPageState); // Запрашиваем данные для текущей страницы
+    }, [selectedTags, currentPageState]); // Зависит от выбранных тегов и текущей страницы
 
-            // Фильтрация по сложности
-            if (selectedTags['уровень сложности']?.length > 0) {
-                const selectedDifficulties = selectedTags['уровень сложности'];
-                const trainingDifficulty = training.difficulty?.toLowerCase();
-                if (!selectedDifficulties.includes(trainingDifficulty)) {
-                    match = false;
-                }
-            }
-
-            return match; // Возвращаем только те тренировки, которые соответствуют всем выбранным фильтрам
-        });
+    // Обработчик изменения страницы
+    const handlePageChange = (newPage) => {
+        if (newPage >= 0 && newPage < totalPages) {
+            setCurrentPageState(newPage); // Обновляем текущую страницу
+        }
     };
-
-    // Отфильтрованные тренировки
-    const filteredData = filterDataByTags(data, selectedTags);
 
     return (
         <main className='main'>
@@ -107,26 +100,23 @@ export default function Main({ data, currentPage, getAllContacts }) {
                         </div>
                         <SortTrainings />
                         <div className="main__cards__container">
-                            {/* Если флаг пагинации включен, отображаем только текущую страницу */}
-                            {paginationFlag === true ? (
-                                <>
-                                    <ul className="main__cards__list">
-                                        {filteredData?.length > 0 && filteredData.map((training) => <Training training={training} key={training.id} />)}
-                                    </ul>
-                                    {filteredData?.length > 0 && data?.totalPages > 1 && (
-                                        <div className="pagination">
-                                            <a onClick={() => getAllContacts(currentPage - 1)} className={0 === currentPage ? 'disabled' : ""}>&laquo;</a>
-                                            {data && [...Array(data.totalPages).keys()].map((page) =>
-                                                <a onClick={() => getAllContacts(page)} className={currentPage === page ? 'active' : ''} key={page}>{page + 1}</a>)}
-                                            <a onClick={() => (currentPage + 1 !== data.totalPages) ? getAllContacts(currentPage + 1) : ""} className={data.totalPages === currentPage + 1 ? 'disabled' : ""}>&raquo;</a>
-                                        </div>
-                                    )}
-                                </>
-                            ) : (
-                                // Если пагинация отключена, показываем все тренировки
-                                <ul className="main__cards__list">
-                                    {filteredData?.length > 0 && filteredData.map((training) => <Training training={training} key={training.id} />)}
-                                </ul>
+                            <ul className="main__cards__list">
+                                {filteredData?.length > 0 && filteredData.map((training) => <Training training={training} key={training.id} />)}
+                            </ul>
+                            {filteredData?.length > 0 && totalPages > 1 && (
+                                <div className="pagination">
+                                    <a onClick={() => handlePageChange(currentPageState - 1)} className={currentPageState === 0 ? 'disabled' : ""}>&laquo;</a>
+                                    {Array.from({ length: totalPages }).map((_, page) => (
+                                        <a
+                                            onClick={() => handlePageChange(page)}
+                                            className={currentPageState === page ? 'active' : ''}
+                                            key={page}
+                                        >
+                                            {page + 1}
+                                        </a>
+                                    ))}
+                                    <a onClick={() => handlePageChange(currentPageState + 1)} className={currentPageState === totalPages - 1 ? 'disabled' : ""}>&raquo;</a>
+                                </div>
                             )}
                         </div>
                     </div>

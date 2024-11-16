@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -34,8 +36,8 @@ public class Train {
     private Integer used;
     @Column(name="duration_in_minutes")
     private Integer durationInMinutes;
-    @Column(name = "count_of_rating")
-    private String countOfRating;
+//    @Column(name = "count_of_rating")
+//    private String countOfRating;
     @Column
     private Integer countOfIteration;
     @Column
@@ -59,4 +61,9 @@ public class Train {
             inverseJoinColumns = @JoinColumn(name = "exercises_id")
     )
     private List<Exercises> exercises = new ArrayList<>();
+
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "train")
+    private Set<Rating> ratings = new HashSet<>();
 }
