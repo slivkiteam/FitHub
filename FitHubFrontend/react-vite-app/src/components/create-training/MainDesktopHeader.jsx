@@ -48,7 +48,7 @@ export default function MainDesktopHeader() {
             <div className="gallery-desktop">
                 <div className="main-desktop__gallery">
                     <a href="#!">
-                        <img src="/FitHubFrontend/react-vite-app/src/img/man.png" alt="" className="gallery__main-photo" />
+                        <img src="..\src\img\negro_man.png" alt="" className="gallery__main-photo" />
                     </a>
                 </div>
                 <div className="options">
@@ -68,15 +68,18 @@ export default function MainDesktopHeader() {
                             onChange={(e) => setWorkoutDescription(e.target.value)}
                         />
                     </div>
-                    <div className="options__tags">
-                        <a className="tag_red">тег 1</a>
-                        <a className="tag_purple">тег 2</a>
-                        <a className="tag_blue">тег 3</a>
-                    </div>
                     <div className="options__upload">
-                        <input type="file" 
+                        <div className="file-upload">
+                            <label htmlFor="file-input" className="custom-file-upload">
+                                Выбрать фотографию
+                            </label>
+                            <input 
+                                id="file-input" 
+                                type="file" 
                                 onChange={handleFileChange} 
-                                className="tag_blue" />
+                                className="hidden-file-input" 
+                            />
+                        </div>
                         <button className="data-button" onClick={handleUpload}>Загрузить данные</button>
                     </div>
                 </div>

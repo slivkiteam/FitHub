@@ -81,9 +81,6 @@ export default function Main({ data, currentPage, getAllContacts }) {
     return (
         <main className='main'>
             <div className="container">
-                <div className="path__container">
-                    <p className="path">тренировки  ...</p>
-                </div>
                 <div className="main__desktop">
                     <div className="main__filter__container">
                         <p className="filter__text">фильтры</p>

@@ -77,7 +77,9 @@ html {
 }
 
 .training-button {
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 18px;
   font-weight: 500;
   height: 40px;
@@ -539,8 +541,9 @@ input{
 
 .main__desktop{
   display: flex;
+  justify-content: center;
   max-width: 1440px;
-  padding: 48px 130px;
+  padding: 70px 130px;
   gap: 85px;
 }
 

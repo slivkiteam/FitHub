@@ -10,16 +10,13 @@ export default function UserPage(){
                     <div class="personal-account-parameters">
                         <input class="second-name" placeholder="фамилия" />
                         <input class="name" placeholder="имя" />
-                        <input class="third-name" placeholder="отчество" />
+                        <input class="third-name" placeholder="логин" defaultValue="test" />
                         <input class="height" placeholder="рост" />
                         <input class="weight" placeholder="вес" /> 
                         <input class="age" placeholder="возраст" />
+                        <input type="gender" className="gender" placeholder="пол" />
                     </div>
                 </div>
-                <ul class="personal-account-buttons">
-                    <a href="#" class="training-button">быстрая тренировка</a>
-                    <a href="#" class="training-button">мои тренировки</a>
-                </ul>
             </section>
             <section class="featured-workout">
                 <div class="wrapper">

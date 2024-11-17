@@ -32,7 +32,7 @@ export default function TrainingDetail() {
     <div className="training-detail">
       <div className="training-detail-main">
         <div className="training-image-container">
-          <img src="../src/img/man.png" alt="" className="training-image" />
+          <img src="../src/img/negro_man.png" alt="" className="training-image" />
         </div>
         <div className="training-info-container">
           <h1>{training.title}</h1>
@@ -58,7 +58,7 @@ export default function TrainingDetail() {
       </div>
       <div className="training-buttons-container">
         <button className='training-detail-button' onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
-            Вернуться на страницу тренировок
+            Перейти на страницу тренировок
         </button>
         <button className='training-detail-button'>редактировать</button>
       </div>

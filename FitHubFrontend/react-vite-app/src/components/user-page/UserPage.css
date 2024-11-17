@@ -520,6 +520,7 @@ input{
     display: grid;
     gap: 15px;
 }
+
 .personal-account-buttons {
     display: flex;
     box-sizing: border-box;

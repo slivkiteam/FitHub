@@ -14,7 +14,7 @@ function Training({training}){
         <Link to={`/trains/${training.id}`}>
             <li className="training-card">
                 <figure>
-                    <img className="training-img" src='./src/img/man.png' alt={training.title}/>
+                    <img className="training-img" src='./src/img/negro_man.png' alt={training.title}/>
                 </figure>
                 <div className="training-type-box">
                     <ul className="tag-list">

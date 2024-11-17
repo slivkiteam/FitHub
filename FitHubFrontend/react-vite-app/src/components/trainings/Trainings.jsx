@@ -29,7 +29,7 @@ function Trainings({ data, currentPage, getAllContacts }) {
       {mainType === 'trainings' ? (
         <Main data={data} currentPage={currentPage} getAllContacts={getAllContacts} />
       ) : mainType === 'startPage' ? (
-        <StartPage />
+        <StartPage data={data} onTypeChange={handleTypeChange}/>
       ) : mainType === 'user-page' ? (
         <UserPage />
       ): (

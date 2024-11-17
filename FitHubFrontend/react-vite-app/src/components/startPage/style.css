@@ -354,7 +354,6 @@ h3{
     box-sizing: border-box;
     flex-wrap: wrap;
     justify-self: end;
-    justify-content: space-between;
     gap: 20px;
     margin-left: auto;
 }
@@ -362,6 +361,12 @@ h3{
     font-weight: 500;
     font-size: 14px;
     width: 129px;
+    height: 30px;
+}
+.footer-img{
+    padding: 0;
+    margin: 0;
+    width: 30px;
     height: 30px;
 }
 .sign-in-container {

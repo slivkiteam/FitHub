@@ -1,8 +1,18 @@
-﻿import './style.css'
+﻿import { useEffect, useState } from 'react';
+import Training from '../trainings/Training';
+import './style.css';
 
+export default function StartPage({ data, onTypeChange }) {
+    const [filteredData, setFilteredData] = useState([]);
 
-export default function StartPage(){
-    return(
+    useEffect(() => {
+        // Проверяем, есть ли данные, и обновляем состояние
+        if (data?.content) {
+            setFilteredData(data.content);
+        }
+    }, [data]);
+
+    return (
         <>
             <section className="promo-desktop">
                 <div className="block1">
@@ -13,9 +23,19 @@ export default function StartPage(){
                     <img src="./src/img/man.png" alt="Man" />
                 </div>
                 <div className="first-column-second-row">
-                    <div className="training-button"><a href="#">быстрая тренировка</a></div>
-                    <div className="training-button"><a href="#">показать тренировки</a></div>
-                </div>            
+                    {/* Кнопка быстрая тренировка */}
+                    <div className="training-button">
+                        <a href="#" onClick={() => onTypeChange('createTraining')}>
+                            быстрая тренировка
+                        </a>
+                    </div>
+                    {/* Кнопка мои тренировки */}
+                    <div className="training-button">
+                        <a href="#" onClick={() => onTypeChange('trainings')}>
+                            мои тренировки
+                        </a>
+                    </div>
+                </div>
             </section>
             <section className="top-trainings-desktop">
                 <div className="top-trainings-wrapper">
@@ -23,56 +43,15 @@ export default function StartPage(){
                 </div>
                 <div className="training-cards-container">
                     <ul className="training-cards">
-                        <li className="training-card">
-                                <figure>
-                                    <img className="training-img"></img>
-                                </figure>
-                                <div className="training-type-box">
-                                    <ul className="tag-list">
-                                        <li className="cardio-red"><a href="#">кардио</a></li>
-                                        <li className="long"><a href="#">долго</a></li>
-                                    </ul>
-                                </div>
-                                <h3>тренировка №1</h3>
-                                <p className="card-description">Описание тренировки</p>
-                        </li>
-                        <li className="training-card">
-                            <figure>
-                                <img className="training-img"></img>
-                            </figure>
-                            <div className="training-type-box">
-                                <ul className="tag-list">
-                                    <li className="cardio-red"><a href="#">силовая</a></li>
-                                    <li className="fast"><a href="#">быстро</a></li>
-                                </ul>
-                            </div>
-                            <h3>тренировка №2</h3>
-                            <p className="card-description">Описание тренировки</p>
-                        </li>
-                        <li className="training-card">
-                            <figure>
-                                <img className="training-img"></img>
-                            </figure>
-                            <div className="training-type-box">
-                                <ul className="tag-list">
-                                    <li className="cardio-red"><a href="#">йога</a></li>
-                                </ul>
-                            </div>
-                            <h3>тренировка №3</h3>
-                            <p className="card-description">Описание тренировки</p>
-                        </li>
+                        {filteredData?.length > 0
+                            ? filteredData.slice(0, 3).map((training) => (
+                                <Training training={training} key={training.id} />
+                            ))
+                            : <p>Нет доступных тренировок</p>
+                        }
                     </ul>
                 </div>
             </section>
-            <section className="top-trainings-desktop">
-                <div className="top-trainings-wrapper">
-                    <p className="info-text">Информация</p>
-                </div>
-                <div className="information-container">
-                    <img src="./src/img/info1.svg" alt="" className="instruction-1" />
-                    <img src="./src/img/info2.svg" alt="" className="instruction-2" />
-                </div>
-            </section>
         </>
-    )
+    );
 }

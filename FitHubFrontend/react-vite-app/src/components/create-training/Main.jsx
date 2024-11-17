@@ -29,7 +29,7 @@ export default function MainCreateTraining() {
                                 <a href="#!" className="green-button">добавить подход</a>
                                 <a href="#!" className="green-button">добавить упраженение</a>
                             </div> */}
-                            div.
+                            (в процессе разработки)
                         </div>
                         <div className="settings-desktop_params">
                             <p className="page-text">Параметры тренировки:</p>
