@@ -19,6 +19,7 @@ public class TrainDTO {
     private Status status;
     private Integer used;
     private Integer durationInMinutes;
+    private String durationInMinutesText;
     private Integer countOfIteration;
     private String author;
     private String place;

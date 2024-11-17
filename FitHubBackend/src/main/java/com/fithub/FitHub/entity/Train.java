@@ -36,6 +36,8 @@ public class Train {
     private Integer used;
     @Column(name="duration_in_minutes")
     private Integer durationInMinutes;
+    @Column(name="duration_in_minutes_text")
+    private String durationInMinutesText;
     @Column
     private Integer countOfIteration;
     @Column

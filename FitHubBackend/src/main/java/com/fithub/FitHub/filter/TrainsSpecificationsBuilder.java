@@ -34,8 +34,9 @@ public class TrainsSpecificationsBuilder {
                 }
             }
         }
-        var b = params.stream().filter(a -> a.getKey().equals(key)).findAny();
-        if (b.isPresent()) params.add(new SpecSearchCriteria(true, key, op, value));
+        var b = params.stream().filter(a -> a.getKey().equals(key)).toList();
+        if (!b.isEmpty() && key.equals("durationInMinutes") && b.size() % 2 != 0) params.add(new SpecSearchCriteria(orPredicate, key, op, value));
+        else if (!b.isEmpty() || (!b.isEmpty() && b.size() % 2 != 0 && key.equals("durationInMinutes"))) params.add(new SpecSearchCriteria(true, key, op, value));
         else params.add(new SpecSearchCriteria(orPredicate, key, op, value));
         return this;
     }

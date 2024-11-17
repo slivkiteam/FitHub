@@ -1,8 +1,8 @@
 package com.fithub.FitHub.controller;
 
 import com.fithub.FitHub.dto.ExercisesDTO;
+import com.fithub.FitHub.dto.RatingDTO;
 import com.fithub.FitHub.dto.TrainDTO;
-import com.fithub.FitHub.entity.ActivityCategories;
 import com.fithub.FitHub.entity.AverageRating;
 import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.filter.TrainsSpecificationsBuilder;
@@ -23,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import com.fithub.FitHub.dto.RatingDTO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +30,7 @@ import java.util.regex.Pattern;
 @RestController()
 @RequestMapping("/trains")
 public class TrainController {
+
     private final TrainService trainService;
     private final ExercisesService exercisesService;
     private final RatingService ratingService;
@@ -47,10 +47,11 @@ public class TrainController {
                                  @RequestParam(value = "sort", required = false) String typeOfSort,
                                  @RequestParam(value = "search", required = false) String search) {
         TrainsSpecificationsBuilder builder = new TrainsSpecificationsBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)([^,]+),?", Pattern.UNICODE_CHARACTER_CLASS);
+        Pattern pattern = Pattern.compile("([\\w+]+?)(:|<|>)([^,]+),?", Pattern.UNICODE_CHARACTER_CLASS);
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3), null, null);
+            var thirdGroup = matcher.group(3).contains("час") ? matcher.group(3) + "+" : matcher.group(3);
+            builder.with(matcher.group(1), matcher.group(2), thirdGroup.replaceAll(" {2}", " "), null, null);
         }
         Specification<Train> spec = builder.build();
         return trainService.findAll(spec, page, typeOfSort);

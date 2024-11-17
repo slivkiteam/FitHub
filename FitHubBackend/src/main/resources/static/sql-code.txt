@@ -1,81 +1,78 @@
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(128),
+    surname VARCHAR(128),
+    login VARCHAR(128),
+    birthday DATE,
+    email VARCHAR(256),
+    password VARCHAR(128),
+    gender VARCHAR(128),
+    ROLE VARCHAR(128) NOT NULL
+);
 
-CREATE TABLE users (   id BIGSERIAL PRIMARY KEY,
-                       name VARCHAR(128),   surname VARCHAR(128),
-                       login VARCHAR(128),   birthday DATE,
-                       email VARCHAR(256) ,   password VARCHAR(128),
-                       gender VARCHAR(128),   ROLE VARCHAR(128),
-                       skill VARCHAR(128),
-                       count_of_trains INT,    weight INT,
-                        height INT
+CREATE TABLE users_statistics (
+    id BIGSERIAL PRIMARY KEY,
+    skill VARCHAR(128),
+    count_of_trains INT,
+    weight INT,
+    height INT,
+    IBW DECIMAL(4,2),
+    user_id BIGINT UNIQUE REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE activity_categories ( -- Категория упражнения
-                                     id SERIAL PRIMARY KEY, -- Уникальный идентификатор категории
-                                     category_name VARCHAR(50));
-
-
-CREATE TABLE trains (
-                        id BIGSERIAL PRIMARY KEY,
-                        title VARCHAR(128),
-                        description VARCHAR(512),
-                        status VARCHAR(128),
-                        --score DECIMAL(2,2),
-                        --count_of_rating INT,
-                        used INT,
-                        duration_in_minutes INT,
-                        count_of_iteration INT,
-                        place VARCHAR(128),
-                        author VARCHAR(128),
-                        category_id INT REFERENCES activity_categories(id)
+    id SERIAL PRIMARY KEY, -- Уникальный идентификатор категории
+    difficulty DECIMAL(2,2),
+    category_name VARCHAR(50) NOT NULL UNIQUE
 );
 
+CREATE TABLE trains (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(128) UNIQUE,
+    description VARCHAR(512),
+    status VARCHAR(128),
+    used INT,
+    duration_in_minutes INT,
+    duration_in_minutes_text VARCHAR(128),
+    count_of_iteration INT,
+    place VARCHAR(128),
+    author VARCHAR(128),
+    category_id INT REFERENCES activity_categories(id)
+);
 --рассчитывать количество повторений по формуле, есть конкретное число * коэф. Определить жирный или нет и уровень сложности тренировки
 CREATE TABLE users_trains (
-                              user_id BIGSERIAL REFERENCES users (id),
-                              trains_id BIGSERIAL REFERENCES trains (id),
-                              PRIMARY KEY (user_id, trains_id)
+    user_id BIGSERIAL REFERENCES users (id),
+    trains_id BIGSERIAL REFERENCES trains (id),
+    PRIMARY KEY (user_id, trains_id)
 );
 
 CREATE TABLE exercises ( -- Упражнение
-                           id BIGSERIAL PRIMARY KEY, -- Уникальный идентификатор упражнения
-                           title VARCHAR(100) UNIQUE NOT NULL, -- Название упражнения
-                           description VARCHAR(256), -- Описание упражнения
-                           duration_in_seconds INT, -- Длительность упражнения (в минутах)--    calories_burned_per_minute INT,  -- Сожженные калории за минуту
-                           count_of_iteration INT,
-                           place VARCHAR(128) NOT NULL,
-                           goal VARCHAR(128), --группа мышц или характеритика - выностилось - сила, скорость
-                           inventory VARCHAR(256),
-                           weight DECIMAL(10, 2),
-                           category_id INT REFERENCES activity_categories(id)
+    id BIGSERIAL PRIMARY KEY, -- Уникальный идентификатор упражнения
+    title VARCHAR(100) UNIQUE NOT NULL, -- Название упражнения
+    description VARCHAR(256), -- Описание упражнения
+    duration_in_seconds INT, -- Длительность упражнения (в минутах)--    calories_burned_per_minute INT,  -- Сожженные калории за минуту
+    count_of_iteration INT,
+    status VARCHAR(128),
+    place VARCHAR(128) NOT NULL,
+    goal VARCHAR(128), --группа мышц или характеритика - выностилось - сила, скорость
+    inventory VARCHAR(256),
+    weight DECIMAL(10, 2),
+    category_id INT REFERENCES activity_categories(id)
 );
 
 --добавить теги в упражнения--повторения, подходы
 --Сделать перемычку тренировки - упражнения--В ней будет два ключа много книг
 --Создать таблицу по сложности в которой будет уровень сложности - количество подходов и-- повторений в подходе, это подгргужается к конкретному упражнению, в зависимости от уровня сложности, который выбрал пользователь
 CREATE TABLE trains_exercises (
-                                  train_id BIGINT REFERENCES trains (id),
-                                  exercises_id BIGINT REFERENCES exercises(id),
-                                  PRIMARY KEY (train_id, exercises_id));
-
-CREATE TABLE ratings (
-                         id BIGSERIAL PRIMARY KEY,
-                         users_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
-                         trains_id BIGINT REFERENCES trains(id) ON DELETE CASCADE,
-                         score INT CHECK (score >= 1 AND score <= 5),
-                         feedback VARCHAR(128)
+     train_id BIGINT REFERENCES trains (id),
+     exercises_id BIGINT REFERENCES exercises(id),
+     PRIMARY KEY (train_id, exercises_id)
 );
-
-
-DROP TABLE trains_exercises,users,exercises,users_trains, trains, activity_categories, ratings CASCADE ;
-
-DROP TABLE users;
-DROP TABLE users_trains;
-DROP TABLE trains;
-DROP TABLE activity_categories;
-DROP TABLE exercises;
-
-INSERT INTO users(name, login, password)
-values ('test','test', 'test');
-
-INSERT INTO trains(title)
-VALUES ('BEG');
+CREATE TABLE ratings (
+     id BIGSERIAL PRIMARY KEY,
+     users_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+     trains_id BIGINT REFERENCES trains(id) ON DELETE CASCADE,
+     score INT CHECK (score >= 1 AND score <= 5),
+     feedback VARCHAR(128)
+);
+DROP TABLE trains, activity_categories, users, users_trains, exercises, users_trains, trains_exercises, users_statistics;
