@@ -21,11 +21,24 @@ export default function Main({ data, currentPage, getAllContacts }) {
             if (value.length > 0) {
                 const filterKey = arrayOfFilterType[index];
                 const filterValue = value.map(a => a.toUpperCase()).join(","); // Преобразуем теги в строку через запятую
-    
-                if (filterKey !== "durationInMinutes") {
+                
+                if (filterKey === "category") {
                     searchParam += `${filterKey}:${filterValue},`; // Добавляем в запрос с разделителем запятая
-                } else {
-                    searchParam += `${filterKey}>${filterValue},`; // Для durationInMinutes добавляем в другой формат
+                } 
+
+                if (filterKey !== "durationInMinutes" && filterKey !== "category") {
+                    searchParam += `${filterKey}:${filterValue},`; // Добавляем в запрос с разделителем запятая
+                } 
+                else {
+                    value.forEach((timeRange) => {
+                        if (timeRange === "10-15 мин") {
+                            searchParam += `${filterKey}>10,${filterKey}<15,`;
+                        } else if (timeRange === "30-60 мин") {
+                            searchParam += `${filterKey}>30,${filterKey}<60,`;
+                        } else if (timeRange === "1 час +") {
+                            searchParam += `${filterKey}>61,`;
+                        }
+                    });
                 }
             }
         });
