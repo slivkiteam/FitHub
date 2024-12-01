@@ -7,7 +7,7 @@ import StartPage from '../startPage/StartPage';
 import { useLocation } from 'react-router-dom';
 import UserPage from '../user-page/UserPage';
 
-function Trainings({ data, currentPage, getAllContacts }) {
+function Trainings({ data, currentPage, getAllContacts, selectedTags, setSelectedTags }) {
   const [mainType, setMainType] = useState('startPage'); // Состояние для mainType
 
   // Получаем состояние из navigate, если оно было передано
@@ -32,8 +32,8 @@ function Trainings({ data, currentPage, getAllContacts }) {
         <StartPage data={data} onTypeChange={handleTypeChange}/>
       ) : mainType === 'user-page' ? (
         <UserPage />
-      ): (
-        <MainCreateTraining />
+      ) : (
+        <MainCreateTraining selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
       )}
       <MainFooter />
     </>

@@ -16,6 +16,10 @@ export default function Header({ mainType, onTypeChange }) {
         localStorage.setItem('accountType', 'auth'); // Сохраняем состояние авторизации
         navigate('/login');
     };
+    const handleRegisrtation = () => {
+        localStorage.setItem('accountType', 'auth');
+        navigate('/registration');
+    };
 
     // Логика для выхода из аккаунта
     const handleLogout = () => {
@@ -63,7 +67,7 @@ export default function Header({ mainType, onTypeChange }) {
                                 </a>
                             </li>
                             <li>
-                                <a href="#!" className="header__registration">
+                                <a href="#!" onClick={handleRegisrtation} className="header__registration">
                                     регистрация
                                 </a>
                             </li>

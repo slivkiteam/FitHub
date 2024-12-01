@@ -3,7 +3,7 @@ import { json } from 'react-router-dom';
 import { saveContact } from '../../api/TrainService';
 
 
-export default function MainDesktopHeader() {
+export default function MainDesktopHeader({selectedTags}) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [workoutName, setWorkoutName] = useState(''); // Состояние для названия тренировки
     const [workoutDescription, setWorkoutDescription] = useState(''); // Состояние для описания тренировки
@@ -15,22 +15,42 @@ export default function MainDesktopHeader() {
 
     // Функция для загрузки на сервер
     const handleUpload = async () => {
+        let durationInMinutes = 0
+        let difficulty = ''
+
         if (!workoutName || !workoutDescription) {
             alert('Пожалуйста, заполните все поля и выберите файл!');
             return;
         }
+
+        if (selectedTags.time === '1 час +')
+            durationInMinutes = 70
+        if (selectedTags.time === '30-60 мин')
+            durationInMinutes = 45
+        if (selectedTags.time === '10-15 мин')
+            durationInMinutes = 15
+
+
+        if (selectedTags.difficulty.toUpperCase() === 'СЛОЖНАЯ')
+            difficulty = 'СЛОЖНО'
+        if (selectedTags.difficulty.toUpperCase() === 'СРЕДНЯЯ')
+            difficulty = 'СРЕДНЕ'
+        if (selectedTags.difficulty.toUpperCase() === 'ЛЕГКАЯ')
+            difficulty = 'ЛЕГКО'
+
+
         const training = {
             "title": workoutName,
             "description": workoutDescription,
-            "status": "СЛОЖНО",
+            "status": difficulty,
             "score": 0.0,
             "used": 10,
-            "durationInMinutes": 1234,
+            "durationInMinutes": durationInMinutes,
             "countOfIteration": 15,
             "author": "ADMIN",
-            "place": "ДОМ",
+            "place": selectedTags.format,
             "category": {
-                "category": "СИЛОВАЯ"
+                "category": selectedTags.trainingType
             }
         }
 

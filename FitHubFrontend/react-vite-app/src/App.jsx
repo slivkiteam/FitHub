@@ -6,13 +6,20 @@ import Trainings from './components/trainings/Trainings';
 import TrainingDetail from './components/trainings/TrainingDetail';
 import Login from './components/login/LoginPage';
 import UserPage from './components/user-page/UserPage';
+import Registration from './components/registration/Registration';
 
 
 
 function App() {
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
-  
+  const [selectedTags, setSelectedTags] = useState({
+    trainingType: null,
+    difficulty: null,
+    format: null,
+    time: null,
+  });
+
   const getAllContacts = async (page = 0) => {
     try {
       setCurrentPage(page);
@@ -21,19 +28,31 @@ function App() {
     } catch {
       console.log("Error loading contacts");
     }
-  }
+  };
 
   useEffect(() => {
     getAllContacts();
   }, []);
-  
+
   return (
     <main>
       <Routes>
         <Route path="/" element={<Navigate to="/trains" />} />
         <Route path="/trains/:id" element={<TrainingDetail />} />
-        <Route path="/trains" element={<Trainings data={data} currentPage={currentPage} getAllContacts={getAllContacts} />} />
+        <Route
+          path="/trains"
+          element={
+            <Trainings
+              data={data}
+              currentPage={currentPage}
+              getAllContacts={getAllContacts}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags} // Передаем setSelectedTags в Trainings
+            />
+          }
+        />
         <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<Registration />} />
         <Route path="/user-page" element={<UserPage />} />
       </Routes>
     </main>
