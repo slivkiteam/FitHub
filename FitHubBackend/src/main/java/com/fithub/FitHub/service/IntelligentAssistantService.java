@@ -81,7 +81,6 @@ public class IntelligentAssistantService {
         var timeMin = (time.size() == 1) ? time.get(0) : time.get(0)*60;
         var sumTime = 0;
         Random rand = new Random();
-        //да-да, я знаю, что можно это ревьюить, DRY нарушен, но мне пофиг, я панк! Завтра отредачу
         while (sumTime <= timeMax) {
             var averageStatusCoef = results.stream().map(a -> a.getStatus().getCoefficient()).reduce(0.0, Double::sum);
             var countEasy = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("ЛЕГКО"))).count();

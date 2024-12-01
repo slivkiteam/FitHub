@@ -1,5 +1,4 @@
 FROM alpine:latest AS build
-RUN apk add --no-cache git openjdk21 ca-certificates
 RUN apk add git openjdk21
 
 RUN git clone https://github.com/slivkiteam/FitHub.git && (cd FitHub && git pull)

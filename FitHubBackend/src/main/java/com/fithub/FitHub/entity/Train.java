@@ -30,8 +30,6 @@ public class Train {
     @Column
     @Enumerated(EnumType.STRING)
     private Status status;
-//    @Column
-//    private Double score;
     @Column
     private Integer used;
     @Column(name="duration_in_minutes")
