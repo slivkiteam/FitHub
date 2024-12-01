@@ -19,11 +19,13 @@ public class UsersService {
 
     private final UsersRepository usersRepository;
     private final ModelMapper modelMapper;
+    private final UserStatistictsService userStatistictsService;
 
     @Autowired
-    public UsersService(UsersRepository usersRepository, ModelMapper modelMapper) {
+    public UsersService(UsersRepository usersRepository, ModelMapper modelMapper, UserStatistictsService userStatistictsService) {
         this.usersRepository = usersRepository;
         this.modelMapper = modelMapper;
+        this.userStatistictsService = userStatistictsService;
     }
 
     public List<Users> findAll() {
@@ -39,6 +41,8 @@ public class UsersService {
 
     @Transactional
     public void save(Users user) {
+        user.getUserStatistics().setUser(user);
+        userStatistictsService.save(user.getUserStatistics());
         usersRepository.save(user);
     }
 
