@@ -468,6 +468,15 @@ input{
 .left-column-container input{
     margin-bottom: 10px;
 }
+.login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sign-in-button{
+    font-family: 'UNCAGE';
+}
 .history-trainings-desktop {
     display: flex;
     flex-direction: column;
