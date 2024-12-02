@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: fit_hub
-      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
       - pgdbdata:/var/lib/postgresql/data/
@@ -44,9 +44,9 @@ services:
 #      - '9000:9000'
 #    volumes:
 #      - minio-data:/minio
-
+#
 volumes:
-  pgdbdata: null
+  pgdbdata:
 #  minio-data:
 #    driver: local
 

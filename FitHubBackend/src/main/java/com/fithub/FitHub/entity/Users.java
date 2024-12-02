@@ -47,8 +47,10 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private UserStatistics userStatistics;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @Builder.Default
+    private UserStatistics userStatistics = new UserStatistics();
 
     @Column
     @Enumerated(EnumType.STRING)

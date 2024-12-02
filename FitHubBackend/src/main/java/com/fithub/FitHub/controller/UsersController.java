@@ -49,7 +49,9 @@ public class UsersController {
 
     @GetMapping("/{id}")
     public UsersDTO getUserById(@PathVariable("id") Long id) {
-        return usersService.convertToUsersDTO(usersService.findById(id));
+        var f = usersService.findById(id);
+        var g = usersService.convertToUsersDTO(usersService.findById(id));
+        return g;
     }
 
     @PostMapping

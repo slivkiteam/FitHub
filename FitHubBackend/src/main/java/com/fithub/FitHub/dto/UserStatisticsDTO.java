@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserStatisticsDTO {
+    private Long id;
     private Skill skill;
     private Integer countOfTrains;
     private Integer weight;
