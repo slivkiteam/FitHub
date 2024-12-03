@@ -1,5 +1,6 @@
 package com.fithub.FitHub.config;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fithub.FitHub.security.JWTUtil;
 import com.fithub.FitHub.service.UsersDetailsService;
 import jakarta.servlet.FilterChain;
@@ -39,7 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
                     if (SecurityContextHolder.getContext().getAuthentication() == null) {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
-                } catch (Exception e) {
+                } catch (JWTVerificationException e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Invalid JWT Token in Bearer header");
                 }
             }

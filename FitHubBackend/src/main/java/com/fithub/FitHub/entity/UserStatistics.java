@@ -3,8 +3,6 @@ package com.fithub.FitHub.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.io.Serializable;
 @Entity
 @Table(name = "users_statistics")
 @AllArgsConstructor
@@ -12,17 +10,18 @@ import java.io.Serializable;
 @Builder
 @Getter
 @Setter
-@ToString()
-@EqualsAndHashCode
-public class UserStatistics implements Serializable {
+@ToString(exclude = "user")
+@EqualsAndHashCode(of = {"id", "skill"})
+public class UserStatistics {
+
     @Id
-    @Column
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne()
     private Users user;
 
     @Column

@@ -21,5 +21,6 @@ public class UsersDTO {
     private Integer age;
     private Role role;
     private List<Train> trains;
+    private List<Rating> ratings;
     private UserStatistics userStatistics;
 }

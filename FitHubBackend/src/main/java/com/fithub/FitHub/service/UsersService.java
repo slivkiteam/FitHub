@@ -4,9 +4,12 @@ import com.fithub.FitHub.dto.UsersDTO;
 import com.fithub.FitHub.entity.Train;
 import com.fithub.FitHub.entity.Users;
 import com.fithub.FitHub.repository.UsersRepository;
+import com.fithub.FitHub.security.UsersDetails;
 import com.fithub.FitHub.util.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +31,18 @@ public class UsersService {
         this.userStatistictsService = userStatistictsService;
     }
 
-    public List<Users> findAll() {
-        return usersRepository.findAll();
+    public List<UsersDTO> findAll() {
+        return usersRepository.findAll().stream().map(this::convertToUsersDTO).toList();
     }
 
     public Users findById(Long id) {
         return usersRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
+
+    public UsersDTO findUserDTO(Long id) {
+        return convertToUsersDTO(findById(id));
+    }
+
     public Optional<Users> findByLogin(String login) {
         return usersRepository.findByLogin(login);
     }
@@ -42,9 +50,9 @@ public class UsersService {
     @Transactional
     public void save(Users user) {
         user.getUserStatistics().setUser(user);
-        userStatistictsService.save(user.getUserStatistics());
         usersRepository.save(user);
     }
+
 
     @Transactional
     public void delete(Long id) {
@@ -53,9 +61,19 @@ public class UsersService {
 
     @Transactional
     public void update(Long id, Users updatedUser) {
-        Users user = findById(id); // Здесь я взял метод из класса сервиса, а не из репозитория(суть та же, код не повторяется и короче)
-        updatedUser.setId(user.getId());
+        updatedUser.setId(id);
+        enrichUserStatistics(id, updatedUser);
         save(updatedUser);
+    }
+
+    private void enrichUserStatistics(Long id, Users updatedUser) {
+        var userStatistics = userStatistictsService.findByUserId(id);
+        if (userStatistics != null) {
+            updatedUser.getUserStatistics().setId(userStatistics.getId());
+        } else {
+            updatedUser.getUserStatistics().setUser(updatedUser);
+            userStatistictsService.save(updatedUser.getUserStatistics());
+        }
     }
 
     @Transactional
@@ -71,5 +89,13 @@ public class UsersService {
 
     public UsersDTO convertToUsersDTO(Users user) {
         return modelMapper.map(user, UsersDTO.class);
+    }
+    public Users getUserAuth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UsersDetails usersDetails = (UsersDetails) authentication.getPrincipal();
+        return usersDetails.getUser();
+    }
+    public UsersDTO getUserAuthDTO() {
+        return convertToUsersDTO(getUserAuth());
     }
 }

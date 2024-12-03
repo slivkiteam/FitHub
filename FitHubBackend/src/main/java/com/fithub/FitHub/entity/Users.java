@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.*;
 
@@ -18,6 +19,7 @@ import java.util.*;
 public class Users {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -47,17 +49,17 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JsonIgnore
-    @Builder.Default
-    private UserStatistics userStatistics = new UserStatistics();
+    private UserStatistics userStatistics;
 
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Builder.Default
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinTable(
             name = "users_trains",
@@ -68,6 +70,6 @@ public class Users {
 
     @JsonIgnore
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Rating> ratings = new HashSet<>();
 }

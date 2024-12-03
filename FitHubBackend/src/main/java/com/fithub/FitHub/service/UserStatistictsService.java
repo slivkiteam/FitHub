@@ -23,16 +23,20 @@ public class UserStatistictsService {
         return userStatisticsRepository.findAll();
     }
 
+    public UserStatistics findByUserId(Long id) throws UserNotFoundException {
+        return userStatisticsRepository.findByUserId(id);
+    }
+
     public UserStatistics findById(Long id) {
         return userStatisticsRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
     @Transactional
-    public UserStatistics save(UserStatistics userStatistics) {
-        return userStatisticsRepository.save(userStatistics);
-    }
-    @Transactional
     public void delete(Long id) {
         userStatisticsRepository.deleteById(id);
+    }
+    @Transactional
+    public UserStatistics save(UserStatistics userStatistics) {
+        return userStatisticsRepository.save(userStatistics);
     }
 
     @Transactional

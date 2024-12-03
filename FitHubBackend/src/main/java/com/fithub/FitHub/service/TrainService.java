@@ -56,7 +56,7 @@ public class TrainService {
 
     @Transactional
     public Train save(Train train) {
-        var activityCategory = activityCategoriesService.needToSave(train.getCategory()); // cоздается треня без поля категория и туда null передался и все сломалось
+        var activityCategory = activityCategoriesService.needToSave(train.getCategory());
         train.setCategory(activityCategory);
         return trainingsRepository.save(train);
     }
@@ -71,8 +71,8 @@ public class TrainService {
 
     @Transactional
     public void update(Long id, Train train) {
-        Train t = findById(id);
-        train.setId(t.getId());
+//        Train t = findById(id);
+        train.setId(id);
         trainingsRepository.save(train);
     }
 

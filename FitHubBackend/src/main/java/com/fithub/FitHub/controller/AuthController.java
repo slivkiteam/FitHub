@@ -52,17 +52,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
-        UsernamePasswordAuthenticationToken authInputToken =
-                new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(),
-                        authenticationDTO.getPassword());
+    public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
         try {
+            var authInputToken = new UsernamePasswordAuthenticationToken(
+                    authenticationDTO.getLogin(),
+                    authenticationDTO.getPassword()
+            );
             authenticationManager.authenticate(authInputToken);
+            String token = jwtUtil.generateToken(authenticationDTO.getLogin());
+            return ResponseEntity.ok(Map.of("jwt-token", token));
         } catch (BadCredentialsException e) {
-            return Map.of("message", "Incorrect credentials!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
         }
-        String token = jwtUtil.generateToken(authenticationDTO.getLogin());
-        return Map.of("jwt-token", token);
     }
 
     @ExceptionHandler

@@ -2,25 +2,18 @@ package com.fithub.FitHub.controller;
 
 import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.dto.UsersDTO;
-import com.fithub.FitHub.entity.Train;
-import com.fithub.FitHub.entity.Users;
-import com.fithub.FitHub.security.UsersDetails;
 import com.fithub.FitHub.service.TrainService;
 import com.fithub.FitHub.service.UsersService;
 import com.fithub.FitHub.util.ErrorResponse;
 import com.fithub.FitHub.util.UserNotCreatedException;
 import com.fithub.FitHub.util.UserNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController()
@@ -36,22 +29,19 @@ public class UsersController {
     }
 
     @GetMapping("/lk")
-    public Users getUserItem() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UsersDetails usersDetails = (UsersDetails) authentication.getPrincipal();
-        return usersDetails.getUser();
+    public UsersDTO getUserItem() {
+        return usersService.getUserAuthDTO();
     }
+
 
     @GetMapping
     public List<UsersDTO> getAllUsers() {
-        return usersService.findAll().stream().map(usersService::convertToUsersDTO).toList();
+        return usersService.findAll();
     }
 
     @GetMapping("/{id}")
     public UsersDTO getUserById(@PathVariable("id") Long id) {
-        var f = usersService.findById(id);
-        var g = usersService.convertToUsersDTO(usersService.findById(id));
-        return g;
+        return usersService.findUserDTO(id);
     }
 
     @PostMapping
