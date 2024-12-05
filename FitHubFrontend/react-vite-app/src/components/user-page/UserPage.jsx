@@ -3,7 +3,7 @@
 export default function UserPage() {
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
-    id: 15,
+    // id: 15,
     name: "",
     surname: "",
     login: "test",
@@ -71,7 +71,7 @@ export default function UserPage() {
         const response = await fetch(`http://localhost:8081/users/lk`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`,
+              "Authorization": `Bearer ${token}`,
             }
         });
 
