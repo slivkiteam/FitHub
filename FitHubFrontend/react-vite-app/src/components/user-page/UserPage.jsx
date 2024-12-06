@@ -1,52 +1,88 @@
-﻿import React, { useState } from "react";
+﻿import React, { useState, useEffect } from "react";
 
 export default function UserPage() {
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
-    // id: 15,
-    name: "",
-    surname: "",
-    login: "test",
-    height: null,
-    weight: null,
+    id: 11,
+    name: null,
+    surname: null,
+    login: null,
+    birthday: null,
+    email: null,
+    password: null,
+    gender: null,
     age: null,
-    gender: "",
+    role: "ROLE_USER",
+    trains: [],
+    ratings: [],
     userStatistics: {
-      weight: null,
-      height: null,
-    },
-  });
+        skill: null,
+        countOfTrains: null,
+        weight: null,
+        height: null,
+        ibw: null
+    }
+});
 
-  // Обработчик изменения полей
+  useEffect(() => {
+    console.log("Обновленные данные:", userData);
+    handleGetStats()
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (["height", "weight", "age"].includes(name)) {
-      // Обновление числовых значений
-      setUserData((prev) => ({
-        ...prev,
-        [name]: value ? parseInt(value, 10) : null,
-        userStatistics: {
-          ...prev.userStatistics,
-          [name]: value ? parseInt(value, 10) : null,
-        },
-      }));
-    } else {
-      setUserData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
+
+    setUserData((prev) => {
+        // Если поле относится к userStatistics
+        if (["height", "weight"].includes(name)) {
+            return {
+                ...prev,
+                userStatistics: {
+                    ...prev.userStatistics,
+                    [name]: value ? parseInt(value, 10) : null,
+                },
+            };
+        }
+
+        // Для остальных полей, включая age
+        return {
+            ...prev,
+            [name]: name === "age" ? (value.trim() ? parseInt(value, 10) : null) : value,
+        };
+    });
+};
+
 
   // Обработчик отправки данных
   const handleSubmit = async () => {
     try {
+        const data = {
+          name: userData.name,
+          surname: userData.surname,
+          login: userData.login,
+          birthday: userData.birthday,
+          email: userData.login,
+          password: userData.password,
+          gender: userData.gender,
+          age: userData.age,
+          role: userData.role,
+          trains: userData.trains,
+          ratings: userData.ratings,
+          userStatistics: {
+            skill: userData.userStatistics.skill,
+            countOfTrains: userData.userStatistics.countOfTrains,
+            weight: userData.userStatistics.weight,
+            height: userData.userStatistics.height,
+            ibw: userData.userStatistics.ibw
+        }
+        }
+        console.log(data)
         const response = await fetch(`http://localhost:8081/users/${userData.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -84,7 +120,19 @@ export default function UserPage() {
         if (response.ok) {
             const data = await response.json();
             console.log("Полученные данные:", data);
-        } else {
+            if (data.userStatistics == null){
+              data.userStatistics = {
+                skill: null,
+                countOfTrains: null,
+                weight: null,
+                height: null,
+                ibw: null
+              }
+            }
+            setUserData(data)
+            console.log(`Сохраненные данные: ${userData}`)
+        } 
+        else {
             const errorText = await response.text();
             console.error("Ответ сервера:", response.status, response.statusText, errorText);
         }
@@ -130,21 +178,22 @@ export default function UserPage() {
                 className="height"
                 placeholder="Рост"
                 name="height"
-                value={userData.height || ""}
+                value={userData.userStatistics.height}
                 onChange={handleChange}
               />
               <input
                 className="weight"
                 placeholder="Вес"
                 name="weight"
-                value={userData.weight || ""}
+                value={userData.userStatistics.weight}
                 onChange={handleChange}
               />
               <input
                 className="age"
                 placeholder="Возраст"
+                type="number"
                 name="age"
-                value={userData.age || ""}
+                value={userData.age}
                 onChange={handleChange}
               />
               <input
@@ -155,7 +204,7 @@ export default function UserPage() {
                 value={userData.gender}
                 onChange={handleChange}
               />
-            <button style={{borderRadius:"20px", border: "none", }} onClick={handleGetStats}>Сохранить</button>
+            <button style={{borderRadius:"20px", border: "none", }} onClick={handleSubmit}>Сохранить</button>
             </div>
           </div>
         </section>
