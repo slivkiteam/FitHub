@@ -153,13 +153,13 @@ export default function UserPage() {
           <div className="first-row">
             <img className="personal-avatar" src="./src/img/placeholder.png" alt="Аватар" />
             <div className="personal-account-parameters">
-              <input
-                className="second-name"
-                placeholder="Фамилия"
-                name="surname"
-                value={userData.surname}
-                onChange={handleChange}
-              />
+                <input
+                  className="second-name"
+                  placeholder="Фамилия"
+                  name="surname"
+                  value={userData.surname}
+                  onChange={handleChange}
+                />
               <input
                 className="name"
                 placeholder="Имя"
@@ -174,37 +174,50 @@ export default function UserPage() {
                 value={userData.login}
                 onChange={handleChange}
               />
-              <input
-                className="height"
-                placeholder="Рост"
-                name="height"
-                value={userData.userStatistics.height}
-                onChange={handleChange}
-              />
-              <input
-                className="weight"
-                placeholder="Вес"
-                name="weight"
-                value={userData.userStatistics.weight}
-                onChange={handleChange}
-              />
-              <input
-                className="age"
-                placeholder="Возраст"
-                type="number"
-                name="age"
-                value={userData.age}
-                onChange={handleChange}
-              />
-              <input
+              <div className="account-info">
+                <input
+                  className="height"
+                  placeholder="Рост"
+                  name="height"
+                  value={userData.userStatistics.height}
+                  onChange={handleChange}
+                />
+                <span className="postinput">см</span>
+              </div>
+              <div className="account-info">
+                <input
+                  className="weight"
+                  placeholder="Вес"
+                  name="weight"
+                  value={userData.userStatistics.weight}
+                  onChange={handleChange}
+                />
+                <span className="postinput">кг</span>
+              </div>
+              <div className="account-info">
+                <input
+                  className="age"
+                  placeholder="Возраст"
+                  type="number"
+                  name="age"
+                  value={userData.age}
+                  onChange={handleChange}
+                />
+                <span className="postinput">лет</span>
+              </div>
+              <div className="account-info">
+                <input
                 type="text"
                 className="gender"
                 placeholder="Пол"
                 name="gender"
                 value={userData.gender}
                 onChange={handleChange}
-              />
-            <button style={{borderRadius:"20px", border: "none", }} onClick={handleSubmit}>Сохранить</button>
+                />
+                <span className="postinput">пол</span>
+              </div>
+              
+            <button style={{borderRadius:"20px", border: "none", fontFamily: 'UNCAGE', padding: '10px'}} onClick={handleSubmit}>Сохранить</button>
             </div>
           </div>
         </section>

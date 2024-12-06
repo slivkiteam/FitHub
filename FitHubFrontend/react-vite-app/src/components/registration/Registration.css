@@ -544,15 +544,33 @@ input{
 }
 .second-name {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 3;
 }
 .name {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 3;
+}
+.height{
+    width: 50px;
+    grid-column-start: 1;
+}
+.weight{
+    width: 50px;
+}
+.age{
+    width: 80px;
+}
+.account-info{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.gender{
+    width: 100px;
 }
 .third-name {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 3;
 }
 .featured-workout{
     width: 1440px;
