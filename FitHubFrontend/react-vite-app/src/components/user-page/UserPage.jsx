@@ -1,20 +1,41 @@
 ﻿import React, { useState, useEffect } from "react";
 import Training from "../trainings/Training";
+import { getContact } from "../../api/TrainService";
 
 export default function UserPage({cards}) {
+
   const [filteredData, setFilteredData] = useState([]);
   const [stats, setStats] = useState({})
+  const [targetTraining, setTargetTraining] = useState(null);
 
   const targetId = 21; // ID нужной тренировки
-  const targetTraining = filteredData?.find(training => training.id === targetId);
+
+
+  useEffect(() => {
+    const fetchTargetTraining = async () => {
+      try {
+        const response = await getContact(targetId);
+        if (response.status === 200) {
+          const training = response.data;
+          setTargetTraining(training); // Сохраняем данные тренировки
+          handleGetTrainStats(training); // Получаем статистику сразу после загрузки тренировки
+        } else {
+          console.error("Ошибка получения тренировки:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Ошибка при выполнении запроса к API:", error);
+      }
+    };
+  
+    fetchTargetTraining();
+  }, [targetId]);
 
     useEffect(() => {
         // Проверяем, есть ли данные, и обновляем состояние
         if (cards?.content) {
             setFilteredData(cards.content);
         }
-    }, [cards]);
-
+    }, [cards, targetId]);
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
     id: 11,
@@ -45,12 +66,13 @@ export default function UserPage({cards}) {
   
   useEffect(() => {
     if (filteredData?.length > 0) {
-        const training = filteredData[1]; // Берем нужный элемент
+        const training = filteredData.find((item) => item.id === targetId); // Ищем тренировку с нужным ID
         if (training) {
-            handleGetTrainStats(training); // Один вызов функции
+            handleGetTrainStats(training); // Получаем статистику для найденной тренировки
         }
     }
-}, [filteredData]); // Выполняется только при изменении filteredData
+  }, [filteredData, targetId]); // Выполняется при изменении filteredData или targetId
+
 
 
   const handleChange = (e) => {
@@ -122,24 +144,14 @@ export default function UserPage({cards}) {
   const handleGetTrainStats = async (training) => {
     try {
         console.log(training.id);
-        const response = await fetch(`http://localhost:8081/trains/${training.id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        const response = await getContact(training.id);
+        console.log("Response от getContact:", response);
+        setStats({
+            used: response.data.used,
+            duration: response.data.durationInMinutes,
+            calories: 0,
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP ошибка! Статус: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data);
-        setStats({
-          used: data.used,
-          duration: data.durationInMinutes,
-          calories: 0
-        })
     } catch (error) {
         console.error("Ошибка при выполнении запроса:", error);
         if (error instanceof TypeError) {
@@ -290,14 +302,14 @@ export default function UserPage({cards}) {
 
                     <ul className="featured-workout-tags">
                         <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
-                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration} минут</li>
-                        <li className="featured-workout-tag tag-kkal">{stats.calories} ккал сожжено</li>
+                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used} минут</li>
+                        <li className="featured-workout-tag tag-kkal">автор: вы</li>
                     </ul>
                 </div>
             </section>      
             <section className="history-trainings-desktop">
                 <div className="wrapper">
-                    <p className="wrapper-text">история тренировок</p>
+                    <p className="wrapper-text">мои тренировки</p>
                 </div>
                 <div className="training-cards-container">
                     <ul className="training-cards">

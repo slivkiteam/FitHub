@@ -11,6 +11,8 @@ import Registration from './components/registration/Registration';
 
 
 function App() {
+  
+  const [allData, setAllData] = useState({})
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedTags, setSelectedTags] = useState({
