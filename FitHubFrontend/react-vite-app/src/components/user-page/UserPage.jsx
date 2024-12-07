@@ -8,34 +8,8 @@ export default function UserPage({cards}) {
   const [stats, setStats] = useState({})
   const [targetTraining, setTargetTraining] = useState(null);
 
-  const targetId = 21; // ID нужной тренировки
 
 
-  useEffect(() => {
-    const fetchTargetTraining = async () => {
-      try {
-        const response = await getContact(targetId);
-        if (response.status === 200) {
-          const training = response.data;
-          setTargetTraining(training); // Сохраняем данные тренировки
-          handleGetTrainStats(training); // Получаем статистику сразу после загрузки тренировки
-        } else {
-          console.error("Ошибка получения тренировки:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Ошибка при выполнении запроса к API:", error);
-      }
-    };
-  
-    fetchTargetTraining();
-  }, [targetId]);
-
-    useEffect(() => {
-        // Проверяем, есть ли данные, и обновляем состояние
-        if (cards?.content) {
-            setFilteredData(cards.content);
-        }
-    }, [cards, targetId]);
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
     id: 11,
@@ -58,12 +32,39 @@ export default function UserPage({cards}) {
         ibw: null
     }
 });
+  const targetId = localStorage.getItem(`bookmarkedTraining-${userData.login}`); // ID нужной тренировки
+
+  useEffect(() => {
+    const fetchTargetTraining = async () => {
+      try {
+        const response = await getContact(targetId);
+        if (response.status === 200) {
+          const training = response.data;
+          setTargetTraining(training); // Сохраняем данные тренировки
+          handleGetTrainStats(training); // Получаем статистику сразу после загрузки тренировки
+        } else {
+          console.error("Ошибка получения тренировки:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Ошибка при выполнении запроса к API:", error);
+      }
+    };
+  
+    fetchTargetTraining();
+  }, [targetId]);
+
+  useEffect(() => {
+      // Проверяем, есть ли данные, и обновляем состояние
+      if (cards?.content) {
+          setFilteredData(cards.content);
+      }
+  }, [cards, targetId]);
 
   useEffect(() => {
     console.log("Обновленные данные:", userData);
     handleGetStats()
   }, []);
-  
+
   useEffect(() => {
     if (filteredData?.length > 0) {
         const training = filteredData.find((item) => item.id === targetId); // Ищем тренировку с нужным ID
@@ -297,12 +298,12 @@ export default function UserPage({cards}) {
                     <img className="background" src="./src/img/image.png.png" />
                     {targetTraining
                         ? <Training training={targetTraining} key={targetTraining.id} />
-                        : <p>Тренировка с ID {targetId} не найдена</p>
+                        : <p style={{marginLeft: '160px', display: 'flex', alignItems: 'center', textAlign: 'center'}}>У вас пока нет <br />избранной тренировки</p>
                     }
 
                     <ul className="featured-workout-tags">
                         <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
-                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used} минут</li>
+                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || ''} минут</li>
                         <li className="featured-workout-tag tag-kkal">автор: вы</li>
                     </ul>
                 </div>

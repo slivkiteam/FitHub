@@ -77,6 +77,8 @@ h1 {
 }
 
 .training-detail-button{
+    display: flex;
+    align-items: center;
     margin-top: 30px;
     padding: 15px;
     background-color: rgb(120, 229, 143);
