@@ -52,6 +52,15 @@ export default function StartPage({ data, onTypeChange }) {
                     </ul>
                 </div>
             </section>
+            <section class="information-desktop">
+                <div class="information-wrapper">
+                    <p class="information-text">информация</p>
+                </div>
+                <div class="information-block">
+                    <img style={{}} src='./src/img/info1.svg'/>
+                    <img style={{width: '580px'}}src='./src/img/info2.svg'/>
+                </div>
+        </section>
         </>
     );
 }
