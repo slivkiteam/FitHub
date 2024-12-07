@@ -31,7 +31,7 @@ function Trainings({ data, currentPage, getAllContacts, selectedTags, setSelecte
       ) : mainType === 'startPage' ? (
         <StartPage data={data} onTypeChange={handleTypeChange}/>
       ) : mainType === 'user-page' ? (
-        <UserPage />
+        <UserPage cards={data}/>
       ) : (
         <MainCreateTraining selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
       )}

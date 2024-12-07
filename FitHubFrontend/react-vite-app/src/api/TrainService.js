@@ -8,6 +8,7 @@ export async function saveContact(train) {
 export async function getContacts(page) {
     return await axios.get(`${API_URL}?page=${page}`);
 }
+
 export async function getContact(id) {
     return await axios.get(`${API_URL}/${id}`)
 }

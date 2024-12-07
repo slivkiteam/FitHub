@@ -1,6 +1,20 @@
 ﻿import React, { useState, useEffect } from "react";
+import Training from "../trainings/Training";
 
-export default function UserPage() {
+export default function UserPage({cards}) {
+  const [filteredData, setFilteredData] = useState([]);
+  const [stats, setStats] = useState({})
+
+  const targetId = 21; // ID нужной тренировки
+  const targetTraining = filteredData?.find(training => training.id === targetId);
+
+    useEffect(() => {
+        // Проверяем, есть ли данные, и обновляем состояние
+        if (cards?.content) {
+            setFilteredData(cards.content);
+        }
+    }, [cards]);
+
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
     id: 11,
@@ -28,6 +42,16 @@ export default function UserPage() {
     console.log("Обновленные данные:", userData);
     handleGetStats()
   }, []);
+  
+  useEffect(() => {
+    if (filteredData?.length > 0) {
+        const training = filteredData[1]; // Берем нужный элемент
+        if (training) {
+            handleGetTrainStats(training); // Один вызов функции
+        }
+    }
+}, [filteredData]); // Выполняется только при изменении filteredData
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,6 +117,37 @@ export default function UserPage() {
       console.error("Ошибка:", error);
     }
   };
+
+
+  const handleGetTrainStats = async (training) => {
+    try {
+        console.log(training.id);
+        const response = await fetch(`http://localhost:8081/trains/${training.id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ошибка! Статус: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setStats({
+          used: data.used,
+          duration: data.durationInMinutes,
+          calories: 0
+        })
+    } catch (error) {
+        console.error("Ошибка при выполнении запроса:", error);
+        if (error instanceof TypeError) {
+            console.error("Ошибка типа (скорее всего, ошибка сети или CORS).");
+        }
+    }
+  };
+
 
   const handleGetStats = async () => {
     const token = localStorage.getItem('jwtToken');
@@ -228,22 +283,15 @@ export default function UserPage() {
                 </div>
                 <div className="featured-workout-container">
                     <img className="background" src="./src/img/image.png.png" />
-                    <div className="training-card">
-                        <figure>
-                            <img className="training-img"></img>
-                        </figure>
-                        <div className="training-type-box">
-                            <ul className="tag-list">
-                                <li className="cardio-red"><a href="#">йога</a></li>
-                            </ul>
-                        </div>
-                        <h3>тренировка №1</h3>
-                        <p className="card-description">Описание тренировки</p>
-                    </div>
+                    {targetTraining
+                        ? <Training training={targetTraining} key={targetTraining.id} />
+                        : <p>Тренировка с ID {targetId} не найдена</p>
+                    }
+
                     <ul className="featured-workout-tags">
-                        <li className="featured-workout-tag tag-count">повторений</li>
-                        <li className="featured-workout-tag tag-time">общей длительности</li>
-                        <li className="featured-workout-tag tag-kkal">ккал сожжено</li>
+                        <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
+                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration} минут</li>
+                        <li className="featured-workout-tag tag-kkal">{stats.calories} ккал сожжено</li>
                     </ul>
                 </div>
             </section>      

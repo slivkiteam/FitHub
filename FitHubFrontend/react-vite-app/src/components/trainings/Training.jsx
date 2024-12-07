@@ -1,5 +1,6 @@
 ﻿import React from "react";
 import { Link } from 'react-router-dom';
+import { useEffect } from "react";
 
 function Training({training}){
 
@@ -9,6 +10,7 @@ function Training({training}){
     const truncatedDescription = training.description.length > 40
         ? training.description.slice(0, 40) + "..."
         : training.description;
+    
 
     return(
         <Link to={`/trains/${training.id}`}>

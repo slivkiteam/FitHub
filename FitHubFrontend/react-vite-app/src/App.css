@@ -493,7 +493,9 @@ input{
 .tag-time{
   background-color: #94FFFF;
   left: -40px;
-  position: relative; 
+  position: relative;
+  text-align: center; 
+  
 }
 .tag-kkal{
   background-color: #FF94FC;
