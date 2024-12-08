@@ -30,9 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-//	implementation 'io.minio:minio:8.5.13'
-	
-//	implementation 'org.jenkins-ci.plugins:envfile:1.2'
+//	implementation 'io.minio:minio:8.5.14'
 
 	implementation 'org.modelmapper:modelmapper:3.2.1'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
@@ -43,7 +41,6 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.auth0:java-jwt:4.4.0'
-
 }
 
 tasks.named('test') {

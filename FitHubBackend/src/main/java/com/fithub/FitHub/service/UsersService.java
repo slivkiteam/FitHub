@@ -13,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +39,9 @@ public class UsersService {
     }
 
     public Users findById(Long id) {
-        return usersRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        var user = usersRepository.findById(id).orElseThrow(UserNotFoundException::new);
+//        user = enrichUser(user);
+        return user;
     }
 
     public UsersDTO findUserDTO(Long id) {
@@ -53,6 +58,15 @@ public class UsersService {
         usersRepository.save(user);
     }
 
+
+    public Users enrichUser(Users user) {
+        LocalDate currentDate = LocalDate.now();
+        var a = user.getBirthday().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        user.setAge(Period.between(a, currentDate).getYears());
+        return user;
+    }
 
     @Transactional
     public void delete(Long id) {
@@ -84,10 +98,12 @@ public class UsersService {
     }
 
     public Users createFromDTO(UsersDTO userDTO) {
-        return modelMapper.map(userDTO, Users.class);
+        var user = modelMapper.map(userDTO, Users.class);
+        return enrichUser(user);
     }
 
     public UsersDTO convertToUsersDTO(Users user) {
+        user = enrichUser(user);
         return modelMapper.map(user, UsersDTO.class);
     }
     public Users getUserAuth() {

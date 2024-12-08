@@ -33,7 +33,6 @@ public class UsersController {
         return usersService.getUserAuthDTO();
     }
 
-
     @GetMapping
     public List<UsersDTO> getAllUsers() {
         return usersService.findAll();

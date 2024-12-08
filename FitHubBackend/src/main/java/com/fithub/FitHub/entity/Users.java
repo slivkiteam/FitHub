@@ -72,4 +72,6 @@ public class Users {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Rating> ratings = new HashSet<>();
+
+//    String images;
 }
