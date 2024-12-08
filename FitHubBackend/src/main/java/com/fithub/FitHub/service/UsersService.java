@@ -59,6 +59,9 @@ public class UsersService {
 
     public Users enrichUser(Users user) {
         LocalDate currentDate = LocalDate.now();
+        if (user.getBirthday() == null) {
+            return user;
+        }
         var a = user.getBirthday().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();

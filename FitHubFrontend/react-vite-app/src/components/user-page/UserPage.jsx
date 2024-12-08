@@ -12,7 +12,7 @@ export default function UserPage({cards}) {
 
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
-    id: 11,
+    // id: 11,
     name: null,
     surname: null,
     login: null,
