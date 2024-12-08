@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +40,7 @@ public class UsersService {
     }
 
     public Users findById(Long id) {
-        var user = usersRepository.findById(id).orElseThrow(UserNotFoundException::new);
-//        user = enrichUser(user);
-        return user;
+        return usersRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public UsersDTO findUserDTO(Long id) {
@@ -57,7 +56,6 @@ public class UsersService {
         user.getUserStatistics().setUser(user);
         usersRepository.save(user);
     }
-
 
     public Users enrichUser(Users user) {
         LocalDate currentDate = LocalDate.now();
@@ -77,6 +75,10 @@ public class UsersService {
     public void update(Long id, Users updatedUser) {
         updatedUser.setId(id);
         enrichUserStatistics(id, updatedUser);
+        var year = updatedUser.getAge();
+        LocalDate localDate = LocalDate.of(LocalDate.now().getYear() - year, 1, 1);
+        var d = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        updatedUser.setBirthday(d);
         save(updatedUser);
     }
 
@@ -99,18 +101,21 @@ public class UsersService {
 
     public Users createFromDTO(UsersDTO userDTO) {
         var user = modelMapper.map(userDTO, Users.class);
-        return enrichUser(user);
+//        return enrichUser(user);
+        return user;
     }
 
     public UsersDTO convertToUsersDTO(Users user) {
         user = enrichUser(user);
         return modelMapper.map(user, UsersDTO.class);
     }
+
     public Users getUserAuth() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsersDetails usersDetails = (UsersDetails) authentication.getPrincipal();
         return usersDetails.getUser();
     }
+
     public UsersDTO getUserAuthDTO() {
         return convertToUsersDTO(getUserAuth());
     }
