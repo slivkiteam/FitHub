@@ -51,9 +51,10 @@ export default function MainDesktopHeader({selectedTags}) {
             "place": selectedTags.format,
             "category": {
                 "category": selectedTags.trainingType
-            }
+            },
+            "exercises": JSON.parse(localStorage.getItem(`exercises`))
         }
-
+        localStorage.removeItem(`exercises`)
 
         try {
             saveContact(training);

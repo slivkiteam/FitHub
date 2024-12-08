@@ -214,6 +214,10 @@ body {
     flex-direction: column;
     gap: 20px;
 }
+.exers{
+    display: flex;
+    gap: 20px;
+}
 .page-text {
     font-weight: 600;
 }

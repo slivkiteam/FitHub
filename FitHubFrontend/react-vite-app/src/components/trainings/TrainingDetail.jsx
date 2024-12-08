@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import './css/TrainingDetail.css'
 import Header from './Header';
+import Exercise from '../exercise/Exercise';
 
 
 export default function TrainingDetail() {
@@ -10,6 +11,7 @@ export default function TrainingDetail() {
   const navigate = useNavigate();
   const [isBookmarked, setIsBookmarked] = useState(false); // Состояние для закладки
   const [userData, setUserData] = useState({})
+  const [exercises, setExercises] = useState([])
 
   useEffect(() => {
     console.log("Обновленные данные:", userData);
@@ -51,6 +53,7 @@ export default function TrainingDetail() {
                 ibw: null
               }
             }
+            console.log(data.exercises)
             setUserData(data)
         } 
         else {
@@ -67,24 +70,37 @@ export default function TrainingDetail() {
 };
 
 
-  useEffect(() => {
-    const fetchTraining = async () => {
-      try {
-        const response = await fetch(`http://localhost:8081/trains/${id}`);
-        const data = await response.json();
-        setTraining(data);
-
-        // Проверяем, совпадает ли текущий id с сохранённой закладкой
-        const savedBookmark = localStorage.getItem(`bookmarkedTraining-${userData.login}`);
-        setIsBookmarked(savedBookmark === id); // Устанавливаем состояние
-
-      } catch (error) {
-        console.error('Error loading training data:', error);
+useEffect(() => {
+  const fetchTraining = async () => {
+    try {
+      const response = await fetch(`http://localhost:8081/trains/${id}`);
+      if (!response.ok) {
+        throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
       }
-    };
+      const data = await response.json();
+      console.log("Полученные данные тренировки:", data);
 
-    fetchTraining();
-  }, [id]);
+      // Устанавливаем данные тренировки в состояние
+      setTraining(data);
+
+      // Устанавливаем упражнения из ответа в состояние exercises
+      if (data.exercises) {
+        setExercises(data.exercises);
+      } else {
+        console.warn("Упражнения отсутствуют в ответе");
+      }
+
+      // Проверяем закладку для текущего пользователя
+      const savedBookmark = localStorage.getItem(`bookmarkedTraining-${userData.login}`);
+      setIsBookmarked(savedBookmark === id);
+    } catch (error) {
+      console.error("Ошибка при загрузке данных тренировки:", error);
+    }
+  };
+
+  fetchTraining();
+}, [id, userData.login]);
+
 
   if (!training) {
     return <div>Loading...</div>;
@@ -124,10 +140,13 @@ export default function TrainingDetail() {
         <p>Состав тренировки:</p>
         <div className='training-block'>
           <ul className="training-exercises">
-            <li className="training-exercise">приседания 10 раз</li>
-            <li className="training-exercise">отжимания 10 раз</li>
-            <li className="training-exercise">подтягивания 10 раз</li>
-            <li className="training-exercise">жим лежа 5 раз</li>
+            {Object.keys(exercises).length > 0 ? (
+                  Object.values(exercises).map((exercise, index) => (
+                      <Exercise key={index} exer={exercise} />
+                  ))
+              ) : (
+                  <p className="page-text">Упражнения пока не сгенерированы.</p>
+              )}
           </ul>
         </div>
       </div>

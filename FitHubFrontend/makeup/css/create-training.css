@@ -185,7 +185,6 @@ body {
 }
 .settings-desktop__structure {
     display: flex;
-    flex-direction: column;
     gap: 20px;
 }
 .page-text {

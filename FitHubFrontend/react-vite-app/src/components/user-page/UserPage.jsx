@@ -235,13 +235,6 @@ export default function UserPage({cards}) {
                 value={userData.name}
                 onChange={handleChange}
               />
-              <input
-                className="third-name"
-                placeholder="Логин"
-                name="login"
-                value={userData.login}
-                onChange={handleChange}
-              />
               <div className="account-info">
                 <input
                   className="height"
@@ -274,17 +267,21 @@ export default function UserPage({cards}) {
                 <span className="postinput">лет</span>
               </div>
               <div className="account-info">
-                <input
-                type="text"
-                className="gender"
-                placeholder="Пол"
-                name="gender"
-                value={userData.gender}
-                onChange={handleChange}
-                />
-                <span className="postinput">пол</span>
+                
+                <select
+                  id="gender"
+                  name="gender"
+                  style={{borderRadius:'8px', padding: '2px', backgroundColor: '#DADADA', borderStyle: 'inset', borderWidth: '1px', fontFamily: 'UNCAGE'}}
+                  value={userData.gender || ""}
+                  onChange={handleChange}
+                >
+                  <option value="">Выберите пол</option>
+                  <option value="МУЖСКОЙ">МУЖСКОЙ</option>
+                  <option value="ЖЕНСКИЙ">ЖЕНСКИЙ</option>
+                </select>
+                <label htmlFor="gender">Пол</label>
               </div>
-              
+                    
             <button style={{borderRadius:"20px", border: "none", fontFamily: 'UNCAGE', padding: '10px'}} onClick={handleSubmit}>Сохранить</button>
             </div>
           </div>
@@ -314,44 +311,12 @@ export default function UserPage({cards}) {
                 </div>
                 <div className="training-cards-container">
                     <ul className="training-cards">
-                        <li className="training-card">
-                                <figure>
-                                    <img className="training-img"></img>
-                                </figure>
-                                <div className="training-type-box">
-                                    <ul className="tag-list">
-                                        <li className="cardio-red"><a href="#">кардио</a></li>
-                                        <li className="long"><a href="#">долго</a></li>
-                                    </ul>
-                                </div>
-                                <h3>тренировка №1</h3>
-                                <p className="card-description">Описание тренировки</p>
-                        </li>
-                        <li className="training-card">
-                            <figure>
-                                <img className="training-img"></img>
-                            </figure>
-                            <div className="training-type-box">
-                                <ul className="tag-list">
-                                    <li className="cardio-red"><a href="#">силовая</a></li>
-                                    <li className="fast"><a href="#">быстро</a></li>
-                                </ul>
-                            </div>
-                            <h3>тренировка №2</h3>
-                            <p className="card-description">Описание тренировки</p>
-                        </li>
-                        <li className="training-card">
-                            <figure>
-                                <img className="training-img"></img>
-                            </figure>
-                            <div className="training-type-box">
-                                <ul className="tag-list">
-                                    <li className="cardio-red"><a href="#">йога</a></li>
-                                </ul>
-                            </div>
-                            <h3>тренировка №3</h3>
-                            <p className="card-description">Описание тренировки</p>
-                        </li>
+                    {filteredData?.length > 0
+                            ? filteredData.slice(0, 3).map((training) => (
+                                <Training training={training} key={training.id} />
+                            ))
+                            : <p>Нет доступных тренировок</p>
+                        }
                     </ul>
                 </div>
             </section> 
