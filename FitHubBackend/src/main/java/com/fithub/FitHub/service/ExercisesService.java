@@ -71,4 +71,9 @@ public class ExercisesService {
         exercise.setId(exercisesRepository.findByTitle(exercise.getTitle()).getId());
         return exercise;
     }
+
+    public List<Exercises> findAllByCategory(String category) {
+        var activityCategory = activityCategoriesService.findByCategory(category);
+        return exercisesRepository.findAllByCategory(activityCategory);
+    }
 }

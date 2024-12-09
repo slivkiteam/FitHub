@@ -75,100 +75,146 @@ public class IntelligentAssistantService {
         var hardExercises =  new ArrayList<>(exercisesList.stream().filter(a -> a.getStatus().equals(Status.valueOf("СЛОЖНО"))).toList());
         var middleExercises =  new ArrayList<>(exercisesList.stream().filter(a -> a.getStatus().equals(Status.valueOf("СРЕДНЕ"))).toList());
         var easyExercises = new ArrayList<>(exercisesList.stream().filter(a -> a.getStatus().equals(Status.valueOf("ЛЕГКО"))).toList());
-        var maxTrainingsHours = 2;
+        var maxTrainingsHours = 1.5;
+        var countOfChill = 1.5;
+        var easyChillInSec = 150;
+        var middleChillInSec = 110;
+        var hardChillInSec =  60;
         var secondsInHours = 3600;
         var timeMax = (time.size() == 1) ? secondsInHours*maxTrainingsHours : time.get(1)*60;
         var timeMin = (time.size() == 1) ? time.get(0) : time.get(0)*60;
         var sumTime = 0;
         Random rand = new Random();
         while (sumTime <= timeMax) {
-            var averageStatusCoef = results.stream().map(a -> a.getStatus().getCoefficient()).reduce(0.0, Double::sum);
+            var averageStatusCoef = (results.isEmpty()) ? 0 : results.stream().map(a -> a.getStatus().getCoefficient()).reduce(0.0, Double::sum)/results.size();
+            if (averageStatusCoef > (status.getCoefficient()*1.5) && timeMin <= sumTime) break;
             var countEasy = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("ЛЕГКО"))).count();
             var countMiddle = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СРЕДНЕ"))).count();
             var countHard = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СЛОЖНО"))).count();
-            //смотрим , что средняя сложность не более , чем 1.5 больше, выбранной сложности, если больше и время больше , то выходим
-            if (averageStatusCoef > status.getCoefficient() * 3 && sumTime >= timeMin) break;
             if (status.equals(Status.valueOf("ЛЕГКО"))) {
-                if (easyExercises.size() == 0 && middleExercises.size() == 0) break;
-                if (results.size() == 0 || (easyExercises.size() != 0 && countEasy > 0 && ((double) countEasy / results.size()) <= 0.9)) {
+                if (easyExercises.isEmpty() && middleExercises.isEmpty()) break;
+                if (results.isEmpty() || (!easyExercises.isEmpty() && countEasy > 0 && ((double) countEasy / results.size()) <= 0.9)) {
                     var randomIndex = rand.nextInt(easyExercises.size());
                     var exercise = easyExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+                    sumTime += (int) (easyChillInSec * countOfChill);
+                    countOfChill += 0.25;
+                    countEasy = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("ЛЕГКО"))).count();
                     easyExercises.remove(randomIndex);
-                }
-                else {
-                    if (middleExercises.size() != 0) {
+                } else {
+                    if (!middleExercises.isEmpty()) {
                         var randomIndex = rand.nextInt(middleExercises.size());
                         var exercise = middleExercises.get(randomIndex);
                         results.add(exercise);
                         sumTime += exercise.getDurationInSeconds();
+                        sumTime += (int) (easyChillInSec * 2.2 * countOfChill);
+                        countOfChill += 0.5;
+
+                        countMiddle = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СРЕДНЕ"))).count();
                         middleExercises.remove(randomIndex);
                     }
                 }
             }
-            if  (results.size() == 0 ||(easyExercises.size() != 0 && easyExercises.size() != 0 && status.equals(Status.valueOf("СРЕДНЕ")))) {
-                if (easyExercises.size() == 0 && middleExercises.size() == 0 && hardExercises.size() != 0) break;
-                if (((double) countEasy / results.size()) <= 0.2) {
+            if (status.equals(Status.valueOf("СРЕДНЕ"))) {
+                if (easyExercises.isEmpty() && middleExercises.isEmpty() && hardExercises.isEmpty()) break;
+                if (results.isEmpty() || ((double) countEasy / results.size()) <= 0.2) {
                     var randomIndex = rand.nextInt(easyExercises.size());
                     var exercise = easyExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+                    sumTime += (int) (middleChillInSec * countOfChill);
+                    countOfChill += 0.5;
+                    countEasy = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("ЛЕГКО"))).count();
                     easyExercises.remove(randomIndex);
                 }
-                if ( results.size() == 0 ||(middleExercises.size() != 0 && ((double) countEasy / results.size()) > 0.2 && ((double) countMiddle / results.size()) <= 0.7)) {
+                if (!middleExercises.isEmpty() && (double) countEasy / results.size() > 0.2 && (double) countMiddle / results.size() <= 0.7) {
                     var randomIndex = rand.nextInt(middleExercises.size());
                     var exercise = middleExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+
+                    sumTime += (int) (middleChillInSec * 2.2 * countOfChill);
+                    countOfChill += 0.5;
+
+                    countMiddle = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СРЕДНЕ"))).count();
                     middleExercises.remove(randomIndex);
                 }
-                if ( results.size() == 0 ||(hardExercises.size() != 0 && ((double) countEasy / results.size()) > 0.2 && ((double) countMiddle / results.size()) > 0.7 && ((double) countHard / results.size()) <= 0.1)) {
+                if (!hardExercises.isEmpty() && (double) countEasy / results.size() > 0.2 && (double) countMiddle / results.size() > 0.7 && (double) countHard / results.size() <= 0.1) {
                     var randomIndex = rand.nextInt(hardExercises.size());
                     var exercise = hardExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+//                    sumTime += (int) (countOfChill * hardCoef);
+//                    countOfChill *= 3.0;
+                    sumTime += (int) (middleChillInSec * 3 * countOfChill);
+                    countOfChill += 0.5;
+
+                    countHard = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СЛОЖНО"))).count();
                     hardExercises.remove(randomIndex);
                 }
+                if (!(results.isEmpty() || ((double) countEasy / results.size()) <= 0.2) &&
+                 !(results.isEmpty() ||(!middleExercises.isEmpty() && ((double) countEasy / results.size()) > 0.2 && ((double) countMiddle / results.size()) <= 0.7)) &&
+                 ! (results.isEmpty() ||(!hardExercises.isEmpty() && ((double) countEasy / results.size()) > 0.2 && ((double) countMiddle / results.size()) > 0.7 && ((double) countHard / results.size()) <= 0.1))) break;
             }
             if (status.equals(Status.valueOf("СЛОЖНО"))) {
-                if (easyExercises.size() == 0 && middleExercises.size() == 0 && hardExercises.size() != 0) break;
-                if ( results.size() == 0 || (easyExercises.size() != 0 && countEasy > 0 &&  ((double) countEasy / results.size()) <= 0.1)) {
+                if (easyExercises.isEmpty() && middleExercises.isEmpty() && hardExercises.isEmpty()) break;
+                if (results.isEmpty() || (!easyExercises.isEmpty() && countEasy > 0 &&  ((double) countEasy / results.size()) <= 0.11)) {
                     var randomIndex = rand.nextInt(easyExercises.size());
                     var exercise = easyExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+//                    sumTime += (int) (countOfChill * easyCoef);
+//                    countOfChill *= 1;
+                    sumTime += (int) (hardChillInSec * countOfChill);
+                    countOfChill += 0.5;
+
+                    countEasy = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("ЛЕГКО"))).count();
                     easyExercises.remove(randomIndex);
                 }
-                if ( results.size() == 0 || (middleExercises.size() != 0 && ((double) countEasy / results.size()) > 0.1 && countEasy > 0 && ((double) countMiddle / results.size()) <= 0.3)) {
+                if (!middleExercises.isEmpty() && (double) countEasy / results.size() > 0.1 && countEasy > 0 && (double) countMiddle / results.size() <= 0.3) {
                     var randomIndex = rand.nextInt(middleExercises.size());
                     var exercise = middleExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+//                    sumTime += (int) (countOfChill * middleCoef);
+//                    countOfChill *= 1.5;
+                    sumTime += (int) (hardChillInSec*2.3* countOfChill);
+                    countOfChill += 0.5;
+
+                    countMiddle = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СРЕДНЕ"))).count();
                     middleExercises.remove(randomIndex);
                 }
-                if ( results.size() == 0 || (hardExercises.size() != 0 && ((double) countEasy / results.size()) > 0.1  && countEasy > 0 && ((double) countMiddle / results.size()) > 0.3 && ((double) countHard / results.size()) <= 0.6)) {
+                if (!hardExercises.isEmpty() && (double) countEasy / results.size() > 0.1 && countEasy > 0 && (double) countMiddle / results.size() > 0.3 && (double) countHard / results.size() <= 0.6) {
                     var randomIndex = rand.nextInt(hardExercises.size());
                     var exercise = hardExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
+//                    sumTime += (int) (countOfChill * hardCoef);
+//                    countOfChill *= 2.5;
+                    sumTime += (int) (hardChillInSec * 3 * countOfChill);
+                    countOfChill += 0.5;
+
+                    countHard = results.stream().filter(a -> a.getStatus().equals(Status.valueOf("СЛОЖНО"))).count();
                     hardExercises.remove(randomIndex);
                 }
+                if (!(results.isEmpty() || (countEasy > 0 &&  ((double) countEasy / results.size()) <= 0.1)) &&
+                !(results.isEmpty() || (!middleExercises.isEmpty() && ((double) countEasy / results.size()) > 0.1 && countEasy > 0 && ((double) countMiddle / results.size()) <= 0.3)) &&
+                !(results.isEmpty() || (!hardExercises.isEmpty() && ((double) countEasy / results.size()) > 0.1  && countEasy > 0 && ((double) countMiddle / results.size()) > 0.3 && ((double) countHard / results.size()) <= 0.6))) break;
             }
         }
         return results;
     }
-
+    
     public TrainDTO generateTrain(Users user, TrainsFilterDTO trainsFilterDTO) {
         var currentTrain = new Train();
-        //нужно подправить
-        user.setAge(20);
         var coefByUserData = getCoefficient(user);
         var times = parseTime(trainsFilterDTO.getTimes());
         var category = trainsFilterDTO.getActivityCategories().toUpperCase();
         var format = trainsFilterDTO.getFormats().toUpperCase();
         var status = trainsFilterDTO.getStatus().toUpperCase();
         var exercisesByCategory = exercisesService.findAllByCategoryAndPlace(category, format);
+//        var exercisesByCategory = exercisesService.findAllByCategory(category);
         var correctExercises = fillTrainExercises(exercisesByCategory, times, Status.valueOf(status));
         //сделал чтобы было количество повторов под пользователя
         correctExercises.forEach(exercise ->  exercise.setCountOfIteration(exercise.getCountOfIteration() * (int) Math.round(coefByUserData)));

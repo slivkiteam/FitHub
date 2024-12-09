@@ -2,11 +2,9 @@ package com.fithub.FitHub.controller;
 
 import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.dto.TrainsFilterDTO;
-import com.fithub.FitHub.security.UsersDetails;
 import com.fithub.FitHub.service.IntelligentAssistantService;
+import com.fithub.FitHub.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +15,12 @@ import java.util.List;
 public class IntelligentAssistantController {
 
     private final IntelligentAssistantService intelligentAssistantService;
+    private final UsersService usersService;
 
     @Autowired
-    public IntelligentAssistantController(IntelligentAssistantService intelligentAssistantService) {
+    public IntelligentAssistantController(IntelligentAssistantService intelligentAssistantService, UsersService usersService) {
         this.intelligentAssistantService = intelligentAssistantService;
+        this.usersService = usersService;
     }
 
     @GetMapping
@@ -30,9 +30,7 @@ public class IntelligentAssistantController {
 
     @PostMapping("/generate")
     public TrainDTO generate(@RequestBody() TrainsFilterDTO trainsFilterDTO) {
-        System.out.println(trainsFilterDTO);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UsersDetails usersDetails = (UsersDetails) authentication.getPrincipal();
-        return intelligentAssistantService.generateTrain(usersDetails.getUser(), trainsFilterDTO);
+        var user = usersService.createFromDTO(usersService.getUserAuthDTO());
+        return intelligentAssistantService.generateTrain(user, trainsFilterDTO);
     }
 }

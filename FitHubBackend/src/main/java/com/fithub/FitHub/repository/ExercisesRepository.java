@@ -11,4 +11,5 @@ import java.util.List;
 public interface ExercisesRepository extends JpaRepository<Exercises, Long> {
     Exercises findByTitle(String title);
     List<Exercises> findAllByCategoryAndPlace(ActivityCategories category, String place);
+    List<Exercises> findAllByCategory(ActivityCategories category);
 }
