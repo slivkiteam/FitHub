@@ -49,6 +49,9 @@ public class IntelligentAssistantService {
         //смотреть, насколько он освоился в текущем скиле
         //Разница между скилами текущим и следующим
         //Подумать о возрастающей до бесконечности сложности, если человек сделает более 50 тренировок
+        var a = userStat.getSkill();
+        var b = Skill.getNextSkill(userStat.getSkill());
+        var c = Skill.getNextSkill(userStat.getSkill()).getCountTrainsForGetSkill();
         var currentDeltaOfSkills = Math.abs(Skill.getNextSkill(userStat.getSkill()).getCountTrainsForGetSkill() - userStat.getSkill().getCountTrainsForGetSkill());
         //Разница между прогрессом пользователя и количеством тренировок скила
         var userProgressInSkill = userStat.getCountOfTrains() - userStat.getSkill().getCountTrainsForGetSkill();
@@ -145,8 +148,7 @@ public class IntelligentAssistantService {
                     var exercise = hardExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
-//                    sumTime += (int) (countOfChill * hardCoef);
-//                    countOfChill *= 3.0;
+
                     sumTime += (int) (middleChillInSec * 3 * countOfChill);
                     countOfChill += 0.5;
 
@@ -164,8 +166,7 @@ public class IntelligentAssistantService {
                     var exercise = easyExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
-//                    sumTime += (int) (countOfChill * easyCoef);
-//                    countOfChill *= 1;
+
                     sumTime += (int) (hardChillInSec * countOfChill);
                     countOfChill += 0.5;
 
@@ -177,8 +178,7 @@ public class IntelligentAssistantService {
                     var exercise = middleExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
-//                    sumTime += (int) (countOfChill * middleCoef);
-//                    countOfChill *= 1.5;
+
                     sumTime += (int) (hardChillInSec*2.3* countOfChill);
                     countOfChill += 0.5;
 
@@ -190,8 +190,7 @@ public class IntelligentAssistantService {
                     var exercise = hardExercises.get(randomIndex);
                     results.add(exercise);
                     sumTime += exercise.getDurationInSeconds();
-//                    sumTime += (int) (countOfChill * hardCoef);
-//                    countOfChill *= 2.5;
+
                     sumTime += (int) (hardChillInSec * 3 * countOfChill);
                     countOfChill += 0.5;
 

@@ -64,4 +64,7 @@ public class Train {
     @Builder.Default
     @OneToMany(mappedBy = "train")
     private Set<Rating> ratings = new HashSet<>();
+
+    @Column
+    String image;
 }

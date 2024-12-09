@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum Skill {
-    GOD_OF_WAR(3.0, 50),
-    PRO(2.0, 35),
-    HIGH(1.5, 25),
-    MEDIUM(1.2, 18),
-    STANDARD(1, 10),
+    LOW(0.5, 0),
     BEGINNER(0.8, 5),
-    LOW(0.5, 0);
+    STANDARD(1, 10),
+    MEDIUM(1.2, 18),
+    HIGH(1.5, 25),
+    PRO(2.0, 35),
+    GOD_OF_WAR(3.0, 50);
 
     private final double coefficient;
 

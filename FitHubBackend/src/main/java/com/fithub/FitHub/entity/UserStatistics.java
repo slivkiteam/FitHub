@@ -20,7 +20,7 @@ public class UserStatistics {
     private Long id;
 
     @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     @OneToOne()
     private Users user;
 

@@ -1,7 +1,9 @@
 package com.fithub.FitHub.service;
 
 import com.fithub.FitHub.dto.UsersDTO;
+import com.fithub.FitHub.entity.Skill;
 import com.fithub.FitHub.entity.Train;
+import com.fithub.FitHub.entity.UserStatistics;
 import com.fithub.FitHub.entity.Users;
 import com.fithub.FitHub.repository.UsersRepository;
 import com.fithub.FitHub.security.UsersDetails;
@@ -85,14 +87,33 @@ public class UsersService {
         save(updatedUser);
     }
 
-    private void enrichUserStatistics(Long id, Users updatedUser) {
+    @Transactional
+    public void enrichUserStatistics(Long id, Users updatedUser) {
         var userStatistics = userStatistictsService.findByUserId(id);
         if (userStatistics != null) {
             updatedUser.getUserStatistics().setId(userStatistics.getId());
+            userStatistics = enrichDataStat(updatedUser.getUserStatistics());
+            updatedUser.setUserStatistics(userStatistics);
+            userStatistictsService.save(updatedUser.getUserStatistics());
         } else {
             updatedUser.getUserStatistics().setUser(updatedUser);
+            updatedUser.setUserStatistics(enrichDataStat(updatedUser.getUserStatistics()));
             userStatistictsService.save(updatedUser.getUserStatistics());
         }
+    }
+
+    private static UserStatistics enrichDataStat(UserStatistics userStatistics) {
+        var ibw = userStatistics.getWeight() /
+                ((double) userStatistics.getHeight() /100 * (double) userStatistics.getHeight()/100);
+        userStatistics.setIBW(ibw);
+        if (userStatistics.getSkill() != null && userStatistics.getCountOfTrains() == 0) {
+            userStatistics.setCountOfTrains(userStatistics.getSkill().getCountTrainsForGetSkill());
+        }
+        if (userStatistics.getSkill() == null) {
+            userStatistics.setSkill(Skill.LOW);
+            userStatistics.setCountOfTrains(Skill.LOW.getCountTrainsForGetSkill());
+        }
+        return userStatistics;
     }
 
     @Transactional

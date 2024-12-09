@@ -17,7 +17,7 @@ CREATE TABLE users_statistics (
     weight INT,
     height INT,
     IBW DECIMAL(4,2),
-    user_id BIGINT UNIQUE REFERENCES users(id) ON DELETE CASCADE
+    users_id BIGINT UNIQUE REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE activity_categories ( -- Категория упражнения
@@ -37,8 +37,10 @@ CREATE TABLE trains (
     count_of_iteration INT,
     place VARCHAR(128),
     author VARCHAR(128),
+    image VARCHAR(512),
     category_id INT REFERENCES activity_categories(id)
 );
+
 --рассчитывать количество повторений по формуле, есть конкретное число * коэф. Определить жирный или нет и уровень сложности тренировки
 CREATE TABLE users_trains (
     user_id BIGSERIAL REFERENCES users (id),
@@ -75,4 +77,4 @@ CREATE TABLE ratings (
      score INT CHECK (score >= 1 AND score <= 5),
      feedback VARCHAR(128)
 );
-DROP TABLE trains, activity_categories, users, users_trains, exercises, users_trains, trains_exercises, users_statistics;
+-- DROP TABLE trains, activity_categories, users, users_trains, exercises, users_trains, trains_exercises, users_statistics,ratings;
