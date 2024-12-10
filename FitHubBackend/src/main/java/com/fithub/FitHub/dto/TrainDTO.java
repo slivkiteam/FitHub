@@ -23,6 +23,7 @@ public class TrainDTO {
     private Integer countOfIteration;
     private String author;
     private String place;
+    private String image;
     private ActivityCategories category;
     private List<Users> users;
     private List<Exercises> exercises;

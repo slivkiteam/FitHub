@@ -1,4 +1,4 @@
-version: "v2.29.7-desktop.1"
+#version: "v2.29.7-desktop.1"
 services:
   postgres:
     image: postgres:latest
@@ -23,32 +23,30 @@ services:
       - "8081:8081"
     depends_on:
       - postgres
-#      - minio
+      - minio
     env_file:
-      - .properties
+      - FitHubBackend/src/main/resources/static/.properties
     networks:
       - practice-net
-#  minio:
-#    image: minio/minio:latest
-#    container_name: minio
-#    networks:
-#      - practice-net
-#    environment:
-#      - MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
-#      - MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
-#    command: server ~/minio --console-address :9090
-#    env_file:
-#      - .properties
-#    ports:
-#      - '9090:9090'
-#      - '9000:9000'
-#    volumes:
-#      - minio-data:/minio
-#
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server ~/minio --console-address :9090
+    ports:
+      - '9090:9090'
+      - '9000:9000'
+    volumes:
+      - minio-data:/minio
+    networks:
+      - practice-net
 volumes:
   pgdbdata:
-#  minio-data:
-#    driver: local
+    driver: local
+  minio-data:
+    driver: local
 
 networks:
   practice-net:

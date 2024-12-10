@@ -3,12 +3,15 @@ package com.fithub.FitHub.controller;
 import com.fithub.FitHub.dto.ExercisesDTO;
 import com.fithub.FitHub.dto.RatingDTO;
 import com.fithub.FitHub.dto.TrainDTO;
+import com.fithub.FitHub.dto.TrainImageDTO;
 import com.fithub.FitHub.entity.AverageRating;
 import com.fithub.FitHub.entity.Train;
+import com.fithub.FitHub.entity.TrainImage;
 import com.fithub.FitHub.filter.TrainsSpecificationsBuilder;
 import com.fithub.FitHub.security.UsersDetails;
 import com.fithub.FitHub.service.ExercisesService;
 import com.fithub.FitHub.service.RatingService;
+import com.fithub.FitHub.service.TrainImageService;
 import com.fithub.FitHub.service.TrainService;
 import com.fithub.FitHub.util.ErrorResponse;
 import com.fithub.FitHub.util.TrainNotCreatedException;
@@ -34,12 +37,13 @@ public class TrainController {
     private final TrainService trainService;
     private final ExercisesService exercisesService;
     private final RatingService ratingService;
-
+    private final TrainImageService trainImageService;
     @Autowired
-    public TrainController(TrainService trainService, ExercisesService exercisesService, RatingService ratingService) {
+    public TrainController(TrainService trainService, ExercisesService exercisesService, RatingService ratingService, TrainImageService trainImageService) {
         this.trainService = trainService;
         this.exercisesService = exercisesService;
         this.ratingService = ratingService;
+        this.trainImageService = trainImageService;
     }
 
     @GetMapping()
@@ -77,6 +81,17 @@ public class TrainController {
         ratingService.addRating(usersDetails.getUser().getId(), id, ratingDTO.getScore(), ratingDTO.getFeedback());
         return ResponseEntity.ok(HttpStatus.CREATED);
 //        Rating rating = ratingService.addRating(ratingDTO.getUsersId(), ratingDTO.getTrainsId(), ratingDTO.getScore(), ratingDTO.getFeedback());//        return ResponseEntity.ok(HttpStatus.CREATED);
+    }
+    @GetMapping("/{id}/image")
+    public String  getImage(@PathVariable("id") Long id) {
+        return trainService.getUrlByTrainId(id);
+    }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<HttpStatus> uploadImage(@PathVariable("id") Long id, @ModelAttribute TrainImageDTO trainImageDTO) {
+        TrainImage trainImage = trainImageService.createFromDTO(trainImageDTO);
+        trainService.uploadImage(id, trainImage);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}/addExercises")

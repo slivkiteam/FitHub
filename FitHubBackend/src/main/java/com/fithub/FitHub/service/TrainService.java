@@ -21,13 +21,15 @@ public class TrainService {
     private final TrainingsRepository trainingsRepository;
     private final ActivityCategoriesService activityCategoriesService;
     private final ModelMapper modelMapper;
+    private final ImageService imageService;
     private final int NUMBER_OF_PAGINATION = 4;
 
     @Autowired
-    public TrainService(TrainingsRepository trainingsRepository, ActivityCategoriesService activityCategoriesService, ModelMapper modelMapper) {
+    public TrainService(TrainingsRepository trainingsRepository, ActivityCategoriesService activityCategoriesService, ModelMapper modelMapper, ImageService imageService) {
         this.trainingsRepository = trainingsRepository;
         this.activityCategoriesService = activityCategoriesService;
         this.modelMapper = modelMapper;
+        this.imageService = imageService;
     }
 //    //локально искать все тренировки, не для вывода к фронту!!! чтобы выводить не Page, а лист
     public List<Train> findAll() {
@@ -106,5 +108,19 @@ public class TrainService {
         currentTrain.setCategory(category);
         return currentTrain;
         //возможно нужно и сохранять, но это при условии, что тренировку после генерации мы сохраняем сразу, но это ведь не так???
+    }
+
+    @Transactional
+    public void uploadImage(Long id, TrainImage trainImage) {
+        String fileName = imageService.upload(trainImage);
+        var t = findById(id);
+        t.setImage(fileName);
+        save(t);
+    }
+
+    public String getUrlByTrainId(Long trainId) {
+        var t = findById(trainId);
+        if (t == null || t.getImage() == null) return "";
+        return imageService.getPresignedUrl(t.getImage());
     }
 }

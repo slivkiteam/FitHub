@@ -2,6 +2,7 @@ package com.fithub.FitHub.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -66,5 +67,6 @@ public class Train {
     private Set<Rating> ratings = new HashSet<>();
 
     @Column
-    String image;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String image;
 }

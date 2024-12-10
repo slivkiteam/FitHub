@@ -11,4 +11,5 @@ import java.util.List;
 public interface TrainingsRepository extends JpaRepository<Train, Long>, JpaSpecificationExecutor<Train> {
     List<Train> findBookByTitleStartingWith(String title);
     Train findByTitle(String title);
+
 }

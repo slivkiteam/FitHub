@@ -2,7 +2,9 @@ package com.fithub.FitHub.config;
 
 //import com.fithub.FitHub.security.AuthProviderImpl;
 
+import com.fithub.FitHub.props.MinioProperties;
 import com.fithub.FitHub.service.UsersDetailsService;
+import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,11 +32,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig implements WebMvcConfigurer {
 
     private final JWTFilter jwtFilter;
+    private final MinioProperties minioProperties;
     private final UsersDetailsService userDetailsService;
 
+
     @Autowired
-    public SecurityConfig(JWTFilter jwtFilter, UsersDetailsService userDetailsService) {
+    public SecurityConfig(JWTFilter jwtFilter, MinioProperties minioProperties, UsersDetailsService userDetailsService) {
         this.jwtFilter = jwtFilter;
+        this.minioProperties = minioProperties;
         this.userDetailsService = userDetailsService;
     }
 
@@ -76,12 +81,19 @@ public class SecurityConfig implements WebMvcConfigurer {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
+    }
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
     }
 }
