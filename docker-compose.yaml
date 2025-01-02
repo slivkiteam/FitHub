@@ -28,8 +28,8 @@ services:
     depends_on:
       - postgres
       - minio
-#    env_file:
-#      - FitHubBackend/src/main/resources/static/.properties
+    #    env_file:
+    #      - FitHubBackend/src/main/resources/static/.properties
     networks:
       - practice-net
   minio:

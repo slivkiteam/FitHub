@@ -26,7 +26,12 @@ public class ImageService {
 
     @Autowired
     public ImageService(MinioClient minioClient, MinioProperties minioProperties) {
-        this.minioClient = minioClient;
+        
+//        this.minioClient = minioClient;
+        this.minioClient = MinioClient.builder()
+                .endpoint("http://minio:9000")
+                .credentials("minioadmin", "minioadmin")
+                .build();
         this.minioProperties = minioProperties;
     }
 
@@ -76,7 +81,7 @@ public class ImageService {
 
     private String generateFileName(MultipartFile file) {
         String extension = getExtension(file);
-        return "%s%s%s".formatted(UUID.randomUUID(), ".",extension);
+        return "%s%s%s".formatted(UUID.randomUUID(), ".", extension);
     }
 
     private String getExtension(MultipartFile file) {
