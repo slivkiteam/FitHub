@@ -29,7 +29,7 @@ public class ImageService {
 
 //        this.minioClient = minioClient;
         this.minioClient = MinioClient.builder()
-                .endpoint("http://minio:9000")
+                .endpoint("http://localhost:9000")
                 .credentials("minioadmin", "minioadmin")
                 .build();
         this.minioProperties = minioProperties;
