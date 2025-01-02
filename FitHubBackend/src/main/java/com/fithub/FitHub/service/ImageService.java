@@ -26,7 +26,7 @@ public class ImageService {
 
     @Autowired
     public ImageService(MinioClient minioClient, MinioProperties minioProperties) {
-        
+
 //        this.minioClient = minioClient;
         this.minioClient = MinioClient.builder()
                 .endpoint("http://minio:9000")
