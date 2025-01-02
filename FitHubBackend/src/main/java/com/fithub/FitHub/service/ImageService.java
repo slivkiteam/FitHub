@@ -50,14 +50,26 @@ public class ImageService {
         saveImage(inputStream, fileName);
         return fileName;
     }
+//    @SneakyThrows
+//    private void createBucket() {
+//        boolean found = minioClient.bucketExists(BucketExistsArgs.builder()
+//                .bucket(minioProperties.getBucket())
+//                .build());
+//        if (!found) {
+//            minioClient.makeBucket(MakeBucketArgs.builder()
+//                    .bucket(minioProperties.getBucket())
+//                    .build());
+//        }
+//    }
+
     @SneakyThrows
     private void createBucket() {
         boolean found = minioClient.bucketExists(BucketExistsArgs.builder()
-                .bucket(minioProperties.getBucket())
+                .bucket("images")
                 .build());
         if (!found) {
             minioClient.makeBucket(MakeBucketArgs.builder()
-                    .bucket(minioProperties.getBucket())
+                    .bucket("images")
                     .build());
         }
     }
@@ -76,7 +88,7 @@ public class ImageService {
     private void saveImage(InputStream inputStream, String fileName) {
         minioClient.putObject(PutObjectArgs.builder()
                     .stream(inputStream, inputStream.available(), -1)
-                    .bucket(minioProperties.getBucket())
+                    .bucket("images")
                     .object(fileName)
                     .build());
     }
@@ -86,7 +98,7 @@ public class ImageService {
         try {
             int expiry = 60 * 60; // 1 час
             return minioClient.getPresignedObjectUrl(io.minio.GetPresignedObjectUrlArgs.builder()
-                    .bucket(minioProperties.getBucket())
+                    .bucket("images")
                     .object(objectName)
                     .method(Method.GET)
                     .expiry(expiry, TimeUnit.SECONDS)

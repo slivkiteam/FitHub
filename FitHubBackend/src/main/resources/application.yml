@@ -25,7 +25,12 @@ server:
     includeMessage: always
 
 minio:
-  url: http://localhost:9000
-  accessKey: minioadmin
-  secretKey: minioadmin
-  bucket: images
+  url: ${MINIO_URL}
+  access_key: ${MINIO_ACCESS_KEY}
+  secret_key: ${MINIO_SECRET_KEY}
+  bucket: ${MINIO_BUCKET}
+#minio:
+#  url: http://localhost:9000
+#  access_key: minioadmin
+#  secret_key: minioadmin
+#  bucket: images
