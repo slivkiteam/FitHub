@@ -46,6 +46,7 @@ public class ActivityCategoriesService {
         activityCategories.setId(category.getId());
         activityCategoriesRepository.save(activityCategories);
     }
+
     @Transactional
     public void delete(int id) {
         activityCategoriesRepository.deleteById(id);

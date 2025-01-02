@@ -25,7 +25,7 @@ services:
       - postgres
       - minio
     env_file:
-      - FitHubBackend/src/main/resources/static/.properties
+      - FitHubBackend/src/main/resources/application.properties
     networks:
       - practice-net
   minio:

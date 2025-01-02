@@ -46,7 +46,7 @@ public class TrainController {
         this.trainImageService = trainImageService;
     }
 
-    @GetMapping()
+    @GetMapping
     public Page<TrainDTO> search(@RequestParam(value = "page", required = false) Integer page,
                                  @RequestParam(value = "sort", required = false) String typeOfSort,
                                  @RequestParam(value = "search", required = false) String search) {

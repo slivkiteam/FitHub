@@ -61,10 +61,12 @@ public class ImageService {
                     .build());
         }
     }
+
     private String generateFileName(MultipartFile file) {
         String extension = getExtension(file);
         return "%s%s%s".formatted(UUID.randomUUID(), ".",extension);
     }
+
     private String getExtension(MultipartFile file) {
         return file.getOriginalFilename()
                 .substring(file.getOriginalFilename().lastIndexOf(".") + 1);
