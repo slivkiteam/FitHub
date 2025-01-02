@@ -13,4 +13,4 @@ COPY application-dec.yaml .
 
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "service.jar"]
-CMD ["--spring.config.location=classpath:/application.properties,file:application-dec.yaml"]
+CMD ["--spring.config.location=classpath:/application.yml,file:application-dec.yaml"]
