@@ -74,48 +74,50 @@ public class ImageService {
             found = minioClient.bucketExists(BucketExistsArgs.builder()
                     .bucket("images")
                     .build());
+            System.out.println("Bucket exists: " + found);
         } catch (ErrorResponseException e) {
-            throw new RuntimeException("ErrorResponseException");
+            throw new RuntimeException("ErrorResponseException" + e.getMessage(), e);
         } catch (InsufficientDataException e) {
-            throw new RuntimeException("InsufficientDataException");
+            throw new RuntimeException("InsufficientDataException" + e.getMessage(), e);
         } catch (InternalException e) {
-            throw new RuntimeException("InternalException");
+            throw new RuntimeException("InternalException" + e.getMessage(), e);
         } catch (InvalidKeyException e) {
-            throw new RuntimeException("InvalidKeyException");
+            throw new RuntimeException("InvalidKeyException" + e.getMessage(), e);
         } catch (InvalidResponseException e) {
-            throw new RuntimeException("InvalidResponseException");
+            throw new RuntimeException("InvalidResponseException" + e.getMessage(), e);
         } catch (IOException e) {
-            throw new RuntimeException("IOException");
+            throw new RuntimeException("IOException" + e.getMessage(), e);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("NoSuchAlgorithmException");
+            throw new RuntimeException("NoSuchAlgorithmException" + e.getMessage(), e);
         } catch (ServerException e) {
-            throw new RuntimeException("ServerException");
+            throw new RuntimeException("ServerException" + e.getMessage(), e);
         } catch (XmlParserException e) {
-            throw new RuntimeException("XmlParserException");
+            throw new RuntimeException("XmlParserException" + e.getMessage(), e);
         }
         if (!found) {
             try {
                 minioClient.makeBucket(MakeBucketArgs.builder()
                         .bucket("images")
                         .build());
+                System.out.println("created bucket");
             } catch (ErrorResponseException e) {
-                throw new RuntimeException("ErrorResponseException");
+                throw new RuntimeException("ErrorResponseException" + e.getMessage(), e);
             } catch (InsufficientDataException e) {
-                throw new RuntimeException("InsufficientDataException");
+                throw new RuntimeException("InsufficientDataException" + e.getMessage(), e);
             } catch (InternalException e) {
-                throw new RuntimeException("InternalException");
+                throw new RuntimeException("InternalException" + e.getMessage(), e);
             } catch (InvalidKeyException e) {
-                throw new RuntimeException("InvalidKeyException");
+                throw new RuntimeException("InvalidKeyException" + e.getMessage(), e);
             } catch (InvalidResponseException e) {
-                throw new RuntimeException("InvalidResponseException");
+                throw new RuntimeException("InvalidResponseException" + e.getMessage(), e);
             } catch (IOException e) {
-                throw new RuntimeException("IOException");
+                throw new RuntimeException("IOException occurred: " + e.getMessage(), e);
             } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException("NoSuchAlgorithmException");
+                throw new RuntimeException("NoSuchAlgorithmException" + e.getMessage(), e);
             } catch (ServerException e) {
-                throw new RuntimeException("ServerException");
+                throw new RuntimeException("ServerException" + e.getMessage(), e);
             } catch (XmlParserException e) {
-                throw new RuntimeException("XmlParserException");
+                throw new RuntimeException("XmlParserException" + e.getMessage(), e);
             }
         }
     }
