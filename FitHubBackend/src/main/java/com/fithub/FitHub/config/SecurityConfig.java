@@ -94,8 +94,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()
-                .endpoint("http://localhost:9000")
-                .credentials("minioadmin", "minioadmin")
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
                 .build();
     }
 }

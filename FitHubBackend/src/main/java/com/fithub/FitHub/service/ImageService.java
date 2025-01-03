@@ -27,7 +27,6 @@ public class ImageService {
 
     @Autowired
     public ImageService(MinioClient minioClient, MinioProperties minioProperties) {
-
         this.minioClient = minioClient;
         this.minioProperties = minioProperties;
     }
@@ -70,7 +69,7 @@ public class ImageService {
         try {
             System.out.println("Checking if bucket exists...");
             found = minioClient.bucketExists(BucketExistsArgs.builder()
-                    .bucket("images")
+                    .bucket(minioProperties.getBucket())
                     .build());
             System.out.println("Bucket exists: " + found);
         } catch (ErrorResponseException e) {
@@ -96,7 +95,7 @@ public class ImageService {
             try {
                 System.out.println("Creating bucket...");
                 minioClient.makeBucket(MakeBucketArgs.builder()
-                        .bucket("images")
+                        .bucket(minioProperties.getBucket())
                         .build());
                 System.out.println("created bucket");
             } catch (ErrorResponseException e) {
@@ -135,7 +134,7 @@ public class ImageService {
     private void saveImage(InputStream inputStream, String fileName) {
         minioClient.putObject(PutObjectArgs.builder()
                     .stream(inputStream, inputStream.available(), -1)
-                    .bucket("images")
+                    .bucket(minioProperties.getBucket())
                     .object(fileName)
                     .build());
     }
@@ -145,7 +144,7 @@ public class ImageService {
         try {
             int expiry = 60 * 60; // 1 час
             return minioClient.getPresignedObjectUrl(io.minio.GetPresignedObjectUrlArgs.builder()
-                    .bucket("images")
+                    .bucket(minioProperties.getBucket())
                     .object(objectName)
                     .method(Method.GET)
                     .expiry(expiry, TimeUnit.SECONDS)
