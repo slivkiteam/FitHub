@@ -6,7 +6,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
-import io.minio.errors.*;
+import io.minio.errors.MinioException;
 import io.minio.http.Method;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -52,71 +50,21 @@ public class ImageService {
         saveImage(inputStream, fileName);
         return fileName;
     }
-//    @SneakyThrows
-//    private void createBucket() {
-//        boolean found = minioClient.bucketExists(BucketExistsArgs.builder()
-//                .bucket(minioProperties.getBucket())
-//                .build());
-//        if (!found) {
-//            minioClient.makeBucket(MakeBucketArgs.builder()
-//                    .bucket(minioProperties.getBucket())
-//                    .build());
-//        }
-//    }
 
+    @SneakyThrows
     private void createBucket() {
         boolean found = false;
-        try {
-            System.out.println("Checking if bucket exists...");
-            found = minioClient.bucketExists(BucketExistsArgs.builder()
+        System.out.println("Checking if bucket exists...");
+        found = minioClient.bucketExists(BucketExistsArgs.builder()
+                .bucket(minioProperties.getBucket())
+                .build());
+        System.out.println("Bucket exists: " + found);
+        if (!found) {
+            System.out.println("Creating bucket...");
+            minioClient.makeBucket(MakeBucketArgs.builder()
                     .bucket(minioProperties.getBucket())
                     .build());
-            System.out.println("Bucket exists: " + found);
-        } catch (ErrorResponseException e) {
-            throw new RuntimeException("ErrorResponseException" + e.getMessage(), e);
-        } catch (InsufficientDataException e) {
-            throw new RuntimeException("InsufficientDataException" + e.getMessage(), e);
-        } catch (InternalException e) {
-            throw new RuntimeException("InternalException" + e.getMessage(), e);
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException("InvalidKeyException" + e.getMessage(), e);
-        } catch (InvalidResponseException e) {
-            throw new RuntimeException("InvalidResponseException" + e.getMessage(), e);
-        } catch (IOException e) {
-            throw new RuntimeException("IOException" + e.getMessage(), e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("NoSuchAlgorithmException" + e.getMessage(), e);
-        } catch (ServerException e) {
-            throw new RuntimeException("ServerException" + e.getMessage(), e);
-        } catch (XmlParserException e) {
-            throw new RuntimeException("XmlParserException" + e.getMessage(), e);
-        }
-        if (!found) {
-            try {
-                System.out.println("Creating bucket...");
-                minioClient.makeBucket(MakeBucketArgs.builder()
-                        .bucket(minioProperties.getBucket())
-                        .build());
-                System.out.println("created bucket");
-            } catch (ErrorResponseException e) {
-                throw new RuntimeException("ErrorResponseException" + e.getMessage(), e);
-            } catch (InsufficientDataException e) {
-                throw new RuntimeException("InsufficientDataException" + e.getMessage(), e);
-            } catch (InternalException e) {
-                throw new RuntimeException("InternalException" + e.getMessage(), e);
-            } catch (InvalidKeyException e) {
-                throw new RuntimeException("InvalidKeyException" + e.getMessage(), e);
-            } catch (InvalidResponseException e) {
-                throw new RuntimeException("InvalidResponseException" + e.getMessage(), e);
-            } catch (IOException e) {
-                throw new RuntimeException("IOException occurred: " + e.getMessage(), e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException("NoSuchAlgorithmException" + e.getMessage(), e);
-            } catch (ServerException e) {
-                throw new RuntimeException("ServerException" + e.getMessage(), e);
-            } catch (XmlParserException e) {
-                throw new RuntimeException("XmlParserException" + e.getMessage(), e);
-            }
+            System.out.println("created bucket");
         }
     }
 

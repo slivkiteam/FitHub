@@ -67,7 +67,15 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:9000", "http://localhost:9090", "http://127.0.0.1:9000", "http://127.0.0.1:9090", "http://172.18.0.2:9000","http://172.18.0.2:9090")
+                .allowedOrigins(
+                        "http://localhost:5173",
+                        "http://localhost:9000",
+                        "http://localhost:9090",
+                        "http://127.0.0.1:9000",
+                        "http://127.0.0.1:9090",
+                        "http://172.18.0.2:9000",
+                        "http://172.18.0.2:9090"
+                )
                 .allowedHeaders("*")
                 .exposedHeaders("*")
                 .allowedMethods("*");
