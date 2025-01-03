@@ -21,8 +21,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
       MINIO_BUCKET: images
       MINIO_URL: http://localhost:9000
-      MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
     ports:
       - "8081:8081"
     depends_on:
