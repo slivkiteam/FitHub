@@ -28,16 +28,13 @@ public class ImageService {
     @Autowired
     public ImageService(MinioClient minioClient, MinioProperties minioProperties) {
 
-//        this.minioClient = minioClient;
-        this.minioClient = MinioClient.builder()
-                .endpoint("http://localhost:9000")
-                .credentials("minioadmin", "minioadmin")
-                .build();
+        this.minioClient = minioClient;
         this.minioProperties = minioProperties;
     }
 
     public String upload(TrainImage image) {
         try {
+            System.out.println("Checking if bucket exists or creating bucket...");
             createBucket();
         } catch (Exception e) {
             throw new RuntimeException("Error creating bucket", e);
@@ -71,6 +68,7 @@ public class ImageService {
     private void createBucket() {
         boolean found = false;
         try {
+            System.out.println("Checking if bucket exists...");
             found = minioClient.bucketExists(BucketExistsArgs.builder()
                     .bucket("images")
                     .build());
@@ -96,6 +94,7 @@ public class ImageService {
         }
         if (!found) {
             try {
+                System.out.println("Creating bucket...");
                 minioClient.makeBucket(MakeBucketArgs.builder()
                         .bucket("images")
                         .build());
