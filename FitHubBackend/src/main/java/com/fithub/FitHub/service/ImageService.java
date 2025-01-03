@@ -6,7 +6,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
-import io.minio.errors.MinioException;
+import io.minio.errors.*;
 import io.minio.http.Method;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class ImageService {
-
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
 
@@ -67,15 +68,55 @@ public class ImageService {
 //        }
 //    }
 
-    @SneakyThrows
     private void createBucket() {
-        boolean found = minioClient.bucketExists(BucketExistsArgs.builder()
-                .bucket("images")
-                .build());
-        if (!found) {
-            minioClient.makeBucket(MakeBucketArgs.builder()
+        boolean found = false;
+        try {
+            found = minioClient.bucketExists(BucketExistsArgs.builder()
                     .bucket("images")
                     .build());
+        } catch (ErrorResponseException e) {
+            throw new RuntimeException("ErrorResponseException");
+        } catch (InsufficientDataException e) {
+            throw new RuntimeException("InsufficientDataException");
+        } catch (InternalException e) {
+            throw new RuntimeException("InternalException");
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException("InvalidKeyException");
+        } catch (InvalidResponseException e) {
+            throw new RuntimeException("InvalidResponseException");
+        } catch (IOException e) {
+            throw new RuntimeException("IOException");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("NoSuchAlgorithmException");
+        } catch (ServerException e) {
+            throw new RuntimeException("ServerException");
+        } catch (XmlParserException e) {
+            throw new RuntimeException("XmlParserException");
+        }
+        if (!found) {
+            try {
+                minioClient.makeBucket(MakeBucketArgs.builder()
+                        .bucket("images")
+                        .build());
+            } catch (ErrorResponseException e) {
+                throw new RuntimeException("ErrorResponseException");
+            } catch (InsufficientDataException e) {
+                throw new RuntimeException("InsufficientDataException");
+            } catch (InternalException e) {
+                throw new RuntimeException("InternalException");
+            } catch (InvalidKeyException e) {
+                throw new RuntimeException("InvalidKeyException");
+            } catch (InvalidResponseException e) {
+                throw new RuntimeException("InvalidResponseException");
+            } catch (IOException e) {
+                throw new RuntimeException("IOException");
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException("NoSuchAlgorithmException");
+            } catch (ServerException e) {
+                throw new RuntimeException("ServerException");
+            } catch (XmlParserException e) {
+                throw new RuntimeException("XmlParserException");
+            }
         }
     }
 
