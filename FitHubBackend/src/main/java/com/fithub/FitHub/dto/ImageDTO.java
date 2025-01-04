@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class TrainImageDTO {
+public class ImageDTO {
     @NotNull(message = "Image must be mot mull")
     private MultipartFile image;
 }

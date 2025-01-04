@@ -1,7 +1,10 @@
 package com.fithub.FitHub.controller;
 
+import com.fithub.FitHub.dto.ImageDTO;
 import com.fithub.FitHub.dto.TrainDTO;
 import com.fithub.FitHub.dto.UsersDTO;
+import com.fithub.FitHub.entity.Image;
+import com.fithub.FitHub.service.ImageService;
 import com.fithub.FitHub.service.TrainService;
 import com.fithub.FitHub.service.UsersService;
 import com.fithub.FitHub.util.ErrorResponse;
@@ -21,11 +24,12 @@ import java.util.List;
 public class UsersController {
     private final UsersService usersService;
     private final TrainService trainService;
-
+    private final ImageService userImageService;
     @Autowired
-    public UsersController(UsersService usersService, TrainService trainService) {
+    public UsersController(UsersService usersService, TrainService trainService, ImageService userImageService) {
         this.usersService = usersService;
         this.trainService = trainService;
+        this.userImageService = userImageService;
     }
 
     @GetMapping("/lk")
@@ -36,6 +40,18 @@ public class UsersController {
     @GetMapping
     public List<UsersDTO> getAllUsers() {
         return usersService.findAll();
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
+        return usersService.getUrlByUserId(id);
+    }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<HttpStatus> uploadImage(@PathVariable("id") Long id, @ModelAttribute ImageDTO userImageDTO) {
+        Image userImage = userImageService.createFromDTO(userImageDTO);
+        usersService.uploadImage(id, userImage);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

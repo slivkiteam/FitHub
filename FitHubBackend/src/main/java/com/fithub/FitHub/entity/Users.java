@@ -2,6 +2,7 @@ package com.fithub.FitHub.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -44,6 +45,10 @@ public class Users {
 
     @Column
     private String password;
+
+    @Column
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String image;
 
     @Column
     @Enumerated(EnumType.STRING)

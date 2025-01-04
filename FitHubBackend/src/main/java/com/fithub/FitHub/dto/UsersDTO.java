@@ -20,6 +20,7 @@ public class UsersDTO {
     private Gender gender;
     private Integer age;
     private Role role;
+    private String image;
     private List<Train> trains;
     private List<Rating> ratings;
     private UserStatistics userStatistics;

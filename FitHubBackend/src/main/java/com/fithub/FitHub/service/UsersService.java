@@ -1,15 +1,13 @@
 package com.fithub.FitHub.service;
 
 import com.fithub.FitHub.dto.UsersDTO;
-import com.fithub.FitHub.entity.Skill;
-import com.fithub.FitHub.entity.Train;
-import com.fithub.FitHub.entity.UserStatistics;
-import com.fithub.FitHub.entity.Users;
+import com.fithub.FitHub.entity.*;
 import com.fithub.FitHub.repository.UsersRepository;
 import com.fithub.FitHub.security.UsersDetails;
 import com.fithub.FitHub.util.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,12 +27,14 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final ModelMapper modelMapper;
     private final UserStatistictsService userStatistictsService;
+    private final ImageService imageService;
 
     @Autowired
-    public UsersService(UsersRepository usersRepository, ModelMapper modelMapper, UserStatistictsService userStatistictsService) {
+    public UsersService(UsersRepository usersRepository, ModelMapper modelMapper, UserStatistictsService userStatistictsService, ImageService imageService) {
         this.usersRepository = usersRepository;
         this.modelMapper = modelMapper;
         this.userStatistictsService = userStatistictsService;
+        this.imageService = imageService;
     }
 
     public List<UsersDTO> findAll() {
@@ -142,5 +142,19 @@ public class UsersService {
 
     public UsersDTO getUserAuthDTO() {
         return convertToUsersDTO(getUserAuth());
+    }
+
+    @Transactional
+    public void uploadImage(Long id, Image userImage) {
+        String fileName = imageService.upload(userImage);
+        var u = findById(id);
+        u.setImage(fileName);
+        save(u);
+    }
+
+    public ResponseEntity<byte[]> getUrlByUserId(Long userId) {
+        var u = findById(userId);
+        if (u == null || u.getImage() == null) return null;
+        return imageService.previewImage(u.getImage());
     }
 }

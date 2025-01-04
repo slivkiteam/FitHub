@@ -19,13 +19,6 @@ services:
       MINIO_URL: http://minio:9000
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fit_hub
-#      SPRING_DATASOURCE_USERNAME: postgres
-#      SPRING_DATASOURCE_PASSWORD: postgres
-#      MINIO_BUCKET: images
-#      MINIO_URL: http://localhost:9000
-#      MINIO_ACCESS_KEY: minioadmin
-#      MINIO_SECRET_KEY: minioadmin
     ports:
       - "8081:8081"
     depends_on:

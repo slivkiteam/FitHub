@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,9 +63,6 @@ public class TrainService {
         train.setCategory(activityCategory);
         return trainingsRepository.save(train);
     }
-    //    private void enrichTrain(Train train) {
-//        train.setCategories(); просто знай, что так можно и это нужно до сохранения
-//    }
 
     @Transactional
     public void delete(Long id) {
@@ -111,16 +109,16 @@ public class TrainService {
     }
 
     @Transactional
-    public void uploadImage(Long id, TrainImage trainImage) {
+    public void uploadImage(Long id, Image trainImage) {
         String fileName = imageService.upload(trainImage);
         var t = findById(id);
         t.setImage(fileName);
         save(t);
     }
 
-    public String getUrlByTrainId(Long trainId) {
+    public ResponseEntity<byte[]> getUrlByTrainId(Long trainId) {
         var t = findById(trainId);
-        if (t == null || t.getImage() == null) return "";
-        return imageService.getPresignedUrl(t.getImage());
+        if (t == null || t.getImage() == null) return null;
+        return imageService.previewImage(t.getImage());
     }
 }

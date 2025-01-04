@@ -1,35 +1,39 @@
 package com.fithub.FitHub.service;
 
-import com.fithub.FitHub.entity.TrainImage;
+import com.fithub.FitHub.dto.ImageDTO;
+import com.fithub.FitHub.entity.Image;
 import com.fithub.FitHub.props.MinioProperties;
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.errors.MinioException;
-import io.minio.http.Method;
+import io.minio.*;
 import lombok.SneakyThrows;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class ImageService {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ImageService(MinioClient minioClient, MinioProperties minioProperties) {
+    public ImageService(MinioClient minioClient, MinioProperties minioProperties, ModelMapper modelMapper) {
         this.minioClient = minioClient;
         this.minioProperties = minioProperties;
+        this.modelMapper = modelMapper;
     }
 
-    public String upload(TrainImage image) {
+    public Image createFromDTO(ImageDTO ImageDTO) {
+        return modelMapper.map(ImageDTO, Image.class);
+    }
+
+    public String upload(Image image) {
         try {
             System.out.println("Checking if bucket exists or creating bucket...");
             createBucket();
@@ -87,18 +91,22 @@ public class ImageService {
                     .build());
     }
 
-    @SneakyThrows
-    public String getPresignedUrl(String objectName) {
-        try {
-            int expiry = 60 * 60; // 1 час
-            return minioClient.getPresignedObjectUrl(io.minio.GetPresignedObjectUrlArgs.builder()
-                    .bucket(minioProperties.getBucket())
-                    .object(objectName)
-                    .method(Method.GET)
-                    .expiry(expiry, TimeUnit.SECONDS)
-                    .build());
-        } catch (MinioException | IOException e) {
-            throw new RuntimeException("Error while generating presigned URL", e);
+    public ResponseEntity<byte[]> previewImage(String imageName) {
+        try (InputStream inputStream = getImage(minioProperties.getBucket(), imageName)) {
+            byte[] imageBytes = inputStream.readAllBytes();
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/png")
+                    .body(imageBytes);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
+    }
+
+    @SneakyThrows
+    public InputStream getImage(String bucketName, String objectName) {
+        return minioClient.getObject(GetObjectArgs.builder()
+                .bucket(bucketName)
+                .object(objectName)
+                .build());
     }
 }
