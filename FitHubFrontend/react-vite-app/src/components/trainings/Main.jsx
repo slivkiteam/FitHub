@@ -6,7 +6,7 @@ import SortTrainings from "./Sort";
 import axios from "axios";
 
 export default function Main({ data, currentPage, getAllContacts }) {
-    const [searchText, setSearchText] = useState('Поиск');
+    const [searchText, setSearchText] = useState('');
     const [selectedTags, setSelectedTags] = useState({}); // Состояние для выбранных тегов
     const [filteredData, setFilteredData] = useState(data.content); // Состояние для отфильтрованных данных
     const [totalPages, setTotalPages] = useState(0); // Общее количество страниц
@@ -16,20 +16,23 @@ export default function Main({ data, currentPage, getAllContacts }) {
     const buildSearchParam = () => {
         let searchParam = "?search=";
         let arrayOfFilterType = ["category", "status", "place", "durationInMinutes"];
+        
+        // Добавляем параметр поиска по названию
+        if (searchText && searchText !== 'Поиск') {
+            searchParam += `title:${searchText},`;
+        }
     
         Object.entries(selectedTags).forEach(([key, value], index) => {
             if (value.length > 0) {
                 const filterKey = arrayOfFilterType[index];
-                const filterValue = value.map(a => a.toUpperCase()).join(","); // Преобразуем теги в строку через запятую
                 
-                if (filterKey === "category") {
-                    searchParam += `${filterKey}:${filterValue},`; // Добавляем в запрос с разделителем запятая
-                } 
-
-                if (filterKey !== "durationInMinutes" && filterKey !== "category") {
-                    searchParam += `${filterKey}:${filterValue},`; // Добавляем в запрос с разделителем запятая
-                } 
-                else {
+                // Для каждого значения создаём отдельный параметр
+                value.forEach((val) => {
+                    searchParam += `${filterKey}:${val.toUpperCase()},`;
+                });
+    
+                // Обработка времени для durationInMinutes
+                if (filterKey === "durationInMinutes") {
                     value.forEach((timeRange) => {
                         if (timeRange === "10-15 мин") {
                             searchParam += `${filterKey}>10,${filterKey}<15,`;
@@ -50,6 +53,11 @@ export default function Main({ data, currentPage, getAllContacts }) {
     
         console.log("Формированный запрос:", searchParam); // Логирование запроса
         return searchParam;
+    };    
+
+    // Обработчик изменения текста в поле поиска
+    const handleSearchChange = (e) => {
+        setSearchText(e.target.value);
     };
 
     // Запрос с фильтрами
@@ -80,9 +88,11 @@ export default function Main({ data, currentPage, getAllContacts }) {
         setCurrentPageState(0);
     }, [selectedTags]);
 
+
     useEffect(() => {
         handleSetFilter(currentPageState); // Запрашиваем данные для текущей страницы
-    }, [selectedTags, currentPageState]); // Зависит от выбранных тегов и текущей страницы
+    }, [selectedTags, currentPageState, searchText]);  // Теперь зависит и от searchText
+    
 
     // Обработчик изменения страницы
     const handlePageChange = (newPage) => {
@@ -105,9 +115,15 @@ export default function Main({ data, currentPage, getAllContacts }) {
                         </div>
                     </div>
                     <div className="main__search__and__cards">
-                        <div className="main__search__container">
-                            <input type="text" className="search__input" placeholder={searchText} />
-                        </div>
+                    <div className="main__search__container">
+                        <input
+                            type="text"
+                            className="search__input"
+                            placeholder='Поиск'
+                            value={searchText}
+                            onChange={handleSearchChange}  // Обработчик изменения текста
+                        />
+                    </div>
                         <SortTrainings />
                         <div className="main__cards__container">
                             <ul className="main__cards__list">
