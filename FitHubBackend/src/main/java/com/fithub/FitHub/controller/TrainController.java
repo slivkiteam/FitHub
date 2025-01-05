@@ -67,10 +67,10 @@ public class TrainController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createTrain(@RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
+    public Long createTrain(@RequestBody TrainDTO trainDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
-        trainService.save(trainService.createFromDTO(trainDTO));
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        var t = trainService.save(trainService.createFromDTO(trainDTO));
+        return t.getId();
     }
 
     @PostMapping("/{id}/addRating")
