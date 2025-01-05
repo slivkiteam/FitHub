@@ -121,4 +121,8 @@ public class TrainService {
         if (t == null || t.getImage() == null) return null;
         return imageService.previewImage(t.getImage());
     }
+
+    public List<Train> getTopThree() {
+        return trainingsRepository.findTopThree();
+    }
 }

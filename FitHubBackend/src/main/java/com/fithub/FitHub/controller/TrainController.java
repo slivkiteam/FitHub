@@ -27,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +65,10 @@ public class TrainController {
     @GetMapping("/{id}")
     public TrainDTO getTrainById(@PathVariable Long id) {
         return trainService.converteToTrainDTO(trainService.findById(id));
+    }
+    @GetMapping("/top")
+    public List<TrainDTO> getTopTrain() {
+        return trainService.getTopThree().stream().map(trainService::converteToTrainDTO).toList();
     }
 
     @PostMapping
