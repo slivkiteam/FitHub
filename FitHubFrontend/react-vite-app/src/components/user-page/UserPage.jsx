@@ -10,6 +10,7 @@ export default function UserPage({cards}) {
   const [selectedFile, setSelectedFile] = useState(null); // Выбранный файл
   const [previewImage, setPreviewImage] = useState(null); // Предпросмотр изображения
   const [userId, setUserId] = useState(0)
+  const [isFileSelected, setIsFileSelected] = useState(false)
   const token = localStorage.getItem('jwtToken');
 
   // Шаблон данных пользователя
@@ -149,31 +150,33 @@ const handleGetUserId = async () => {
 };
 
 const uploadImage = async (userId) => {
-  if (!selectedFile) {
+  if (isFileSelected === false) {
       console.warn('Файл не выбран.');
       return;
   }
-
-  const formData = new FormData();
-  formData.append('image', selectedFile);
-  console.log(`http://localhost:8081/users/${userId}/image`)
-  try {
-      console.log(`http://localhost:8081/users/${userId}/image`)
-      const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
-          method: 'POST',
-          body: formData,
-          headers: {
-              "Authorization": `Bearer ${token}`,
-            }
-      });
-
-      if (response.ok) {
-          console.log('Изображение успешно загружено.');
-      } else {
-          console.error('Ошибка при загрузке изображения:', response.status);
-      }
-  } catch (error) {
-      console.error('Ошибка:', error);
+  else {
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+    console.log(`http://localhost:8081/users/${userId}/image`)
+    try {
+        console.log(`http://localhost:8081/users/${userId}/image`)
+        const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${token}`,
+              }
+        });
+        setSelectedFile(null)
+        setIsFileSelected(false)
+        if (response.ok) {
+            console.log('Изображение успешно загружено.');
+        } else {
+            console.error('Ошибка при загрузке изображения:', response.status);
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
   }
 };
 
@@ -205,7 +208,7 @@ const uploadImage = async (userId) => {
 const handleFileChange = (event) => {
   const file = event.target.files[0];
   setSelectedFile(file);
-
+  setIsFileSelected(true)
   // Предпросмотр изображения
   const reader = new FileReader();
   reader.onload = (e) => setPreviewImage(e.target.result);
@@ -245,7 +248,9 @@ const handleFileChange = (event) => {
         body: JSON.stringify(data),
       });
 
-      uploadImage(userId)
+      if (isFileSelected === true) {
+        await uploadImage(userId); // Загрузка нового изображения, если оно выбрано
+      }
       
       if (!response.ok) {
         throw new Error("Ошибка при обновлении данных");

@@ -11,26 +11,27 @@ export default function Main({ data, currentPage, getAllContacts }) {
     const [filteredData, setFilteredData] = useState(data.content); // Состояние для отфильтрованных данных
     const [totalPages, setTotalPages] = useState(0); // Общее количество страниц
     const [currentPageState, setCurrentPageState] = useState(currentPage); // Текущая страница
+    const [sortOrder, setSortOrder] = useState('less'); // Порядок сортировки: "more" или "less"
 
     // Формирование строки запроса с фильтрами
     const buildSearchParam = () => {
         let searchParam = "?search=";
         let arrayOfFilterType = ["category", "status", "place", "durationInMinutes"];
-        
+
         // Добавляем параметр поиска по названию
         if (searchText && searchText !== 'Поиск') {
             searchParam += `title:${searchText},`;
         }
-    
+
         Object.entries(selectedTags).forEach(([key, value], index) => {
             if (value.length > 0) {
                 const filterKey = arrayOfFilterType[index];
-                
+
                 // Для каждого значения создаём отдельный параметр
                 value.forEach((val) => {
                     searchParam += `${filterKey}:${val.toUpperCase()},`;
                 });
-    
+
                 // Обработка времени для durationInMinutes
                 if (filterKey === "durationInMinutes") {
                     value.forEach((timeRange) => {
@@ -45,15 +46,18 @@ export default function Main({ data, currentPage, getAllContacts }) {
                 }
             }
         });
-    
+
+        // Добавляем параметр сортировки
+        searchParam += `&sort=${sortOrder},`;
+
         // Убираем последнюю запятую из строки запроса, если она есть
         if (searchParam.endsWith(',')) {
             searchParam = searchParam.slice(0, -1);
         }
-    
+
         console.log("Формированный запрос:", searchParam); // Логирование запроса
         return searchParam;
-    };    
+    };
 
     // Обработчик изменения текста в поле поиска
     const handleSearchChange = (e) => {
@@ -82,17 +86,20 @@ export default function Main({ data, currentPage, getAllContacts }) {
         });
     }, []);
 
+    // Обработчик изменения сортировки
+    const handleSortChange = (newSortOrder) => {
+        setSortOrder(newSortOrder);
+    };
+
     // Эффект для обновления данных при изменении выбранных тегов или страницы
     useEffect(() => {
         // Сброс текущей страницы на 0 при изменении тегов
         setCurrentPageState(0);
     }, [selectedTags]);
 
-
     useEffect(() => {
         handleSetFilter(currentPageState); // Запрашиваем данные для текущей страницы
-    }, [selectedTags, currentPageState, searchText]);  // Теперь зависит и от searchText
-    
+    }, [selectedTags, currentPageState, searchText, sortOrder]);  // Теперь зависит и от sortOrder
 
     // Обработчик изменения страницы
     const handlePageChange = (newPage) => {
@@ -115,16 +122,16 @@ export default function Main({ data, currentPage, getAllContacts }) {
                         </div>
                     </div>
                     <div className="main__search__and__cards">
-                    <div className="main__search__container">
-                        <input
-                            type="text"
-                            className="search__input"
-                            placeholder='Поиск'
-                            value={searchText}
-                            onChange={handleSearchChange}  // Обработчик изменения текста
-                        />
-                    </div>
-                        <SortTrainings />
+                        <div className="main__search__container">
+                            <input
+                                type="text"
+                                className="search__input"
+                                placeholder='Поиск'
+                                value={searchText}
+                                onChange={handleSearchChange}  // Обработчик изменения текста
+                            />
+                        </div>
+                        <SortTrainings onSortChange={handleSortChange} />
                         <div className="main__cards__container">
                             <ul className="main__cards__list">
                                 {filteredData?.length > 0 && filteredData.map((training) => <Training training={training} key={training.id} />)}

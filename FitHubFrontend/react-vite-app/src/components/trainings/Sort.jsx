@@ -1,11 +1,17 @@
 ﻿import { useState } from 'react';
 import './css/Main.css'
 
-export default function SortTrainings() {
+export default function SortTrainings({ onSortChange }) {
 
     const [exp, setExp] = useState('no_exp');
-    const [sortCrit, setSortCrit] = useState('сначала долгие')
+    const [sortCrit, setSortCrit] = useState('сначала быстрые');
 
+    const handleSortChange = (newSortCrit) => {
+        setSortCrit(newSortCrit);
+        setExp('no_exp');
+        const sortValue = newSortCrit === 'сначала долгие' ? 'more' : 'less';
+        onSortChange(sortValue);
+    };
 
     return (
         <>{exp === 'no_exp' ? (
@@ -19,10 +25,9 @@ export default function SortTrainings() {
                     <p className='sort-p'>сортировка: <a onClick={() => setExp('no_exp')} style={{ cursor: 'pointer' }}>{sortCrit}</a></p>
                 </div>
                 <div className="sort-column">
-                    {/* Контент окна */}
                     <ul className='sort-list'>
-                        <a href="#!" onClick={() => {setSortCrit('сначала быстрые'), setExp('no_exp')}} className="sort-item">сначала быстрые</a>
-                        <a href="#!" onClick={() => {setSortCrit('сначала долгие'), setExp('no_exp')}} className="sort-item">сначала долгие</a>
+                        <a href="#!" onClick={() => handleSortChange('сначала быстрые')} className="sort-item">сначала быстрые</a>
+                        <a href="#!" onClick={() => handleSortChange('сначала долгие')} className="sort-item">сначала долгие</a>
                     </ul>
                 </div>
             </div>
