@@ -7,8 +7,10 @@ export default function UserPage({cards}) {
   const [filteredData, setFilteredData] = useState([]);
   const [stats, setStats] = useState({})
   const [targetTraining, setTargetTraining] = useState(null);
-
-
+  const [selectedFile, setSelectedFile] = useState(null); // Выбранный файл
+  const [previewImage, setPreviewImage] = useState(null); // Предпросмотр изображения
+  const [userId, setUserId] = useState(0)
+  const token = localStorage.getItem('jwtToken');
 
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
@@ -45,13 +47,27 @@ export default function UserPage({cards}) {
         } else {
           console.error("Ошибка получения тренировки:", response.statusText);
         }
+        const imageResponse = await fetch(`http://localhost:8081/users/${userId}/image`,{
+          method: 'GET',
+          headers: {
+              "Authorization": `Bearer ${token}`,
+            }
+        });
+        if (imageResponse.ok) {
+          const blob = await imageResponse.blob(); // Получаем данные в виде Blob
+          const imageUrl = URL.createObjectURL(blob); // Генерируем URL
+          setPreviewImage(imageUrl); // Устанавливаем URL изображения в состояние
+        } else {
+          console.error("Ошибка загрузки изображения:", imageResponse.status);
+        }
       } catch (error) {
         console.error("Ошибка при выполнении запроса к API:", error);
       }
     };
   
     fetchTargetTraining();
-  }, [targetId]);
+    handleGetUserId();
+  }, [targetId, userId]);
 
   useEffect(() => {
       // Проверяем, есть ли данные, и обновляем состояние
@@ -75,6 +91,103 @@ export default function UserPage({cards}) {
   }, [filteredData, targetId]); // Выполняется при изменении filteredData или targetId
 
 
+  const fetchUserImage = async (userId) => {
+    const token = localStorage.getItem('jwtToken'); // Получаем токен из localStorage
+    if (!token) {
+      console.error('Токен отсутствует. Пользователь не авторизован.');
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        // Проверяем, что сервер вернул картинку
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.startsWith('image')) {
+          const blob = await response.blob(); // Получаем данные в формате Blob
+          const imageUrl = URL.createObjectURL(blob); // Генерируем URL для изображения
+          setPreviewImage(imageUrl); // Устанавливаем URL в состояние previewImage
+          console.log('Изображение успешно загружено.');
+        } else {
+          console.error('Ответ от сервера не является изображением.');
+        }
+      } else {
+        console.error(`Ошибка загрузки изображения: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Ошибка при выполнении запроса:', error);
+    }
+  };
+
+  
+  useEffect(() => {
+    if (userId) {
+      fetchUserImage(userId);
+    }
+  }, [userId]);
+
+
+const handleGetUserId = async () => {
+  const token = localStorage.getItem('jwtToken'); // Получаем токен из localStorage
+  if (!token) {
+    console.error('Токен отсутствует. Пользователь не авторизован.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:8081/users/lk`, {
+      method: 'GET',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Ошибка: ${response.status} ${response.statusText}`);
+      return;
+    }
+
+    const data = await response.json();
+    console.log('Данные пользователя:', data);
+    setUserId(data.id);
+  } catch (error) {
+    console.error('Ошибка получения данных об аккаунте:', error);
+  }
+};
+
+const uploadImage = async (userId) => {
+  if (!selectedFile) {
+      console.warn('Файл не выбран.');
+      return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', selectedFile);
+
+  try {
+      const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+              "Authorization": `Bearer ${token}`,
+            }
+      });
+
+      if (response.ok) {
+          console.log('Изображение успешно загружено.');
+      } else {
+          console.error('Ошибка при загрузке изображения:', response.status);
+      }
+  } catch (error) {
+      console.error('Ошибка:', error);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,6 +210,18 @@ export default function UserPage({cards}) {
             [name]: name === "age" ? (value.trim() ? parseInt(value, 10) : null) : value,
         };
     });
+};
+
+
+// Функция обработки выбора файла
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  setSelectedFile(file);
+
+  // Предпросмотр изображения
+  const reader = new FileReader();
+  reader.onload = (e) => setPreviewImage(e.target.result);
+  reader.readAsDataURL(file);
 };
 
 
@@ -132,6 +257,9 @@ export default function UserPage({cards}) {
         body: JSON.stringify(data),
       });
 
+      if (previewImage === null)
+        uploadImage(userId)
+      
       if (!response.ok) {
         throw new Error("Ошибка при обновлении данных");
       }
@@ -146,7 +274,6 @@ export default function UserPage({cards}) {
     try {
         console.log(training.id);
         const response = await getContact(training.id);
-        console.log("Response от getContact:", response);
         setStats({
             used: response.data.used,
             duration: response.data.durationInMinutes,
@@ -219,7 +346,11 @@ export default function UserPage({cards}) {
       <main>
         <section className="personal-account">
           <div className="first-row">
-            <img className="personal-avatar" src="./src/img/placeholder.png" alt="Аватар" />
+            {previewImage ? (
+                <img src={previewImage} alt="Предпросмотр" className="personal-avatar" />
+            ) : (
+                <img src="..\src\img\negro_man.png" alt="Placeholder" className="personal-avatar" />
+            )}
             <div className="personal-account-parameters">
                 <input
                   className="second-name"
@@ -281,7 +412,17 @@ export default function UserPage({cards}) {
                 </select>
                 <label htmlFor="gender">Пол</label>
               </div>
-                    
+              <div className="file-upload">
+                  <label htmlFor="file-input" className="custom-file-upload">
+                      Выбрать фото
+                  </label>
+                  <input
+                      id="file-input"
+                      type="file"
+                      onChange={handleFileChange}
+                      className="hidden-file-input"
+                  />
+              </div>        
             <button style={{borderRadius:"20px", border: "none", fontFamily: 'UNCAGE', padding: '10px'}} onClick={handleSubmit}>Сохранить</button>
             </div>
           </div>

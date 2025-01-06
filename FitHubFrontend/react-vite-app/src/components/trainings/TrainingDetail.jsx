@@ -4,18 +4,20 @@ import './css/TrainingDetail.css'
 import Header from './Header';
 import Exercise from '../exercise/Exercise';
 
-
 export default function TrainingDetail() {
   const { id } = useParams();
   const [training, setTraining] = useState(null);
   const navigate = useNavigate();
-  const [isBookmarked, setIsBookmarked] = useState(false); // Состояние для закладки
-  const [userData, setUserData] = useState({})
-  const [exercises, setExercises] = useState([])
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [exercises, setExercises] = useState([]);
+  const [trainingImage, setTrainingImage] = useState(null); // Состояние для URL картинки
 
+
+  
   useEffect(() => {
     console.log("Обновленные данные:", userData);
-    handleGetStats()
+    handleGetStats();
   }, []);
 
   const handleGetStats = async () => {
@@ -36,11 +38,6 @@ export default function TrainingDetail() {
         });
 
         console.log("Статус ответа:", response.status);
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`Ошибка: ${response.status} ${response.statusText}`);
-            console.error(`Тело ошибки: ${errorText}`);
-        }
         if (response.ok) {
             const data = await response.json();
             console.log("Полученные данные:", data);
@@ -54,59 +51,61 @@ export default function TrainingDetail() {
               }
             }
             console.log(data.exercises)
-            setUserData(data)
+            setUserData(data);
         } 
-        else {
-            const errorText = await response.text();
-            console.error("Ответ сервера:", response.status, response.statusText, errorText);
-        }
     } catch (error) {
         console.error("Ошибка при выполнении запроса:", error);
-        if (error instanceof TypeError) {
-            console.error("Ошибка типа (скорее всего, ошибка сети или CORS).");
-        }
-    }
-    
-};
-
-
-useEffect(() => {
-  const fetchTraining = async () => {
-    try {
-      const response = await fetch(`http://localhost:8081/trains/${id}`);
-      if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      console.log("Полученные данные тренировки:", data);
-
-      // Устанавливаем данные тренировки в состояние
-      setTraining(data);
-
-      // Устанавливаем упражнения из ответа в состояние exercises
-      if (data.exercises) {
-        setExercises(data.exercises);
-      } else {
-        console.warn("Упражнения отсутствуют в ответе");
-      }
-
-      // Проверяем закладку для текущего пользователя
-      const savedBookmark = localStorage.getItem(`bookmarkedTraining-${userData.login}`);
-      setIsBookmarked(savedBookmark === id);
-    } catch (error) {
-      console.error("Ошибка при загрузке данных тренировки:", error);
     }
   };
 
-  fetchTraining();
-}, [id, userData.login]);
-
+  useEffect(() => {
+    const fetchTraining = async () => {
+      try {
+        // Получаем данные тренировки
+        const response = await fetch(`http://localhost:8081/trains/${id}`);
+        if (!response.ok) {
+          throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log("Полученные данные тренировки:", data);
+  
+        // Устанавливаем данные тренировки в состояние
+        setTraining(data);
+  
+        // Устанавливаем упражнения из ответа в состояние exercises
+        if (data.exercises) {
+          setExercises(data.exercises);
+        }
+  
+        // Проверяем закладку для текущего пользователя
+        const savedBookmark = localStorage.getItem(`bookmarkedTraining-${userData.login}`);
+        setIsBookmarked(savedBookmark === id);
+  
+        // Делаем GET-запрос для изображения
+        const imageResponse = await fetch(`http://localhost:8081/trains/${id}/image`, {
+          method: 'GET'
+        });
+        if (imageResponse.ok) {
+          const blob = await imageResponse.blob(); // Получаем данные в виде Blob
+          const imageUrl = URL.createObjectURL(blob); // Генерируем URL
+          setTrainingImage(imageUrl); // Устанавливаем URL изображения в состояние
+        } else {
+          console.error("Ошибка загрузки изображения:", imageResponse.status);
+        }
+      } catch (error) {
+        console.error("Ошибка при загрузке данных тренировки:", error);
+      }
+    };
+  
+    fetchTraining();
+  }, [id, userData.login]);
+  
 
   if (!training) {
     return <div>Loading...</div>;
   }
 
-   const handleBookmarkClick = () => {
+  const handleBookmarkClick = () => {
     if (isBookmarked) {
       // Удаляем закладку из localStorage
       localStorage.removeItem(`bookmarkedTraining-${userData.login}`);
@@ -123,7 +122,12 @@ useEffect(() => {
     <div className="training-detail">
       <div className="training-detail-main">
         <div className="training-image-container">
-          <img src="../src/img/negro_man.png" alt="" className="training-image" />
+          {/* Используем загруженное изображение */}
+          {trainingImage ? (
+            <img src={trainingImage} alt="Тренировка" className="training-image" />
+          ) : (
+            <p>Загрузка изображения...</p>
+          )}
         </div>
         <div className="training-info-container">
           <h1>{training.title}</h1>
@@ -145,7 +149,7 @@ useEffect(() => {
                       <Exercise key={index} exer={exercise} />
                   ))
               ) : (
-                  <p className="page-text">Упражнения пока не сгенерированы.</p>
+                  <p className="page-text">Упражнения не сгенерированы</p>
               )}
           </ul>
         </div>
@@ -155,7 +159,7 @@ useEffect(() => {
             className="training-detail-button"
             onClick={handleBookmarkClick}
             style={{
-              backgroundColor: isBookmarked ? "yellow" : "white", // Меняем цвет фона
+              backgroundColor: isBookmarked ? "yellow" : "white",
               border: "1px solid #ccc",
             }}
         >
@@ -164,7 +168,6 @@ useEffect(() => {
         <button className='training-detail-button' onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
             Перейти на страницу тренировок
         </button>
-        <button className='training-detail-button'>редактировать</button>
       </div>
     </div>
     </>
