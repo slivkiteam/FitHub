@@ -2,7 +2,9 @@
 import { Link } from 'react-router-dom';
 
 function Training({ training }) {
-    const categories = training.category.category.split(' ');
+    const categories = (training.category && training.category.category)
+    ? training.category.category.split(' ')
+    : []; // Если нет значения, вернем пустой массив
 
     // Обрезка описания до 40 символов
     const truncatedDescription = training.description.length > 40

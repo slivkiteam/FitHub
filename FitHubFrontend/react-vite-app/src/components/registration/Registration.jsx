@@ -40,7 +40,6 @@ export default function Registration() {
                 else{
                     console.log('Ответ с сервера:', result);
                     // Можете перенаправить или показать сообщение об успешной регистрации
-                    alert('Регистрация успешна!'); 
                     const jwtToken = result["jwt-token"];
                     // Сохраняем токен в localStorage
                     localStorage.setItem('jwtToken', jwtToken);

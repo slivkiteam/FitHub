@@ -25,6 +25,7 @@ export default function UserPage({cards}) {
     gender: null,
     age: null,
     role: "ROLE_USER",
+    image: null,
     trains: [],
     ratings: [],
     userStatistics: {
@@ -231,6 +232,7 @@ const handleFileChange = (event) => {
           role: userData.role,
           trains: userData.trains,
           ratings: userData.ratings,
+          image: userData.image,
           userStatistics: {
             skill: userData.userStatistics.skill,
             countOfTrains: userData.userStatistics.countOfTrains,

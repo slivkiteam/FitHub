@@ -126,7 +126,7 @@ export default function TrainingDetail() {
           {trainingImage ? (
             <img src={trainingImage} alt="Тренировка" className="training-image" />
           ) : (
-            <p>Загрузка изображения...</p>
+            <img src="../../img/negro_man.png" alt="Тренировка" className="training-image" />
           )}
         </div>
         <div className="training-info-container">
