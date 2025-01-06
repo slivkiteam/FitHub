@@ -47,19 +47,6 @@ export default function UserPage({cards}) {
         } else {
           console.error("Ошибка получения тренировки:", response.statusText);
         }
-        const imageResponse = await fetch(`http://localhost:8081/users/${userId}/image`,{
-          method: 'GET',
-          headers: {
-              "Authorization": `Bearer ${token}`,
-            }
-        });
-        if (imageResponse.ok) {
-          const blob = await imageResponse.blob(); // Получаем данные в виде Blob
-          const imageUrl = URL.createObjectURL(blob); // Генерируем URL
-          setPreviewImage(imageUrl); // Устанавливаем URL изображения в состояние
-        } else {
-          console.error("Ошибка загрузки изображения:", imageResponse.status);
-        }
       } catch (error) {
         console.error("Ошибка при выполнении запроса к API:", error);
       }
@@ -169,8 +156,9 @@ const uploadImage = async (userId) => {
 
   const formData = new FormData();
   formData.append('image', selectedFile);
-
+  console.log(`http://localhost:8081/users/${userId}/image`)
   try {
+      console.log(`http://localhost:8081/users/${userId}/image`)
       const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
           method: 'POST',
           body: formData,
@@ -257,8 +245,7 @@ const handleFileChange = (event) => {
         body: JSON.stringify(data),
       });
 
-      if (previewImage === null)
-        uploadImage(userId)
+      uploadImage(userId)
       
       if (!response.ok) {
         throw new Error("Ошибка при обновлении данных");
