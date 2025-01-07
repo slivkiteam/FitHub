@@ -81,6 +81,7 @@ export default function TrainingDetail() {
         const savedBookmark = localStorage.getItem(`bookmarkedTraining-${userData.login}`);
         setIsBookmarked(savedBookmark === id);
   
+
         // Делаем GET-запрос для изображения
         const imageResponse = await fetch(`http://localhost:8081/trains/${id}/image`, {
           method: 'GET'
@@ -167,6 +168,9 @@ export default function TrainingDetail() {
         </button>
         <button className='training-detail-button' onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
             Перейти на страницу тренировок
+        </button>
+        <button className='training-detail-button'>
+            пометить как выполненное
         </button>
       </div>
     </div>

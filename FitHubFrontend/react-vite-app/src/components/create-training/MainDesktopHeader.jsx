@@ -58,16 +58,16 @@ export default function MainDesktopHeader({ selectedTags }) {
             return;
         }
 
-        if (selectedTags.time === '1 час +') durationInMinutes = 70;
-        if (selectedTags.time === '30-60 мин') durationInMinutes = 45;
-        if (selectedTags.time === '10-15 мин') durationInMinutes = 15;
+        if (selectedTags.time === '1 ЧАС +') durationInMinutes = 70;
+        if (selectedTags.time === '30-60 МИН') durationInMinutes = 45;
+        if (selectedTags.time === '10-15 МИН') durationInMinutes = 15;
 
         if (selectedTags.difficulty.toUpperCase() === 'СЛОЖНАЯ') difficulty = 'СЛОЖНО';
         if (selectedTags.difficulty.toUpperCase() === 'СРЕДНЯЯ') difficulty = 'СРЕДНЕ';
         if (selectedTags.difficulty.toUpperCase() === 'ЛЕГКАЯ') difficulty = 'ЛЕГКО';
 
         const training = {
-            title: workoutName,
+            title: workoutName.toLowerCase(),
             description: workoutDescription,
             status: difficulty,
             score: 0.0,

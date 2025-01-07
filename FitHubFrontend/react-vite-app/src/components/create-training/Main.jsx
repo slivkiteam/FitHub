@@ -104,7 +104,7 @@ export default function MainCreateTraining({ selectedTags, setSelectedTags }) {
                             </div>
                             <div className="params-lists">
                                 <ul className="buttons-list">
-                                    {['кардио', 'йога', 'силовая', 'круговая'].map((tag) => (
+                                    {['КАРДИО', 'ЙОГА', 'СИЛОВАЯ', 'КРУГОВАЯ'].map((tag) => (
                                         <li key={tag}>
                                             <a
                                                 href="#!"
@@ -118,7 +118,7 @@ export default function MainCreateTraining({ selectedTags, setSelectedTags }) {
                                 </ul>
 
                                 <ul className="buttons-list">
-                                    {['легкая', 'средняя', 'сложная'].map((tag) => (
+                                    {['ЛЕГКАЯ', 'СРЕДНЯЯ', 'СЛОЖНАЯ'].map((tag) => (
                                         <li key={tag}>
                                             <a
                                                 href="#!"
@@ -132,7 +132,7 @@ export default function MainCreateTraining({ selectedTags, setSelectedTags }) {
                                 </ul>
 
                                 <ul className="buttons-list">
-                                    {['дом', 'улица', 'зал'].map((tag) => (
+                                    {['ДОМ', 'УЛИЦА', 'ЗАЛ'].map((tag) => (
                                         <li key={tag}>
                                             <a
                                                 href="#!"
@@ -146,7 +146,7 @@ export default function MainCreateTraining({ selectedTags, setSelectedTags }) {
                                 </ul>
 
                                 <ul className="buttons-list">
-                                    {['10-15 мин', '30-60 мин', '1 час +'].map((tag) => (
+                                    {['10-15 МИН', '30-60 МИН', '1 ЧАС +'].map((tag) => (
                                         <li key={tag}>
                                             <a
                                                 href="#!"

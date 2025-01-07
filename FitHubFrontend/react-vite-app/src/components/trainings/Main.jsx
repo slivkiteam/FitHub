@@ -20,7 +20,7 @@ export default function Main({ data, currentPage, getAllContacts }) {
 
         // Добавляем параметр поиска по названию
         if (searchText && searchText !== 'Поиск') {
-            searchParam += `title:${searchText},`;
+            searchParam += `title:${searchText.toLowerCase()},`;
         }
 
         Object.entries(selectedTags).forEach(([key, value], index) => {
