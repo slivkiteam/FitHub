@@ -77,7 +77,11 @@ public class TrainService {
     }
 
     public Train createFromDTO(TrainDTO trainDTO) {
-        return modelMapper.map(trainDTO, Train.class);
+        var m = modelMapper.map(trainDTO, Train.class);
+        if (trainDTO.getCategory().getId() == null) {
+            m = addCategory(m, trainDTO.getCategory().getCategory());
+        }
+        return m;
     }
 
     public TrainDTO converteToTrainDTO(Train train) {
