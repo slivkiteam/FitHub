@@ -12,13 +12,61 @@ export default function TrainingDetail() {
   const [userData, setUserData] = useState({});
   const [exercises, setExercises] = useState([]);
   const [trainingImage, setTrainingImage] = useState(null); // Состояние для URL картинки
-
+  const [isMarked, setIsMarked] = useState(false);
 
   
   useEffect(() => {
     console.log("Обновленные данные:", userData);
     handleGetStats();
-  }, []);
+  }, [training]);
+
+  const handleUpdateUsed = async () => {
+    if (!training) {
+      console.error('Ошибка: Данные тренировки еще не загружены');
+      return;
+    }
+  
+    const updatedUsedTrain = {
+      ...training,
+      used: training.used + 1,
+    };
+  
+    try {
+      const token = localStorage.getItem('jwtToken');
+      if (!token) {
+        console.error('Ошибка: Токен отсутствует');
+        return;
+      }
+  
+      const response = await fetch(`http://localhost:8081/trains/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedUsedTrain),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Ошибка: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+  
+      // Локальное обновление состояния
+      setTraining((prevTraining) => ({
+        ...prevTraining,
+        used: prevTraining.used + 1,
+      }));
+  
+      // Блокируем кнопку
+      setIsMarked(true);
+  
+      console.log('Тренировка успешно обновлена');
+    } catch (error) {
+      console.error('Ошибка при выполнении запроса:', error);
+    }
+  };
+
 
   const handleGetStats = async () => {
     const token = localStorage.getItem('jwtToken');
@@ -135,6 +183,7 @@ export default function TrainingDetail() {
           <p className='training-description'>Описание: {training.description}</p>
           <p>Формат: {training.place}</p>
           <p>Время: {training.durationInMinutes} минут</p>
+          <p>Выполнений: {training.used}</p>
           <div className="training-tags">
             <p className='green-tag'>{training.category.category}</p>
             <p className='yellow-tag'>{training.status}</p>
@@ -169,9 +218,19 @@ export default function TrainingDetail() {
         <button className='training-detail-button' onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
             Перейти на страницу тренировок
         </button>
-        <button className='training-detail-button'>
-            пометить как выполненное
-        </button>
+        {isMarked ? (
+          <div className="training-detail-button">
+            <p style={{display: 'flex', alignItems: 'center', color: 'white'}}>Отмечено</p>
+            <img style={{width: '20px'}} src="../src/img/check.svg" />
+          </div>
+          ) : (
+            <button
+              className="training-detail-button"
+              onClick={handleUpdateUsed}
+            >
+              отметить как выполненное
+            </button>
+          )}
       </div>
     </div>
     </>

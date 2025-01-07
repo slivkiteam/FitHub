@@ -45,7 +45,7 @@ export default function StartPage({ onTypeChange }) {
                     </div>
                     <div className="training-button">
                         <a href="#" onClick={() => onTypeChange('trainings')}>
-                            мои тренировки
+                            программы
                         </a>
                     </div>
                 </div>
