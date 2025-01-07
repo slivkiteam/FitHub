@@ -531,7 +531,7 @@ const handleFileChange = (event) => {
             </section>      
             <section className="history-trainings-desktop">
                 <div className="wrapper">
-                    <p className="wrapper-text">мои тренировки</p>
+                    <p className="wrapper-text">мои последние <br/>тренировки</p>
                 </div>
                 <div className="training-cards-container">
                     <ul className="training-cards">
