@@ -12,6 +12,8 @@ export default function UserPage({cards}) {
   const [userId, setUserId] = useState(0)
   const [isFileSelected, setIsFileSelected] = useState(false)
   const token = localStorage.getItem('jwtToken');
+  const [userTrains, setUserTrains] = useState([])
+  const [totalPages, setTotalPages] = useState(0)
 
   // Шаблон данных пользователя
   const [userData, setUserData] = useState({
@@ -68,6 +70,7 @@ export default function UserPage({cards}) {
   useEffect(() => {
     console.log("Обновленные данные:", userData);
     handleGetStats()
+    handleSetUserTrains()
   }, []);
 
   useEffect(() => {
@@ -78,6 +81,90 @@ export default function UserPage({cards}) {
         }
     }
   }, [filteredData, targetId]); // Выполняется при изменении filteredData или targetId
+
+
+// Получение автора
+const handleGetAuthor = async () => {
+  const token = localStorage.getItem('jwtToken');
+  if (!token) {
+      console.error("Токен отсутствует. Пользователь не авторизован.");
+      return null;
+  }
+
+  try {
+      const response = await fetch(`http://localhost:8081/users/lk`, {
+          method: "GET",
+          headers: {
+              "Authorization": `Bearer ${token}`,
+          },
+      });
+
+      if (!response.ok) {
+          console.error(`Ошибка при получении автора: ${response.status}`);
+          return null;
+      }
+
+      const data = await response.json();
+      const author = `${data.name} ${data.surname}`;
+      console.log("Автор найден:", author);
+      return author;
+  } catch (e) {
+      console.error("Ошибка при выполнении запроса:", e);
+      return null;
+  }
+};
+
+// Получение тренировок автора
+const handleSetUserTrains = async () => {
+  try {
+      const author = await handleGetAuthor();
+      if (!author) {
+          console.error("Автор не найден. Пропускаем выполнение запроса.");
+          return;
+      }
+
+      const token = localStorage.getItem('jwtToken');
+      if (!token) {
+          console.error("Токен отсутствует. Невозможно выполнить запрос.");
+          return;
+      }
+
+      const response = await fetch(`http://localhost:8081/trains?search=author:${author}`, {
+          method: "GET",
+          headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+          },
+      });
+
+      if (!response.ok) {
+          console.error(`Ошибка при получении тренировок: ${response.status}`);
+          return;
+      }
+
+      const data = await response.json();
+      if (data?.content) {
+          console.log("Авторские тренировки:", data.content);
+          setTotalPages(data.totalPages)
+          
+          const responsePage = await fetch(`http://localhost:8081/trains?search=author:${author}&page=${totalPages - 1}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+          });
+          const dataPage = await responsePage.json();
+          console.log('DATA',dataPage)
+          console.log(`http://localhost:8081/trains?search=author:${author}&page=${totalPages}`)
+          setUserTrains(dataPage.content); // Устанавливаем данные тренировок
+      } else {
+          console.error("Ответ API не содержит контента.");
+      }
+  } catch (e) {
+      console.error("Ошибка при выполнении запроса:", e);
+  }
+};
 
 
   const fetchUserImage = async (userId) => {
@@ -268,10 +355,12 @@ const handleFileChange = (event) => {
     try {
         console.log(training.id);
         const response = await getContact(training.id);
+        console.log(response);
         setStats({
             used: response.data.used,
             duration: response.data.durationInMinutes,
             calories: 0,
+            author: response.data.author
         });
 
     } catch (error) {
@@ -436,7 +525,7 @@ const handleFileChange = (event) => {
                     <ul className="featured-workout-tags">
                         <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
                         <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || ''} минут</li>
-                        <li className="featured-workout-tag tag-kkal">автор: вы</li>
+                        <li className="featured-workout-tag tag-kkal">автор: {stats.author}</li>
                     </ul>
                 </div>
             </section>      
@@ -446,8 +535,8 @@ const handleFileChange = (event) => {
                 </div>
                 <div className="training-cards-container">
                     <ul className="training-cards">
-                    {filteredData?.length > 0
-                            ? filteredData.slice(0, 3).map((training) => (
+                    {userTrains?.length > 0
+                            ? userTrains.map((training) => (
                                 <Training training={training} key={training.id} />
                             ))
                             : <p>Нет доступных тренировок</p>
