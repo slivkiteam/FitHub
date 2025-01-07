@@ -19,6 +19,37 @@ export default function MainDesktopHeader({ selectedTags }) {
         reader.readAsDataURL(file);
     };
 
+    const handleGetAuthor = async () => {
+        const token = localStorage.getItem('jwtToken');
+        try {
+            if (!token) {
+                console.error("Токен отсутствует. Пользователь не авторизован.");
+                return null;
+            }
+    
+            console.log("Используемый токен:", token);
+    
+            const response = await fetch(`http://localhost:8081/users/lk`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+    
+            if (!response.ok) {
+                console.error('Ошибка при получении автора:', response.status);
+                return null;
+            }
+    
+            const data = await response.json(); // Ожидание обработки JSON
+            const author = `${data.name} ${data.surname}`;
+            return author; // Возвращаем автора
+        } catch (e) {
+            console.error('Ошибка при получении автора:', e);
+            return null;
+        }
+    };
+
     // Функция для загрузки изображения
     const uploadImage = async (trainingId) => {
         if (!selectedFile) {
@@ -52,50 +83,53 @@ export default function MainDesktopHeader({ selectedTags }) {
     const handleUpload = async () => {
         let durationInMinutes = 0;
         let difficulty = '';
-
+    
         if (!workoutName || !workoutDescription || !selectedFile) {
             alert('Пожалуйста, заполните все поля и выберите файл!');
             return;
         }
-
+    
         if (selectedTags.time === '1 ЧАС +') durationInMinutes = 70;
         if (selectedTags.time === '30-60 МИН') durationInMinutes = 45;
         if (selectedTags.time === '10-15 МИН') durationInMinutes = 15;
-
+    
         if (selectedTags.difficulty.toUpperCase() === 'СЛОЖНАЯ') difficulty = 'СЛОЖНО';
         if (selectedTags.difficulty.toUpperCase() === 'СРЕДНЯЯ') difficulty = 'СРЕДНЕ';
         if (selectedTags.difficulty.toUpperCase() === 'ЛЕГКАЯ') difficulty = 'ЛЕГКО';
-
-        const training = {
-            title: workoutName.toLowerCase(),
-            description: workoutDescription,
-            status: difficulty,
-            score: 0.0,
-            used: 10,
-            durationInMinutes: durationInMinutes,
-            countOfIteration: 15,
-            author: 'ADMIN',
-            place: selectedTags.format,
-            image: null, // Пока null, т.к. изображение отправим отдельно
-            category: {
-                category: selectedTags.trainingType,
-            },
-            exercises: JSON.parse(localStorage.getItem('exercises')),
-        };
-        localStorage.removeItem('exercises');
+    
         try {
+            const author = await handleGetAuthor(); // Ожидание результата функции
+    
+            const training = {
+                title: workoutName.replace(/[A-Z]/g, (char) => char.toLowerCase()),
+                description: workoutDescription,
+                status: difficulty,
+                score: 0.0,
+                used: 0,
+                durationInMinutes: durationInMinutes,
+                countOfIteration: 15,
+                author: author, // Используем полученного автора
+                place: selectedTags.format,
+                image: null, // Пока null, т.к. изображение отправим отдельно
+                category: {
+                    category: selectedTags.trainingType,
+                },
+                exercises: JSON.parse(localStorage.getItem('exercises')),
+            };
+            localStorage.removeItem('exercises');
+    
             const response = await saveContact(training);
-            console.log('Данные ответа о создании тренировки', response)
+            console.log('Данные ответа о создании тренировки', response);
             if (response.data) {
                 alert('Тренировка успешно создана.');
-
+    
                 // Отправляем изображение после создания тренировки
                 await uploadImage(response.data);
             }
         } catch (error) {
             console.error('Ошибка при создании тренировки:', error);
         }
-    };
+    }
 
     return (
         <div className="main-desktop">
