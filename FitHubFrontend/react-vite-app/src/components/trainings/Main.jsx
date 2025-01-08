@@ -13,6 +13,27 @@ export default function Main({ data, currentPage, getAllContacts }) {
     const [currentPageState, setCurrentPageState] = useState(currentPage); // Текущая страница
     const [sortOrder, setSortOrder] = useState('less'); // Порядок сортировки: "more" или "less"
 
+
+    const deleteTrainings = async () => {
+        try {
+            for (let id = 1; id < 128; id++) {
+                const response = await fetch(`http://localhost:8081/trains/${id}`, {
+                    method: "DELETE",
+                });
+    
+                if (!response.ok) {
+                    console.error(`Ошибка при удалении тренировки с ID ${id}: ${response.statusText}`);
+                } else {
+                    console.log(`Тренировка с ID ${id} успешно удалена`);
+                }
+            }
+    
+            alert("Все тренировки с ID меньше 128 были удалены!");
+        } catch (error) {
+            console.error("Ошибка при удалении тренировок:", error);
+        }
+    };
+
     // Формирование строки запроса с фильтрами
     const buildSearchParam = () => {
         let searchParam = "?search=";

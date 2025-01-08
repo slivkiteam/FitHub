@@ -220,7 +220,7 @@ export default function TrainingDetail() {
         </button>
         {isMarked ? (
           <div className="training-detail-button">
-            <p style={{display: 'flex', alignItems: 'center', color: 'white'}}>Отмечено</p>
+            <p style={{display: 'flex', alignItems: 'center', color: 'black'}}>Отмечено</p>
             <img style={{width: '20px'}} src="../src/img/check.svg" />
           </div>
           ) : (

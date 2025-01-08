@@ -91,7 +91,7 @@ body {
     display: flex;
     padding: 61px 130px 20px 130px;
     margin: 0 auto;
-    max-width: 1440px;
+    width: 1440px;
 }
 
 .gallery-desktop{

@@ -109,6 +109,8 @@ h1 {
 
 .training-exercises{
     display: flex;
+    width: 1400px;
+    flex-wrap: wrap;
     gap: 30px;
 }
 

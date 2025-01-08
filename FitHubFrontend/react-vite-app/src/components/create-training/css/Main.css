@@ -31,6 +31,7 @@ body {
 
 .main{
     padding-bottom: 130px;
+    width: 1440px;
 }
 
 .header-desktop{
@@ -94,7 +95,7 @@ body {
     display: flex;
     padding: 61px 130px 20px 130px;
     margin: 0 auto;
-    max-width: 1440px;
+    width: 1440px;
 }
 
 .gallery-desktop{
@@ -216,6 +217,8 @@ body {
 }
 .exers{
     display: flex;
+    flex-wrap: wrap;
+    width: 1400px;
     gap: 20px;
 }
 .page-text {
