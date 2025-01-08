@@ -532,7 +532,7 @@ const handleFileChange = (event) => {
 
                     <ul className="featured-workout-tags">
                         <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
-                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || ''} минут</li>
+                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || '0'} минут</li>
                         <li className="featured-workout-tag tag-kkal">автор: {stats.author}</li>
                     </ul>
                 </div>

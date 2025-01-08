@@ -145,7 +145,7 @@ export default function TrainingDetail() {
         console.error("Ошибка при загрузке данных тренировки:", error);
       }
     };
-  
+    
     fetchTraining();
   }, [id, userData.login]);
   
@@ -175,7 +175,7 @@ export default function TrainingDetail() {
           {trainingImage ? (
             <img src={trainingImage} alt="Тренировка" className="training-image" />
           ) : (
-            <img src="../../img/negro_man.png" alt="Тренировка" className="training-image" />
+            <img src="../src/img/negro_man.png" alt="Тренировка" className="training-image" />
           )}
         </div>
         <div className="training-info-container">

@@ -36,6 +36,15 @@ function App() {
     getAllContacts();
   }, []);
 
+  useEffect(() => {
+    document.title = "FitHub"; // Общий title
+  }, []);
+
+  useEffect(() => {
+    const favicon = document.querySelector("link[rel='icon']");
+    favicon.href = "../src/img/logo.svg"; // Путь к новой иконке
+  }, []);
+
   return (
     <main>
       <Routes>
