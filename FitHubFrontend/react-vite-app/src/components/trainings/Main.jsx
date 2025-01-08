@@ -95,7 +95,7 @@ export default function Main({ data, currentPage, getAllContacts }) {
     useEffect(() => {
         // Сброс текущей страницы на 0 при изменении тегов
         setCurrentPageState(0);
-    }, [selectedTags]);
+    }, [selectedTags, searchText]);
 
     useEffect(() => {
         handleSetFilter(currentPageState); // Запрашиваем данные для текущей страницы

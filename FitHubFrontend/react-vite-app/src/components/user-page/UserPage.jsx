@@ -117,59 +117,74 @@ const handleGetAuthor = async () => {
 // Получение тренировок автора
 const handleSetUserTrains = async () => {
   try {
-      const author = await handleGetAuthor();
-      if (!author) {
-          console.error("Автор не найден. Пропускаем выполнение запроса.");
-          return;
-      }
+    const author = await handleGetAuthor();
+    if (!author) {
+      console.error("Автор не найден. Пропускаем выполнение запроса.");
+      return;
+    }
 
-      const token = localStorage.getItem('jwtToken');
-      if (!token) {
-          console.error("Токен отсутствует. Невозможно выполнить запрос.");
-          return;
-      }
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      console.error("Токен отсутствует. Невозможно выполнить запрос.");
+      return;
+    }
 
-      const response = await fetch(`http://localhost:8081/trains?search=author:${author}`, {
-          method: "GET",
-          headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
-          },
+    // Запрос на получение первой страницы, чтобы узнать totalPages
+    const response = await fetch(`http://localhost:8081/trains?search=author:${author}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Ошибка при получении тренировок: ${response.status}`);
+      return;
+    }
+
+    const data = await response.json();
+    if (!data?.content) {
+      console.error("Ответ API не содержит контента.");
+      return;
+    }
+
+    const totalPages = data.totalPages;
+    const allTrains = []; // Список для хранения всех тренировок
+
+    // Циклически проходим по всем страницам
+    for (let page = 0; page < totalPages; page++) {
+      const pageResponse = await fetch(`http://localhost:8081/trains?search=author:${author}&page=${page}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
-      if (!response.ok) {
-          console.error(`Ошибка при получении тренировок: ${response.status}`);
-          return;
+      if (!pageResponse.ok) {
+        console.error(`Ошибка при получении страницы ${page}: ${pageResponse.status}`);
+        continue; // Переход к следующей странице
       }
 
-      const data = await response.json();
-      if (data?.content) {
-          console.log("Авторские тренировки:", data.content);
-          const totalPages = data.totalPages;
-          setTotalPages(totalPages);
-
-          const responsePage = await fetch(`http://localhost:8081/trains?search=author:${author}&page=0`, {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-          });
-
-          if (!responsePage.ok) {
-              console.error(`Ошибка при получении последней страницы: ${responsePage.status}`);
-              return;
-          }
-
-          const dataPage = await responsePage.json();
-          let fullInfo = dataPage.content.sort((a, b) => b.id - a.id).slice(0, 3);
-          console.log('FULL', fullInfo)
-
-          setUserTrains(fullInfo); // Устанавливаем данные тренировок
-      } else {
-          console.error("Ответ API не содержит контента.");
+      const pageData = await pageResponse.json();
+      if (pageData?.content) {
+        allTrains.push(...pageData.content); // Добавляем тренировки со страницы
       }
+    }
+
+    // Сортируем объединённый список по id
+    allTrains.sort((a, b) => b.id - a.id);
+
+    // Выбираем первые три элемента
+    const topThreeTrains = allTrains.slice(0, 3);
+
+    console.log('Top 3 тренировки:', topThreeTrains);
+
+    // Устанавливаем данные тренировок
+    setUserTrains(topThreeTrains);
   } catch (e) {
-      console.error("Ошибка при выполнении запроса:", e);
+    console.error("Ошибка при выполнении запроса:", e);
   }
 };
 
@@ -532,7 +547,7 @@ const handleFileChange = (event) => {
 
                     <ul className="featured-workout-tags">
                         <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
-                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || '0'} минут</li>
+                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || ''} минут</li>
                         <li className="featured-workout-tag tag-kkal">автор: {stats.author}</li>
                     </ul>
                 </div>
