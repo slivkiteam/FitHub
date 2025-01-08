@@ -145,19 +145,26 @@ const handleSetUserTrains = async () => {
       const data = await response.json();
       if (data?.content) {
           console.log("Авторские тренировки:", data.content);
-          setTotalPages(data.totalPages)
-          
-          const responsePage = await fetch(`http://localhost:8081/trains?search=author:${author}&page=${totalPages - 1}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
+          const totalPages = data.totalPages;
+          setTotalPages(totalPages);
+
+          const responsePage = await fetch(`http://localhost:8081/trains?search=author:${author}&page=0`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
           });
+
+          if (!responsePage.ok) {
+              console.error(`Ошибка при получении последней страницы: ${responsePage.status}`);
+              return;
+          }
+
           const dataPage = await responsePage.json();
-          console.log('DATA',dataPage)
-          console.log(`http://localhost:8081/trains?search=author:${author}&page=${totalPages}`)
-          setUserTrains(dataPage.content); // Устанавливаем данные тренировок
+          let fullInfo = dataPage.content.sort((a, b) => b.id - a.id).slice(0, 3);
+          console.log('FULL', fullInfo)
+
+          setUserTrains(fullInfo); // Устанавливаем данные тренировок
       } else {
           console.error("Ответ API не содержит контента.");
       }
@@ -165,6 +172,7 @@ const handleSetUserTrains = async () => {
       console.error("Ошибка при выполнении запроса:", e);
   }
 };
+
 
 
   const fetchUserImage = async (userId) => {
