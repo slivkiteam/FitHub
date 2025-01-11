@@ -36,7 +36,7 @@ export default function Header({ mainType, onTypeChange }) {
         <header className="header">
             <div className="header__desktop">
                 <a href="#!" onClick={() => onTypeChange('startPage')}>
-                    <img src="..\..\src\img\logo.svg" alt="Logo" className="header__logo" />
+                    <img src="..\logo.svg" alt="Logo" className="header__logo" />
                 </a>
                 <nav className="header__nav">
                     <ul className="header__list">
@@ -76,7 +76,7 @@ export default function Header({ mainType, onTypeChange }) {
                         <ul className="header__list__registration">
                             <li>
                                 <a href="#!" onClick={() => onTypeChange('user-page')}>
-                                    <img src="..\..\src\img\user_icon.svg" className="user_icon" alt="User Icon" />
+                                    <img src="..\user_icon.svg" className="user_icon" alt="User Icon" />
                                 </a>
                             </li>
                             <li><a on onClick={handleLogout}>Выйти</a></li>

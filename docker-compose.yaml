@@ -28,6 +28,15 @@ services:
       - .env
     networks:
       - practice-net
+  frontend:
+    build:
+      context: ./FitHubFrontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+      - "80:80"
+    networks:
+      - practice-net
   minio:
     image: minio/minio:latest
     container_name: minio
