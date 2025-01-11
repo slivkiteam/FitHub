@@ -139,7 +139,7 @@ export default function MainDesktopHeader({ selectedTags }) {
                         {previewImage ? (
                             <img src={previewImage} alt="Предпросмотр" className="gallery__main-photo" />
                         ) : (
-                            <img src="..\src\img\negro_man.png" alt="Placeholder" className="gallery__main-photo" />
+                            <img src="./negro_man.png" alt="Placeholder" className="gallery__main-photo" />
                         )}
                     </a>
                 </div>

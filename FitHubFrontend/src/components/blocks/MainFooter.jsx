@@ -20,8 +20,8 @@ function MainFooter() {
                 </div>
                 <ul className="footer-list">
                     <li><a href="#" className='footer-name'>Наши контакты</a></li>
-                    <li className='email-box'><img src=".\src\img\email.svg" className='footer-img' alt="" /> sundukovalexandr06@yandex.ru</li>
-                    <li className='email-box'><img src=".\src\img\location.svg" className='footer-img' alt="" /> Екатеринбург, микрорайон Новокольцовский, Деревня Универсиады</li>
+                    <li className='email-box'><img src="./email.svg" className='footer-img' alt="" /> sundukovalexandr06@yandex.ru</li>
+                    <li className='email-box'><img src="./location.svg" className='footer-img' alt="" /> Екатеринбург, микрорайон Новокольцовский, Деревня Универсиады</li>
                 </ul>
             </div>
     </footer>

@@ -98,7 +98,7 @@ export default function Registration() {
             </div>
             <div className="right-column">
                 <h1 className="white-h1">Твой старт к лучшей версии себя!</h1>
-                <img src="../negro_man.png" width="400px" height="400px" />
+                <img src="./negro_man.png" width="400px" height="400px" />
             </div>
         </div>
     );

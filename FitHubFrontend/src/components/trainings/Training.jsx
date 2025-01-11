@@ -25,7 +25,7 @@ function Training({ training }) {
                         alt={training.title}
                         onError={(e) => {
                             // Устанавливаем placeholder, если изображение недоступно
-                            e.target.src = './src/img/placeholder.png';
+                            e.target.src = './placeholder.png';
                         }}
                     />
                 </figure>

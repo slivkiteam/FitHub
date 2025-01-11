@@ -42,7 +42,7 @@ function App() {
 
   useEffect(() => {
     const favicon = document.querySelector("link[rel='icon']");
-    favicon.href = "../src/img/logo.svg"; // Путь к новой иконке
+    favicon.href = "./logo.svg"; // Путь к новой иконке
   }, []);
 
   return (

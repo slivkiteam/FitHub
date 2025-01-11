@@ -29,7 +29,7 @@ export default function FilterVariation(props) {
                 <p className="filter__variation">
                     {title}
                     <a href="#!" className="filter__arrow" onClick={() => setExpType('exp')}>
-                        <img src="../arrow.svg" alt="" />
+                        <img src="./arrow.svg" alt="" />
                     </a>
                 </p>
             ) : (
@@ -37,7 +37,7 @@ export default function FilterVariation(props) {
                     <p className="filter__variation">
                         {title}
                         <a href="#!" className="filter__arrow" onClick={() => { setExpType('no_exp'); setBackgroundColor('white'); }}>
-                            <img src="../arrow.svg" alt="" />
+                            <img src="./arrow.svg" alt="" />
                         </a>
                     </p>
                     <div className={`expand-settings ${expType === 'exp' ? 'expand-settings--visible' : ''}`} style={{ backgroundColor: backgroundColor, borderRadius: '20px' }}>

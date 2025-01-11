@@ -64,7 +64,7 @@ export default function Login() {
     return (
         <div className="sign-in-container">
             <div className="left-column">
-                <img src="../src/img/logo.svg" alt="Logo" />
+                <img src="./logo.svg" alt="Logo" />
                 <div className="left-column-container">
                     <h1>Вход</h1>
                     <form className='login-form' onSubmit={handleLogin}>
@@ -93,7 +93,7 @@ export default function Login() {
             </div>
             <div className="right-column">
                 <h1 className="white-h1">Твой старт к лучшей версии себя!</h1>
-                <img src="../src/img/negro_man.png" width="400px" height="400px" alt="Motivational" />
+                <img src="./negro_man.png" width="400px" height="400px" alt="Motivational" />
             </div>
         </div>
     );

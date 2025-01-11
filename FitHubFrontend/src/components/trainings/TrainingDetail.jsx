@@ -175,7 +175,7 @@ export default function TrainingDetail() {
           {trainingImage ? (
             <img src={trainingImage} alt="Тренировка" className="training-image" />
           ) : (
-            <img src="../src/img/negro_man.png" alt="Тренировка" className="training-image" />
+            <img src="./negro_man.png" alt="Тренировка" className="training-image" />
           )}
         </div>
         <div className="training-info-container">
@@ -213,7 +213,7 @@ export default function TrainingDetail() {
               border: "1px solid #ccc",
             }}
         >
-        <img src="../src/img/bookmark.svg" alt="" style={{width: '20px'}}/>
+        <img src="./bookmark.svg" alt="" style={{width: '20px'}}/>
         </button>
         <button className='training-detail-button' onClick={() => navigate('/trains', { state: { mainType: 'trainings' } })}>
             Перейти на страницу тренировок
@@ -221,7 +221,7 @@ export default function TrainingDetail() {
         {isMarked ? (
           <div className="training-detail-button">
             <p style={{display: 'flex', alignItems: 'center', color: 'black'}}>Отмечено</p>
-            <img style={{width: '20px'}} src="../src/img/check.svg" />
+            <img style={{width: '20px'}} src="./check.svg" />
           </div>
           ) : (
             <button

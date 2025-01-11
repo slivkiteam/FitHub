@@ -455,7 +455,7 @@ const handleFileChange = (event) => {
             {previewImage ? (
                 <img src={previewImage} alt="Предпросмотр" className="personal-avatar" />
             ) : (
-                <img src="..\src\img\negro_man.png" alt="Placeholder" className="personal-avatar" />
+                <img src="./negro_man.png" alt="Placeholder" className="personal-avatar" />
             )}
             <div className="personal-account-parameters">
                 <input
@@ -539,7 +539,7 @@ const handleFileChange = (event) => {
                     <p className="wrapper-text">избранная тренировка</p>
                 </div>
                 <div className="featured-workout-container">
-                    <img className="background" src="./src/img/image.png.png" />
+                    <img className="background" src="./image.png.png" />
                     {targetTraining
                         ? <Training training={targetTraining} key={targetTraining.id} />
                         : <p style={{marginLeft: '160px', display: 'flex', alignItems: 'center', textAlign: 'center'}}>У вас пока нет <br />избранной тренировки</p>
