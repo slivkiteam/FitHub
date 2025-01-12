@@ -74,7 +74,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                         "http://127.0.0.1:9000",
                         "http://127.0.0.1:9090",
                         "http://172.18.0.2:9000",
-                        "http://172.18.0.2:9090"
+                        "http://172.18.0.2:9090",
+                        "http://212.41.6.237"
                 )
                 .allowedHeaders("*")
                 .exposedHeaders("*")
