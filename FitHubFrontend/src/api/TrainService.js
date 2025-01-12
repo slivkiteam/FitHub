@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://212.41.6.237/trains'
+const API_URL = 'http://212.41.6.237/api/trains'
 
 export async function saveContact(train) {
     return await axios.post(API_URL, train)

@@ -118,7 +118,7 @@ const handleGetAuthor = async () => {
 const handleSetUserTrains = async () => {
   try {
     const author = await handleGetAuthor();
-    if (!author) {
+    if (!author || author.includes("null") || author.includes(null) || author.includes("null%20null")) {
       console.error("Автор не найден. Пропускаем выполнение запроса.");
       return;
     }
@@ -128,15 +128,17 @@ const handleSetUserTrains = async () => {
       console.error("Токен отсутствует. Невозможно выполнить запрос.");
       return;
     }
-
+      let response = Response.error();
     // Запрос на получение первой страницы, чтобы узнать totalPages
-    const response = await fetch(`http://212.41.6.237/api/trains?search=author:${author}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+      if (!author.includes("null") && !author.includes(null) && !author.includes("null%20null")) {
+           response = await fetch(`http://212.41.6.237/api/trains?search=author:${author}`, {
+              method: "GET",
+              headers: {
+                  "Authorization": `Bearer ${token}`,
+                  "Content-Type": "application/json",
+              },
+          });
+      }
 
     if (!response.ok) {
       console.error(`Ошибка при получении тренировок: ${response.status}`);
