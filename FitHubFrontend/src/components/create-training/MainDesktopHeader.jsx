@@ -29,7 +29,7 @@ export default function MainDesktopHeader({ selectedTags }) {
     
             console.log("Используемый токен:", token);
     
-            const response = await fetch(`http://localhost:8081/users/lk`, {
+            const response = await fetch(`http://212.41.6.237/api/users/lk`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -61,7 +61,7 @@ export default function MainDesktopHeader({ selectedTags }) {
         formData.append('image', selectedFile);
 
         try {
-            const response = await fetch(`http://localhost:8081/trains/${trainingId}/image`, {
+            const response = await fetch(`http://212.41.6.237/api/trains/${trainingId}/image`, {
                 method: 'POST',
                 body: formData,
                 headers: {

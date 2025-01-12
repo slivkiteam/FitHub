@@ -51,7 +51,7 @@ export default function MainCreateTraining({ selectedTags, setSelectedTags }) {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:8081/assistant/generate`, {
+            const response = await fetch(`http://212.41.6.237/api/assistant/generate`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

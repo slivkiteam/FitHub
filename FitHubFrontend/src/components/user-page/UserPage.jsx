@@ -352,7 +352,7 @@ const handleFileChange = (event) => {
         }
         }
         console.log(data)
-        const response = await fetch(`http://localhost:8081/users/${userData.id}`, {
+        const response = await fetch(`http://212.41.6.237/api/users/${userData.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -405,7 +405,7 @@ const handleFileChange = (event) => {
 
         console.log("Используемый токен:", token);
 
-        const response = await fetch(`http://localhost:8081/users/lk`, {
+        const response = await fetch(`http://212.41.6.237/api/users/lk`, {
             method: "GET",
             headers: {
               "Authorization": `Bearer ${token}`,

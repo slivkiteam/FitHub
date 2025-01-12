@@ -17,7 +17,7 @@ export default function Main({ data, currentPage, getAllContacts }) {
     const deleteTrainings = async () => {
         try {
             for (let id = 1; id < 128; id++) {
-                const response = await fetch(`http://localhost:8081/trains/${id}`, {
+                const response = await fetch(`http://212.41.6.237/api/trains/${id}`, {
                     method: "DELETE",
                 });
     
@@ -89,7 +89,7 @@ export default function Main({ data, currentPage, getAllContacts }) {
     const handleSetFilter = async (page = 0) => {
         const searchParam = buildSearchParam(); // Получаем строку запроса с фильтрами
         try {
-            const response = await axios.get(`http://localhost:8081/trains${searchParam}&page=${page}&size=10`);
+            const response = await axios.get(`http://212.41.6.237/api/trains${searchParam}&page=${page}&size=10`);
             console.log("Данные с сервера:", response.data);
             setFilteredData(response.data.content); // Обновляем отфильтрованные данные
             setTotalPages(response.data.totalPages); // Сохраняем количество страниц

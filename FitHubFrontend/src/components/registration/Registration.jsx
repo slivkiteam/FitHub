@@ -23,7 +23,7 @@ export default function Registration() {
         }
 
         try {
-            const response = await fetch('http://localhost:8081/auth/registration', {
+            const response = await fetch('http://212.41.6.237/api/auth/registration', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ export default function StartPage({ onTypeChange }) {
         // Функция для загрузки данных с сервера
         const fetchTopTrainings = async () => {
             try {
-                const response = await fetch('http://localhost:8081/trains/top');
+                const response = await fetch('http://212.41.6.237/api/trains/top');
                 if (!response.ok) {
                     throw new Error(`Ошибка: ${response.status}`); // Обработка ошибок HTTP
                 }

@@ -12,7 +12,7 @@ function Training({ training }) {
         : training.description;
 
     // Формируем URL для изображения тренировки
-    const trainingImageUrl = `http://localhost:8081/trains/${training.id}/image`;
+    const trainingImageUrl = `http://212.41.6.237/api/trains/${training.id}/image`;
 
     return (
         <Link to={`/trains/${training.id}`}>
