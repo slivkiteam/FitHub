@@ -44,7 +44,7 @@ export default function FilterVariation(props) {
                         {tags.slice(0, 4).map((tag, index) => (
                             <div className="setting-container" key={index} onClick={() => toggleTagIcon(tag)}>
                                 <img
-                                    src={selectedTags.includes(tag) ? "src/img/check_circle.svg" : "src/img/check_circle_outline.svg"}
+                                    src={selectedTags.includes(tag) ? "./check_circle.svg" : "./check_circle_outline.svg"}
                                     alt=""
                                     className="choose"
                                 />

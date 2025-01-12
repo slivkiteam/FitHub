@@ -35,7 +35,7 @@ export default function StartPage({ onTypeChange }) {
                     <p className="second-level">ДЛЯ ДУШИ И ТЕЛА</p>
                 </div>
                 <div className="man">
-                    <img src="./src/img/man.png" alt="Man" />
+                    <img src="./man.png" alt="Man" />
                 </div>
                 <div className="first-column-second-row">
                     <div className="training-button">
@@ -75,8 +75,8 @@ export default function StartPage({ onTypeChange }) {
                     <p className="information-text">информация</p>
                 </div>
                 <div className="information-block">
-                    <img src="./src/img/info1.svg" alt="info1" />
-                    <img src="./src/img/info2.svg" alt="info2" style={{ width: '580px' }} />
+                    <img src="./info1.svg" alt="info1" />
+                    <img src="./info2.svg" alt="info2" style={{ width: '580px' }} />
                 </div>
             </section>
         </>
