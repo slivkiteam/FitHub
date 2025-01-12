@@ -92,7 +92,7 @@ const handleGetAuthor = async () => {
   }
 
   try {
-      const response = await fetch(`http://localhost:8081/users/lk`, {
+      const response = await fetch(`http://212.41.6.237/users/lk`, {
           method: "GET",
           headers: {
               "Authorization": `Bearer ${token}`,
@@ -130,7 +130,7 @@ const handleSetUserTrains = async () => {
     }
 
     // Запрос на получение первой страницы, чтобы узнать totalPages
-    const response = await fetch(`http://localhost:8081/trains?search=author:${author}`, {
+    const response = await fetch(`http://212.41.6.237/trains?search=author:${author}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -154,7 +154,7 @@ const handleSetUserTrains = async () => {
 
     // Циклически проходим по всем страницам
     for (let page = 0; page < totalPages; page++) {
-      const pageResponse = await fetch(`http://localhost:8081/trains?search=author:${author}&page=${page}`, {
+      const pageResponse = await fetch(`http://212.41.6.237/trains?search=author:${author}&page=${page}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -198,7 +198,7 @@ const handleSetUserTrains = async () => {
     }
   
     try {
-      const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
+      const response = await fetch(`http://212.41.6.237/users/${userId}/image`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -240,7 +240,7 @@ const handleGetUserId = async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:8081/users/lk`, {
+    const response = await fetch(`http://212.41.6.237/users/lk`, {
       method: 'GET',
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -268,10 +268,10 @@ const uploadImage = async (userId) => {
   else {
     const formData = new FormData();
     formData.append('image', selectedFile);
-    console.log(`http://localhost:8081/users/${userId}/image`)
+    console.log(`http://212.41.6.237/users/${userId}/image`)
     try {
-        console.log(`http://localhost:8081/users/${userId}/image`)
-        const response = await fetch(`http://localhost:8081/users/${userId}/image`, {
+        console.log(`http://212.41.6.237/users/${userId}/image`)
+        const response = await fetch(`http://212.41.6.237/users/${userId}/image`, {
             method: 'POST',
             body: formData,
             headers: {

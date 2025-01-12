@@ -38,7 +38,7 @@ export default function TrainingDetail() {
         return;
       }
   
-      const response = await fetch(`http://localhost:8081/trains/${id}`, {
+      const response = await fetch(`http://212.41.6.237/trains/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
