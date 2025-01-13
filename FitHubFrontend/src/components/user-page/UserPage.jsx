@@ -339,7 +339,7 @@ const handleFileChange = (event) => {
         console.log(dataWithoutId);
 
         // Отправляем PATCH-запрос с оставшимися данными
-        const response = await fetch(`http://localhost:8081/users/${id}`, {
+        const response = await fetch(`http://212.41.6.237/api/users/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
