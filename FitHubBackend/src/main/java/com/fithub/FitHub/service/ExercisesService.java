@@ -76,4 +76,10 @@ public class ExercisesService {
         var activityCategory = activityCategoriesService.findByCategory(category);
         return exercisesRepository.findAllByCategory(activityCategory);
     }
+    @Transactional
+    public void saveAll(List<ExercisesDTO> exercises) {
+        for (var exercisesDTO : exercises) {
+            save(converteFromDTO(exercisesDTO));
+        }
+    }
 }

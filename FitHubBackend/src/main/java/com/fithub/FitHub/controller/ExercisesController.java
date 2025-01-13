@@ -33,6 +33,12 @@ public class ExercisesController {
         return exercisesService.converteToExerciseDTO(exercisesService.findById(id));
     }
 
+    @PostMapping("/addAll")
+    public ResponseEntity<HttpStatus> addAllExercises(@RequestBody List<ExercisesDTO> exercises) {
+        exercisesService.saveAll(exercises);
+        return ResponseEntity.ok(HttpStatus.CREATED);
+    }
+
     @PostMapping
     public ResponseEntity<HttpStatus> createExercise(@RequestBody ExercisesDTO exercisesDTO, BindingResult bindingResult) {
         checkErrors(bindingResult);
