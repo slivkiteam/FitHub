@@ -332,48 +332,36 @@ const handleFileChange = (event) => {
   // Обработчик отправки данных
   const handleSubmit = async () => {
     try {
-        const data = {
-          name: userData.name,
-          surname: userData.surname,
-          login: userData.login,
-          birthday: userData.birthday,
-          email: userData.login,
-          password: userData.password,
-          gender: userData.gender,
-          age: userData.age,
-          role: userData.role,
-          trains: userData.trains,
-          ratings: userData.ratings,
-          image: userData.image,
-          userStatistics: {
-            skill: userData.userStatistics.skill,
-            countOfTrains: userData.userStatistics.countOfTrains,
-            weight: userData.userStatistics.weight,
-            height: userData.userStatistics.height,
-            ibw: userData.userStatistics.ibw
-        }
-        }
-        console.log(data)
-        const response = await fetch(`http://212.41.6.237/api/users/${userData.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+        // Убираем поле id из объекта userData
+        const { id, ...dataWithoutId } = userData; // Деструктуризация для исключения поля id
 
-      if (isFileSelected === true) {
-        await uploadImage(userId); // Загрузка нового изображения, если оно выбрано
-      }
-      
-      if (!response.ok) {
-        throw new Error("Ошибка при обновлении данных");
-      }
-      alert("Данные успешно обновлены!");
+        // Логируем данные без id для проверки
+        console.log(dataWithoutId);
+
+        // Отправляем PATCH-запрос с оставшимися данными
+        const response = await fetch(`http://localhost:8081/users/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataWithoutId),
+        });
+
+        // Если выбран файл, загружаем изображение
+        if (isFileSelected) {
+            await uploadImage(id); // Используем id для загрузки изображения
+        }
+
+        // Проверяем статус ответа
+        if (!response.ok) {
+            throw new Error("Ошибка при обновлении данных");
+        }
+
+        alert("Данные успешно обновлены!");
     } catch (error) {
-      console.error("Ошибка:", error);
+        console.error("Ошибка:", error);
     }
-  };
+};
 
 
   const handleGetTrainStats = async (training) => {
@@ -549,7 +537,7 @@ const handleFileChange = (event) => {
 
                     <ul className="featured-workout-tags">
                         <li className="featured-workout-tag tag-count">{stats.used} повторений</li>
-                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || ''} минут</li>
+                        <li className="featured-workout-tag tag-time">общей длительности <br />{stats.duration * stats.used || '0'} минут</li>
                         <li className="featured-workout-tag tag-kkal">автор: {stats.author}</li>
                     </ul>
                 </div>
