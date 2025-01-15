@@ -291,27 +291,39 @@ const uploadImage = async (userId) => {
   }
 };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
 
-    setUserData((prev) => {
-        // Если поле относится к userStatistics
-        if (["height", "weight"].includes(name)) {
-            return {
-                ...prev,
-                userStatistics: {
-                    ...prev.userStatistics,
-                    [name]: value ? parseInt(value, 10) : null,
-                },
-            };
-        }
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
-        // Для остальных полей, включая age
-        return {
-            ...prev,
-            [name]: name === "age" ? (value.trim() ? parseInt(value, 10) : null) : value,
-        };
-    });
+  setUserData((prev) => {
+      // Если поле относится к userStatistics
+      if (["height", "weight"].includes(name)) {
+          return {
+              ...prev,
+              userStatistics: {
+                  ...prev.userStatistics,
+                  [name]: value ? parseInt(value, 10) : null,
+              },
+          };
+      }
+
+      // Для поля skill, которое должно быть строкой
+      if (name === "skill") {
+          return {
+              ...prev,
+              userStatistics: {
+                  ...prev.userStatistics,
+                  [name]: value || "", // skill остается строкой
+              },
+          };
+      }
+
+      // Для остальных полей, включая age
+      return {
+          ...prev,
+          [name]: name === "age" ? (value.trim() ? parseInt(value, 10) : null) : value,
+      };
+  });
 };
 
 
@@ -518,6 +530,25 @@ const handleFileChange = (event) => {
                 </select>
                 <label htmlFor="gender">Пол</label>
               </div>
+              <div className="account-info">
+                <span className="postinput" style={{fontSize:'16px'}}>уровень подготовки</span>
+              </div>
+                <div className="account-info">
+                  <select
+                      id="skill"
+                      name="skill"
+                      style={{borderRadius:'8px', padding: '2px', backgroundColor: '#DADADA', borderStyle: 'inset', borderWidth: '1px', fontFamily: 'UNCAGE'}}
+                      value={userData.userStatistics.skill || ""}
+                      onChange={handleChange}
+                    >
+                      <option value="">-</option>
+                      <option value="LOW">НИЗКИЙ</option>
+                      <option value="BEGINNER">НАЧИНАЮЩИЙ</option>
+                      <option value="MEDIUM">СРЕДНИЙ</option>
+                      <option value="HIGH">ВЫСОКИЙ</option>
+                      <option value="PRO">ПРОФЕССИОНАЛ</option>
+                  </select>
+                </div>
               <div className="file-upload">
                   <label htmlFor="file-input" className="custom-file-upload">
                       Выбрать фото

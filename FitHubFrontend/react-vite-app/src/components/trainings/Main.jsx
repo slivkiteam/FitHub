@@ -16,7 +16,7 @@ export default function Main({ data, currentPage, getAllContacts }) {
 
     const deleteTrainings = async () => {
         try {
-            for (let id = 1; id < 128; id++) {
+            for (let id = 1; id < 200; id++) {
                 const response = await fetch(`http://localhost:8081/trains/${id}`, {
                     method: "DELETE",
                 });
@@ -173,6 +173,7 @@ export default function Main({ data, currentPage, getAllContacts }) {
                                 </div>
                             )}
                         </div>
+                        {/* <a onClick={deleteTrainings}>DELETE</a> */}
                     </div>
                 </div>
             </div>

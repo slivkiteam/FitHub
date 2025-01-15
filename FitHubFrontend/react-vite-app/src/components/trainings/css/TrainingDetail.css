@@ -99,6 +99,7 @@ h1 {
 .training-detail-structure{
     display: flex;
     flex-direction: column;
+    padding-left: 50px;
     gap: 20px;
 }
 
