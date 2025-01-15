@@ -39,7 +39,7 @@ export default function StartPage({ onTypeChange }) {
                 </div>
                 <div className="first-column-second-row">
                     <div className="training-button">
-                        <a href="#" onClick={() => onTypeChange('createTraining')}>
+                        <a href="#" onClick={() => onTypeChange('create')}>
                             быстрая тренировка
                         </a>
                     </div>

@@ -11,11 +11,39 @@ export default function Header({ mainType, onTypeChange }) {
     const [accountType, setAccountType] = useState(localStorage.getItem('accountType') || 'no_auth');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const token = localStorage.getItem('jwtToken');
+            if (token) {
+                setAccountType('auth');
+            } else {
+                setAccountType('no_auth');
+            }
+        };
+
+        // Устанавливаем обработчик события
+        window.addEventListener('storage', handleStorageChange);
+
+        // Выполняем проверку при инициализации компонента
+        handleStorageChange();
+
+        // Очистка обработчика события при размонтировании компонента
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
+    
     const handleLogin = () => {
-        setAccountType('auth');
-        localStorage.setItem('accountType', 'auth'); // Сохраняем состояние авторизации
+        if (localStorage.getItem('jwtToken')) {
+            console.log(localStorage.getItem('jwtToken'))
+            setAccountType('auth');
+            localStorage.setItem('accountType', 'auth'); // Сохраняем состояние авторизации
+        }
         navigate('/login');
     };
+
+
     const handleRegisrtation = () => {
         localStorage.setItem('accountType', 'auth');
         navigate('/registration');
@@ -24,6 +52,7 @@ export default function Header({ mainType, onTypeChange }) {
     // Логика для выхода из аккаунта
     const handleLogout = () => {
         setAccountType('no_auth');
+        localStorage.removeItem('jwtToken');
         localStorage.removeItem('accountType');
         navigate('/');
     };

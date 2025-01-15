@@ -83,7 +83,12 @@ export default function MainDesktopHeader({ selectedTags }) {
     const handleUpload = async () => {
         let durationInMinutes = 0;
         let difficulty = '';
-    
+        
+        if (!localStorage.getItem('jwtToken')){
+            alert('Создание тренировки доступно только для аутентифицированных пользователей.')
+            return
+        }
+        
         if (!workoutName || !workoutDescription || !selectedFile) {
             alert('Пожалуйста, заполните все поля и выберите файл!');
             return;

@@ -21,6 +21,10 @@ export default function TrainingDetail() {
   }, [training]);
 
   const handleUpdateUsed = async () => {
+    if (!localStorage.getItem('jwtToken')){
+      alert('Для этого действия требуется авторизация')
+      return
+    }
     if (!training) {
       console.error('Ошибка: Данные тренировки еще не загружены');
       return;
@@ -155,6 +159,11 @@ export default function TrainingDetail() {
   }
 
   const handleBookmarkClick = () => {
+    if (!localStorage.getItem('jwtToken')){
+      alert('Для этого действия требуется авторизация')
+      return
+    }
+
     if (isBookmarked) {
       // Удаляем закладку из localStorage
       localStorage.removeItem(`bookmarkedTraining-${userData.login}`);

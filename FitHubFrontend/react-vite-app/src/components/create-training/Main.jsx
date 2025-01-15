@@ -70,6 +70,7 @@ export default function MainCreateTraining({ selectedTags, setSelectedTags }) {
             console.log('Все получилось:', data.exercises);
         } catch (error) {
             console.error('Ошибка при запросе:', error.message);
+            alert('Генерация доступна только для аутентифицированных пользователей.')
         }        
 
         console.log('Тренировка сгенерирована с параметрами:', selectedTags);

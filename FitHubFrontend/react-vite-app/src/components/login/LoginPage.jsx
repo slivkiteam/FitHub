@@ -64,7 +64,7 @@ export default function Login() {
     return (
         <div className="sign-in-container">
             <div className="left-column">
-                <img src="../src/img/logo.svg" alt="Logo" />
+                <a href="http://localhost:5173/trains"> <img src="../src/img/logo.svg" alt="Logo" /></a>
                 <div className="left-column-container">
                     <h1>Вход</h1>
                     <form className='login-form' onSubmit={handleLogin}>
